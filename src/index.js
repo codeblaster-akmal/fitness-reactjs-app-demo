@@ -22,16 +22,19 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 // core components
 import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
-
+import { ThemeProvider } from "styled-components";
+import * as StyleVariables from "./assets/jss/styleVariables";
 import "assets/css/material-dashboard-react.css?v=1.10.0";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" component={Admin} />
-      <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </BrowserRouter>,
+  <ThemeProvider theme={StyleVariables}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/admin" component={Admin} />
+        <Route path="/rtl" component={RTL} />
+        <Redirect from="/" to="/admin/dashboard" />
+      </Switch>
+    </BrowserRouter>
+  </ThemeProvider>,
   document.getElementById("root")
 );

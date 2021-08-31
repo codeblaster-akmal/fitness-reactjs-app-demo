@@ -417,7 +417,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
-  background-color: #999;
+  background-color: #c2c2a6;
   height: 11px;
 }
 
@@ -427,7 +427,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
-  background-color: #999;
+  background-color: #c2c2a6;
   width: 11px;
 }
 
@@ -529,7 +529,7 @@ Copyright (c) 2015 Daniel Eden
 .ps-container:hover.ps-in-scrolling.ps-x
   > .ps-scrollbar-x-rail
   > .ps-scrollbar-x {
-  background-color: #999;
+  background-color: #c2c2a6;
   height: 11px;
 }
 
@@ -541,7 +541,7 @@ Copyright (c) 2015 Daniel Eden
 .ps-container:hover.ps-in-scrolling.ps-y
   > .ps-scrollbar-y-rail
   > .ps-scrollbar-y {
-  background-color: #999;
+  background-color: #c2c2a6;
   width: 11px;
 }
 
@@ -556,7 +556,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
-  background-color: #999;
+  background-color: #c2c2a6;
 }
 
 .ps-container:hover > .ps-scrollbar-y-rail:hover {
@@ -565,7 +565,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
-  background-color: #999;
+  background-color: #c2c2a6;
 }
 
 h1,
@@ -630,7 +630,7 @@ h2.title {
 .description,
 .card-description,
 .footer-big p {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .text-warning {
@@ -658,7 +658,7 @@ h2.title {
 }
 
 .text-gray {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .wrapper {
@@ -1058,7 +1058,7 @@ h2.title {
 .open > .navbar .navbar-nav > li > a.btn.btn-default.dropdown-toggle,
 .open > .navbar .navbar-nav > li > a.btn.btn-default.dropdown-toggle:focus,
 .open > .navbar .navbar-nav > li > a.btn.btn-default.dropdown-toggle:hover {
-  background-color: #999999;
+  background-color: #c2c2a6;
   color: #ffffff;
 }
 
@@ -1182,7 +1182,7 @@ fieldset[disabled] .navbar .navbar-nav > li > a.btn.btn-default.active {
 .navbar .navbar-nav > li > a.btn.btn-simple,
 .navbar .navbar-nav > li > a.btn.btn-default.btn-simple {
   background-color: transparent;
-  color: #999999;
+  color: #c2c2a6;
   box-shadow: none;
 }
 
@@ -1199,7 +1199,7 @@ fieldset[disabled] .navbar .navbar-nav > li > a.btn.btn-default.active {
 .navbar .navbar-nav > li > a.btn.btn-default.btn-simple:focus,
 .navbar .navbar-nav > li > a.btn.btn-default.btn-simple:active {
   background-color: transparent;
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .btn.btn-primary,
@@ -1881,7 +1881,7 @@ fieldset[disabled] .navbar .navbar-nav > li > a.btn.btn-rose.active {
 .navbar .navbar-nav > li > a.btn.btn-white:focus,
 .navbar .navbar-nav > li > a.btn.btn-white:hover {
   background-color: #ffffff;
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .btn.btn-white.btn-simple,
@@ -4073,7 +4073,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   min-width: 30px;
   height: 30px;
   line-height: 30px;
-  color: #999999;
+  color: #c2c2a6;
   font-weight: 400;
   font-size: 12px;
   text-transform: uppercase;
@@ -4084,12 +4084,12 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .pagination > li > a:focus,
 .pagination > li > span:hover,
 .pagination > li > span:focus {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .pagination > .active > a,
 .pagination > .active > span {
-  color: #999999;
+  color: #c2c2a6;
   text-align: center;
 }
 
@@ -4157,7 +4157,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .section-dark .nav-pills > li > a,
 .section-image .nav-pills > li > a {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .section-dark .nav-pills > li > a:hover,
@@ -4303,7 +4303,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .modal .modal-header .close {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .modal .modal-header .close:hover,
@@ -5360,7 +5360,7 @@ footer .btn {
 }
 
 .card .category:not([class*="text-"]) {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .card .card-content {
@@ -5377,7 +5377,7 @@ footer .btn {
   margin: -20px 15px 0;
   border-radius: 3px;
   padding: 15px;
-  background-color: #999999;
+  background-color: #c2c2a6;
 }
 
 .card .card-header .title {
@@ -5450,12 +5450,12 @@ footer .btn {
 }
 
 .card .card-footer .author {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .card .card-footer .stats {
   line-height: 22px;
-  color: #999999;
+  color: #c2c2a6;
   font-size: 12px;
 }
 
@@ -5466,7 +5466,7 @@ footer .btn {
 }
 
 .card .card-footer h6 {
-  color: #999999;
+  color: #c2c2a6;
 }
 
 .card img {
@@ -5957,12 +5957,12 @@ footer .btn {
 .ct-series-g .ct-line,
 .ct-series-g .ct-bar,
 .ct-series-g .ct-slice-donut {
-  stroke: #999999;
+  stroke: #c2c2a6;
 }
 
 .ct-series-g .ct-slice-pie,
 .ct-series-g .ct-area {
-  fill: #999999;
+  fill: #c2c2a6;
 }
 
 .ct-series-h .ct-point,
@@ -6809,7 +6809,7 @@ footer .btn {
     top: 0;
     left: auto;
     content: "";
-    z-index: 9999;
+    z-index: c2c2a69;
     overflow-x: hidden;
     -webkit-transition: all 370ms ease-in;
     -moz-transition: all 370ms ease-in;
@@ -6936,7 +6936,7 @@ footer .btn {
     left: auto;
     right: 260px;
     content: "";
-    z-index: 9999;
+    z-index: c2c2a69;
     overflow-x: hidden;
   }
   .social-line .btn {

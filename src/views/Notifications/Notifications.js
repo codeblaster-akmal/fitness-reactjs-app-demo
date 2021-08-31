@@ -34,7 +34,7 @@ const styles = {
     marginTop: "0px",
     minHeight: "auto",
     fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    fontFamily: "'Roboto', 'Poppins', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none",
     "& small": {
@@ -137,7 +137,7 @@ export default function Notifications() {
             target="_blank"
             href="https://www.creative-tim.com/?ref=mdr-notifications-page"
           >
-            Creative Tim
+            M<sup>4</sup> developers
           </a>
           . Please checkout the{" "}
           <a href="#pablo" target="_blank">

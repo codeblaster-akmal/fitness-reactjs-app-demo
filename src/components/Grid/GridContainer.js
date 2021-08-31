@@ -16,9 +16,9 @@ const useStyles = makeStyles(styles);
 
 export default function GridContainer(props) {
   const classes = useStyles();
-  const { children, ...rest } = props;
+  const { children, spacing, ...rest } = props;
   return (
-    <Grid container {...rest} className={classes.grid}>
+    <Grid container spacing={spacing} {...rest} className={classes.grid}>
       {children}
     </Grid>
   );
@@ -26,4 +26,5 @@ export default function GridContainer(props) {
 
 GridContainer.propTypes = {
   children: PropTypes.node,
+  spacing: PropTypes.number,
 };

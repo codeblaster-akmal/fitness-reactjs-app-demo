@@ -116,7 +116,7 @@ const sidebarStyle = (theme) => ({
     top: "0",
     left: "0",
     backgroundSize: "cover",
-    backgroundPosition: "center center",
+    backgroundPosition: "center top",
     "&:after": {
       position: "absolute",
       zIndex: "3",
@@ -125,7 +125,7 @@ const sidebarStyle = (theme) => ({
       content: '""',
       display: "block",
       background: blackColor,
-      opacity: ".8",
+      opacity: ".7",
     },
   },
   list: {

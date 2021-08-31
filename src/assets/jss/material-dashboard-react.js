@@ -18,8 +18,8 @@
 // // // Function that converts from hex color to rgb color
 // // // Example: input = #9c27b0 => output = 156, 39, 176
 // // // Example: input = 9c27b0 => output = 156, 39, 176
-// // // Example: input = #999 => output = 153, 153, 153
-// // // Example: input = 999 => output = 153, 153, 153
+// // // Example: input = #c2c2a6 => output = 153, 153, 153
+// // // Example: input = c2c2a6 => output = 153, 153, 153
 // #############################
 const hexToRgb = (input) => {
   input = input + "";
@@ -65,19 +65,19 @@ const container = {
 };
 
 const defaultFont = {
-  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  fontFamily: '"Oxanium","Roboto", "Helvetica"',
   fontWeight: "300",
   lineHeight: "1.5em",
 };
 
-const primaryColor = ["#9c27b0", "#ab47bc", "#8e24aa", "#af2cc5"];
+const primaryColor = ["#00acc1", "#47a447", "#8e24aa", "#223728"];
 const warningColor = ["#ff9800", "#ffa726", "#fb8c00", "#ffa21a"];
 const dangerColor = ["#f44336", "#ef5350", "#e53935", "#f55a4e"];
 const successColor = ["#4caf50", "#66bb6a", "#43a047", "#5cb860"];
 const infoColor = ["#00acc1", "#26c6da", "#00acc1", "#00d3ee"];
 const roseColor = ["#e91e63", "#ec407a", "#d81b60", "#eb3573"];
 const grayColor = [
-  "#999",
+  "#c2c2a6",
   "#777",
   "#3C4858",
   "#AAAAAA",
@@ -90,7 +90,8 @@ const grayColor = [
   "#eee",
   "#e7e7e7",
 ];
-const blackColor = "#000";
+const blackColor = "#191c20";
+const matBlackColor = "#2e2f32";
 const whiteColor = "#FFF";
 
 const boxShadow = {
@@ -109,7 +110,7 @@ const primaryBoxShadow = {
     "0 4px 20px 0 rgba(" +
     hexToRgb(blackColor) +
     ",.14), 0 7px 10px -5px rgba(" +
-    hexToRgb(primaryColor[0]) +
+    hexToRgb(grayColor[0]) +
     ",.4)",
 };
 const infoBoxShadow = {
@@ -174,8 +175,7 @@ const infoCardHeader = {
   ...infoBoxShadow,
 };
 const primaryCardHeader = {
-  background:
-    "linear-gradient(60deg, " + primaryColor[1] + ", " + primaryColor[2] + ")",
+  background: "linear-gradient(60deg,#c2c2a6, #777)",
   ...primaryBoxShadow,
 };
 const roseCardHeader = {
@@ -206,7 +206,7 @@ const card = {
   boxShadow: "0 1px 4px 0 rgba(" + hexToRgb(blackColor) + ", 0.14)",
   borderRadius: "3px",
   color: "rgba(" + hexToRgb(blackColor) + ", 0.87)",
-  background: whiteColor,
+  background: blackColor,
 };
 
 const defaultBoxShadow = {
@@ -231,7 +231,7 @@ const title = {
   marginTop: "30px",
   marginBottom: "25px",
   minHeight: "32px",
-  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+  fontFamily: "'Oxanium','Roboto', 'Poppins'",
   "& small": {
     color: grayColor[1],
     fontWeight: "400",
@@ -279,6 +279,7 @@ export {
   roseColor,
   grayColor,
   blackColor,
+  matBlackColor,
   whiteColor,
   primaryBoxShadow,
   infoBoxShadow,
