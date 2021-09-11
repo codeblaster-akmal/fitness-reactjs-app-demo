@@ -17,7 +17,6 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -32,7 +31,6 @@ import Typography from "views/Typography/Typography.js";
 // import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import UserRegistrationForm from "views/UserRegister/UserRegistrationForm";
 // import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
 // import RTLPage from "views/RTLPage/RTLPage.js";
@@ -48,9 +46,9 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    name: "User Profile",
+    name: "User Registration",
     rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
+    icon: HowToRegIcon,
     component: UserProfile,
     layout: "/admin",
   },
@@ -71,14 +69,6 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "User Registeration",
-    rtlName: "الرموز",
-    icon: HowToRegIcon,
-    component: UserRegistrationForm,
-    layout: "/admin",
-  },
-  {
     path: "/maps",
     name: "Maps",
     rtlName: "خرائط",
@@ -94,22 +84,6 @@ const dashboardRoutes = [
     component: NotificationsPage,
     layout: "/admin",
   },
-  // {
-  //   path: "/rtl-page",
-  //   name: "RTL Support",
-  //   rtlName: "پشتیبانی از راست به چپ",
-  //   icon: Language,
-  //   component: RTLPage,
-  //   layout: "/rtl",
-  // },
-  // {
-  //   path: "/upgrade-to-pro",
-  //   name: "Upgrade To PRO",
-  //   rtlName: "التطور للاحترافية",
-  //   icon: Unarchive,
-  //   component: UpgradeToPro,
-  //   layout: "/admin",
-  // },
 ];
 
 export default dashboardRoutes;

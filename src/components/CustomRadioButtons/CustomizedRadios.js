@@ -2,11 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import classNames from "classnames";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const RadioStyleWrapper = styled.div`
   .MuiFormLabel-root.Mui-focused {
@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 });
 
 // Inspired by blueprintjs
-function StyledRadio(props) {
+export function StyledRadio(props) {
   const classes = useStyles();
 
   return (
@@ -84,33 +84,17 @@ function StyledRadio(props) {
   );
 }
 
-export default function CustomizedRadios() {
+export default function CustomizedRadios({ FormTitle, children }) {
   return (
     <RadioStyleWrapper>
       <FormControl component="fieldset">
-        <FormLabel component="legend">Gender</FormLabel>
-        <RadioGroup
-          defaultValue="female"
-          aria-label="gender"
-          name="customized-radios"
-        >
-          <FormControlLabel
-            value="female"
-            control={<StyledRadio />}
-            label="Female"
-          />
-          <FormControlLabel
-            value="male"
-            control={<StyledRadio />}
-            label="Male"
-          />
-          <FormControlLabel
-            value="other"
-            control={<StyledRadio />}
-            label="Other"
-          />
-        </RadioGroup>
+        <FormLabel component="legend">{FormTitle}</FormLabel>
+        <RadioGroup name="customized-radios">{children}</RadioGroup>
       </FormControl>
     </RadioStyleWrapper>
   );
 }
+CustomizedRadios.propTypes = {
+  FormTitle: PropTypes.string,
+  children: PropTypes.node,
+};

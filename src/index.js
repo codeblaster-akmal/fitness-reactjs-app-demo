@@ -25,12 +25,14 @@ import RTL from "layouts/RTL.js";
 import { ThemeProvider } from "styled-components";
 import * as StyleVariables from "./assets/jss/styleVariables";
 import "assets/css/material-dashboard-react.css?v=1.10.0";
+import Login from "views/Login/Login";
 
 ReactDOM.render(
   <ThemeProvider theme={StyleVariables}>
     <BrowserRouter>
       <Switch>
         <Route path="/admin" component={Admin} />
+        <Route path="/login" component={Login} />
         <Route path="/rtl" component={RTL} />
         <Redirect from="/" to="/admin/dashboard" />
       </Switch>

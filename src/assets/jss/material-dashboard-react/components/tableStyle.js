@@ -67,7 +67,7 @@ const tableStyle = (theme) => ({
   },
   tableBodyRow: {
     height: "48px",
-    color: "inherit",
+    color: "#fff",
     display: "table-row",
     outline: "none",
     verticalAlign: "middle",
