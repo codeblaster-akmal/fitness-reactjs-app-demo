@@ -84,12 +84,12 @@ export function StyledRadio(props) {
   );
 }
 
-export default function CustomizedRadios({ FormTitle, children }) {
+export default function CustomizedRadios({ FormTitle, children, ...rest }) {
   return (
     <RadioStyleWrapper>
       <FormControl component="fieldset">
         <FormLabel component="legend">{FormTitle}</FormLabel>
-        <RadioGroup name="customized-radios">{children}</RadioGroup>
+        <RadioGroup {...rest}>{children}</RadioGroup>
       </FormControl>
     </RadioStyleWrapper>
   );

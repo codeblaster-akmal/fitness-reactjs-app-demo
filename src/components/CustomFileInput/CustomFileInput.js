@@ -5,16 +5,16 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 
 const FileInputWrapper = styled.div``;
 
-const CustomFileInput = () => {
+const CustomFileInput = ({ ...rest }) => {
   return (
     <FileInputWrapper>
       <input
         accept="image/*"
         className="file-input-btn"
         id="contained-button-file"
-        multiple
         type="file"
         hidden
+        {...rest}
       />
       <label htmlFor="contained-button-file">
         <Button
