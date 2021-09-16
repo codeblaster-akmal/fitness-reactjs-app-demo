@@ -39,6 +39,13 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none",
   },
+  cardCategory:{
+    margin: '0.5rem 0',
+    textTransform:"none"
+  },
+  cardTitle:{
+    margin: '0.5rem 0',
+  }
 };
 
 const useStyles = makeStyles(styles);
@@ -279,8 +286,9 @@ export default function UserProfile() {
                       </a>
                     </CardAvatar>
                     <CardBody profile>
-                      <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
+                      <h4 className={classes.cardTitle}>{values.firstname || values.lastname ? `${values.firstname} ${values.lastname}`: 'Member Name'}</h4>
+                      <h6 className={classes.cardCategory}>{values.username ?`${values.username}`:"Username"}</h6>
+                      <h6 className={classes.cardCategory}>{values.age ?`${values.age} years old`:"Age"} and {values.weight ? `${values.weight}kg`: "Weight"}</h6>
                       <p className={classes.description}>
                         Don{"'"}t be scared of the truth because we need to
                         restart the human foundation in truth And I love you

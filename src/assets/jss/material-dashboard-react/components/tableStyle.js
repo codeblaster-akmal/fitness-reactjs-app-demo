@@ -41,6 +41,9 @@ const tableStyle = (theme) => ({
   },
   tableHeadCell: {
     color: "inherit",
+    lineHeight: "1.42857143",
+    padding: "12px 8px",
+    verticalAlign: "middle",
     ...defaultFont,
     "&, &$tableCell": {
       fontSize: "1em",
@@ -48,6 +51,7 @@ const tableStyle = (theme) => ({
   },
   tableCell: {
     ...defaultFont,
+    color: "#fff",
     lineHeight: "1.42857143",
     padding: "12px 8px",
     verticalAlign: "middle",
@@ -67,7 +71,6 @@ const tableStyle = (theme) => ({
   },
   tableBodyRow: {
     height: "48px",
-    color: "#fff",
     display: "table-row",
     outline: "none",
     verticalAlign: "middle",

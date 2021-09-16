@@ -23,18 +23,18 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
 import { ThemeProvider } from "styled-components";
-import * as StyleVariables from "./assets/jss/styleVariables";
+import { default as StyleVariables } from "./assets/jss/styleVariables";
 import "assets/css/material-dashboard-react.css?v=1.10.0";
-import Login from "views/Login/Login";
+import Signin from "views/MemberSignin/MemberSignin";
 
 ReactDOM.render(
   <ThemeProvider theme={StyleVariables}>
     <BrowserRouter>
       <Switch>
         <Route path="/admin" component={Admin} />
-        <Route path="/login" component={Login} />
+        <Route path="/signin" component={Signin} />
         <Route path="/rtl" component={RTL} />
-        <Redirect from="/" to="/admin/dashboard" />
+        <Redirect from="/" to="/admin/user" />
       </Switch>
     </BrowserRouter>
   </ThemeProvider>,

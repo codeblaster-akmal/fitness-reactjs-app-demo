@@ -12,7 +12,13 @@ const TextFieldInputWrapper = styled.div`
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
   .MuiInputLabel-shrink {
     border-color: #00acc1;
-    color: #00acc1;
+    color: ${({ theme }) => theme.color.pacificBlue};
+  }
+  .MuiOutlinedInput-adornedEnd {
+    padding-right: 10px;
+  }
+  .MuiSvgIcon-root {
+    color: #fff;
   }
 `;
 
