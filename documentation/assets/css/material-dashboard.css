@@ -2844,19 +2844,19 @@ output {
 
 .form-control::-moz-placeholder,
 .form-group .form-control::-moz-placeholder {
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-control:-ms-input-placeholder,
 .form-group .form-control:-ms-input-placeholder {
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-control::-webkit-input-placeholder,
 .form-group .form-control::-webkit-input-placeholder {
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -2942,7 +2942,7 @@ fieldset[disabled] .form-group .form-control {
 
 .form-group.is-focused.label-placeholder label,
 .form-group.is-focused.label-placeholder label.control-label {
-  color: #aaaaaa;
+  color: #fff;
 }
 
 .form-group.is-focused .help-block {
@@ -3024,21 +3024,21 @@ fieldset[disabled] .form-group .form-control {
 .form-control::-moz-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-control:-ms-input-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-control::-webkit-input-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -3072,21 +3072,21 @@ label.control-label {
 .form-group .form-control::-moz-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group .form-control:-ms-input-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group .form-control::-webkit-input-placeholder {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -3095,14 +3095,14 @@ label.control-label {
 .form-group label {
   font-size: 14px;
   line-height: 1.42857;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group label.control-label {
   font-size: 11px;
   line-height: 1.07143;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
   margin: 16px 0 0 0;
 }
@@ -3146,21 +3146,21 @@ label.control-label {
 .form-group.form-group-sm .form-control::-moz-placeholder {
   font-size: 11px;
   line-height: 1.5;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group.form-group-sm .form-control:-ms-input-placeholder {
   font-size: 11px;
   line-height: 1.5;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group.form-group-sm .form-control::-webkit-input-placeholder {
   font-size: 11px;
   line-height: 1.5;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -3220,21 +3220,21 @@ label.control-label {
 .form-group.form-group-lg .form-control::-moz-placeholder {
   font-size: 18px;
   line-height: 1.33333;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group.form-group-lg .form-control:-ms-input-placeholder {
   font-size: 18px;
   line-height: 1.33333;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
 .form-group.form-group-lg .form-control::-webkit-input-placeholder {
   font-size: 18px;
   line-height: 1.33333;
-  color: #aaaaaa;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -4584,7 +4584,7 @@ fieldset[disabled] .navbar .btn-link:focus {
   .form-group
   input.form-control::-moz-placeholder,
 .navbar.navbar-default .navbar-form input.form-control::-moz-placeholder {
-  color: #555555;
+  color: #fff;
 }
 
 .navbar .navbar-form .form-group input.form-control:-ms-input-placeholder,
@@ -4594,7 +4594,7 @@ fieldset[disabled] .navbar .btn-link:focus {
   .form-group
   input.form-control:-ms-input-placeholder,
 .navbar.navbar-default .navbar-form input.form-control:-ms-input-placeholder {
-  color: #555555;
+  color: #fff;
 }
 
 .navbar .navbar-form .form-group input.form-control::-webkit-input-placeholder,
@@ -4606,7 +4606,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 .navbar.navbar-default
   .navbar-form
   input.form-control::-webkit-input-placeholder {
-  color: #555555;
+  color: #fff;
 }
 
 .navbar .dropdown-menu,

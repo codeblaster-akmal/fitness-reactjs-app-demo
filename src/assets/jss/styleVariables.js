@@ -5,6 +5,7 @@ export default {
     green: "#47a447",
     sage: "#c2c2a6",
     pacificBlue: "#00acc1",
+    cardBg: 'rgba(46, 47, 50, 0.7)'
   },
   fontStyle: ({
     weight = "400",

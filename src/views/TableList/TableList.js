@@ -8,6 +8,10 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
+import Success from "components/Typography/Success.js";
+import Warning from "components/Typography/Warning.js";
+import Danger from "components/Typography/Danger.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -56,14 +60,14 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
+              tableHead={['ID',"Name", "In", "Out", "Status", "Actions"]}
               tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"],
+                ["PFG0001","Mohamed Akmal", "5:00 am", "6:00 am", <Success>Paid</Success>,<ActionButtonsGroup/>],
+                ["PFG0002","Mohamed Waseem", "5:15 am", "6:16 am", <Warning>Partially Paid</Warning>, <ActionButtonsGroup/>],
+                ["PFG0003","Gunasekaran", "7:00 am", "8:30 am", <Danger>Fees due</Danger>, <ActionButtonsGroup/>],
+                ["PFG0004","Dilip Kumar", "7:15 am", "8:30 am", <Success>Paid</Success>, <ActionButtonsGroup/>],
+                ["PFG0005","Abdullah Basha", "5:00 am", "6:00 am", <Success>Paid</Success>, <ActionButtonsGroup/>],
+                ["PFG0006","Muzammil Ahmed", "7:00 am", "8:30 am", <Danger>Fees due</Danger>, <ActionButtonsGroup/>],
               ]}
             />
           </CardBody>

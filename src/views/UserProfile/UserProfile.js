@@ -92,7 +92,7 @@ export default function UserProfile() {
                   <Card>
                     <CardHeader color="primary">
                       <h4 className={classes.cardTitleWhite}>
-                        User Registeration
+                        Member Registeration
                       </h4>
                       <p className={classes.cardCategoryWhite}>
                         Complete your profile
@@ -202,26 +202,28 @@ export default function UserProfile() {
                             }
                           </CustomizedRadios>
                         </GridItem>
+                        <GridItem xs={12} sm={6} md={6}>
+                          <TextFieldInput
+                            label="Aadhaar No"
+                            name="aadhaarNo"
+                            value={values.aadhaarNo}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            helperText={errors.aadhaarNo && touched.aadhaarNo && errors.aadhaarNo}
+                            error={errors.aadhaarNo && touched.aadhaarNo}
+                          />
+                        </GridItem>
                       </GridContainer>
                       <GridContainer spacing={2} alignItems="flex-end">
-                        <GridItem xs={12} sm={6} md={6}>
+                        <GridItem xs={12} sm={12} md={12}>
                           <TextFieldInput
-                            label="Address Line 1"
-                            name="addressLine1"
-                            value={values.addressLine1}
+                            label="Address"
+                            name="address"
+                            value={values.address}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
-                        </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <TextFieldInput
-                            label="Address Line 2"
-                            name="addressLine2"
-                            value={values.addressLine2}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                        </GridItem>
+                        </GridItem>                        
                         <GridItem xs={12} sm={6} md={6}>
                           <TextFieldInput
                             label="Landmark"
@@ -271,6 +273,17 @@ export default function UserProfile() {
                             onChange={(e) => setFieldValue("image", e?.target?.files[0])}
                           />
                         </GridItem>
+                        <GridItem xs={12} sm={12} md={12}>
+                        <TextFieldInput
+                            label="Notes"
+                            name="notes"
+                            multiline
+                            rows={5}
+                            value={values.notes}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </GridItem>
                       </GridContainer>
                     </CardBody>
                     <CardFooter>
@@ -288,16 +301,12 @@ export default function UserProfile() {
                     <CardBody profile>
                       <h4 className={classes.cardTitle}>{values.firstname || values.lastname ? `${values.firstname} ${values.lastname}`: 'Member Name'}</h4>
                       <h6 className={classes.cardCategory}>{values.username ?`${values.username}`:"Username"}</h6>
+                      <h6 className={classes.cardCategory}>{`${values.gender}`}</h6>
                       <h6 className={classes.cardCategory}>{values.age ?`${values.age} years old`:"Age"} and {values.weight ? `${values.weight}kg`: "Weight"}</h6>
+                      <h6 className={classes.cardCategory}>Address:</h6>                      
                       <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth And I love you
-                        like Kanye loves Kanye I love Rick Owens’ bed design but
-                        the back is...
-                      </p>
-                      <Button color="primary" round>
-                        Follow
-                      </Button>
+                        {`${values.address ? values.address:''}`}                        
+                      </p>                      
                     </CardBody>
                   </Card>
                 </GridItem>

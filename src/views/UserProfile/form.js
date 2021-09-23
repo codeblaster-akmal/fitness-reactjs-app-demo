@@ -5,13 +5,14 @@ export const initialValues = {
   lastname: "",
   username: "",
   phone: "",
-  addressLine1: "",
-  addressLine2: "",
+  address: "",
+  aadhaarNo: "",
   addressLandmark: "",
   image: "",
   weight: "",
   age: "",
   gender: "MALE",
+  notes:"",
   referral: "",
   vaccinated: "0",
 };
@@ -23,6 +24,7 @@ export const validationSchema = Yup.object({
   phone: Yup.number().required("Required!"),
   weight: Yup.string().required("Required!"),
   age: Yup.string().required("Required!"),
+  aadhaarNo: Yup.string().required("Required!"),
 });
 
 export const gendersRadioList = [

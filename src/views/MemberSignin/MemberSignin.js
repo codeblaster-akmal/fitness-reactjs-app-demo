@@ -1,10 +1,6 @@
-import { Container, makeStyles } from "@material-ui/core";
-import Card from "components/Card/Card";
-import CardBody from "components/Card/CardBody";
-import CardHeader from "components/Card/CardHeader";
 import GridContainer from "components/Grid/GridContainer";
 import GridItem from "components/Grid/GridItem";
-import RemoveIcon from "@material-ui/icons/Remove";
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 // core components
 import React, { useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
@@ -14,72 +10,59 @@ import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Info from "components/Typography/Info.js";
-const styles = {
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Poppins', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-  },
-  mainCard: {
-    minHeight: "100vh",
-  },
-};
-
-const useStyles = makeStyles(styles);
+import Button from "components/CustomButtons/Button.js";
+import ReactPlayer from 'react-player'
+import CardBody from "components/Card/CardBody";
+import Card from "components/Card/Card";
+import Video from "assets/videos/gym-demo.mp4"
 
 const Signin = () => {
   const [OTP, setOTP] = useState("");
-  const classes = useStyles();
   const handleChange = (otp) => setOTP(otp);
   return (
     <MemberSigninStyleWrapper>
-      <Container maxWidth="md" className="outtermost-container">
-        <GridContainer spacing={4}>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card className={classes.mainCard}>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Member Entry</h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer justify="center">
-                  <GridItem xs={12} sm={12} md={5}>
-                    <TextFieldInput
-                      label="Search by Username/ID"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment>
-                            <IconButton size="small">
-                              <SearchIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <Info>
-                      <h5>Generate Pin</h5>
-                    </Info>
-                    <OtpInput
-                      inputStyle="inputStyle"
-                      value={OTP}
-                      onChange={handleChange}
-                      isInputNum
-                      numInputs={4}
-                      separator={<RemoveIcon />}
-                      shouldAutoFocus
-                      focusStyle="isInputFocus"
-                      containerStyle="containerStyle"
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </Card>
+      <div className="triangle-background">
+      <ReactPlayer width='100%' height='100%' playing={true} muted={true} loop={true} url={[{src: Video, type: 'video/mp4'}]} className='bg-video'/>
+        <GridContainer justify="center" alignItems='center' className="grid-container">
+          <GridItem xs={6} sm={6} md={4}>
+            <Card>
+            <CardBody>            
+              <TextFieldInput
+                label="Search by Username/ID"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <IconButton size="small">
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Info>
+                <h5>Generate Pin</h5>
+              </Info>
+              <OtpInput
+                inputStyle="inputStyle"
+                value={OTP}
+                onChange={handleChange}
+                isInputNum
+                numInputs={4}
+                separator={<FitnessCenterIcon className='dumbell-seperator' />}
+                shouldAutoFocus
+                focusStyle="isInputFocus"
+                containerStyle="containerStyle"
+              />
+              <div className="submit-button">
+                <Button color="primary" round>
+                  Submit
+                </Button>
+              </div>
+            </CardBody>
+              </Card>
           </GridItem>
         </GridContainer>
-      </Container>
+      </div>
     </MemberSigninStyleWrapper>
   );
 };

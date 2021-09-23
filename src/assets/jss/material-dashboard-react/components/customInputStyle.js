@@ -58,6 +58,7 @@ const customInputStyle = {
   },
   marginTop: {
     marginTop: "16px",
+    color:"#fff"
   },
   formControl: {
     paddingBottom: "10px",

@@ -16,7 +16,7 @@ import routes from "routes.js";
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/body-builder-1.jpg";
-import logo from "assets/img/gym-logo-1.png";
+import logo from "assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png";
 
 let ps;
 
