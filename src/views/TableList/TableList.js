@@ -60,14 +60,14 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={['ID',"Name", "In", "Out", "Status", "Actions"]}
+              tableHead={["Joining Date",'ID',"Name","Gender", "Phone", "Status", "Actions"]}
               tableData={[
-                ["PFG0001","Mohamed Akmal", "5:00 am", "6:00 am", <Success>Paid</Success>,<ActionButtonsGroup/>],
-                ["PFG0002","Mohamed Waseem", "5:15 am", "6:16 am", <Warning>Partially Paid</Warning>, <ActionButtonsGroup/>],
-                ["PFG0003","Gunasekaran", "7:00 am", "8:30 am", <Danger>Fees due</Danger>, <ActionButtonsGroup/>],
-                ["PFG0004","Dilip Kumar", "7:15 am", "8:30 am", <Success>Paid</Success>, <ActionButtonsGroup/>],
-                ["PFG0005","Abdullah Basha", "5:00 am", "6:00 am", <Success>Paid</Success>, <ActionButtonsGroup/>],
-                ["PFG0006","Muzammil Ahmed", "7:00 am", "8:30 am", <Danger>Fees due</Danger>, <ActionButtonsGroup/>],
+                ["10/01/2022","PFG0001","Mohamed Akmal", "Male","708-692-4691", <Success>In</Success>,<ActionButtonsGroup/>],
+                ["10/01/2022","PFG0002","Mohamed Waseem", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
+                ["10/01/2022","PFG0003","Gunasekaran", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
+                ["10/01/2022","PFG0004","Dilip Kumar", "Male","708-692-4691", <Success>In</Success>, <ActionButtonsGroup/>],
+                ["10/01/2022","PFG0005","Abdullah Basha", "Male","708-692-4691", <Success>In</Success>, <ActionButtonsGroup/>],
+                ["10/01/2022","PFG0006","Muzammil Ahmed", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
               ]}
             />
           </CardBody>
