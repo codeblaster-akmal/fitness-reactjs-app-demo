@@ -6,25 +6,24 @@ export const initialValues = {
   username: "",
   phone: "",
   address: "",
-  aadhaarNo: "",
   addressLandmark: "",
   image: "",
   weight: "",
   age: "",
   gender: "MALE",
-  notes:"",
+  notes: "",
   referral: "",
   vaccinated: "0",
+  aadhaarNumber: ""
 };
 
 export const validationSchema = Yup.object({
   firstname: Yup.string().required("Required!"),
   lastname: Yup.string().required("Required!"),
   username: Yup.string().required("Required!"),
-  phone: Yup.number().required("Required!"),
   weight: Yup.string().required("Required!"),
   age: Yup.string().required("Required!"),
-  aadhaarNo: Yup.string().required("Required!"),
+  phone: Yup.string().matches(/^\d{10}$/, 'Phone number is not valid').required('Required!'),
 });
 
 export const gendersRadioList = [
@@ -39,6 +38,18 @@ export const gendersRadioList = [
   {
     value: "OTHER",
     label: "Other",
+  }
+];
+
+export const referralDropdown = [
+  {
+    name: "waseem"
+  },
+  {
+    name: "akmal"
+  },
+  {
+    name: "john"
   }
 ];
 

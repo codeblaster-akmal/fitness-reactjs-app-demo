@@ -1,7 +1,7 @@
-import { postData } from "utils/fetchData";
+import { postDataForm } from "../../utils/fetchData";
 
 const URL = "members";
 
 export const createMember = (payload) => {
-    postData(URL, payload);
+    postDataForm(`${URL}?member_image=true`, payload);
 };

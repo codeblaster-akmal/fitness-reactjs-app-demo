@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const getData = async (url, token) => {
     const res = await fetch(`${baseUrl}/${url}`, {
@@ -28,6 +28,20 @@ export const postData = async (url, post, token) => {
     throw data;
 }
 
+export const postDataForm = async (url, post, token) => {
+    const res = await fetch(`${baseUrl}/${url}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': token
+        },
+        body: post
+    })
+
+    const data = await res.json()
+    return data
+    throw data;
+}
+
 
 
 export const putData = async (url, post, token) => {
@@ -38,6 +52,20 @@ export const putData = async (url, post, token) => {
             'Authorization': token
         },
         body: JSON.stringify(post)
+    })
+
+    const data = await res.json()
+    return data
+    throw data;
+}
+
+export const putDataForm = async (url, post, token) => {
+    const res = await fetch(`${baseUrl}/${url}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': token
+        },
+        body: post
     })
 
     const data = await res.json()

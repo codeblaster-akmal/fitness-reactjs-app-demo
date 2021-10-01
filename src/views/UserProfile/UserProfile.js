@@ -17,10 +17,11 @@ import CustomizedRadios from "components/CustomRadioButtons/CustomizedRadios";
 import CustomFileInput from "components/CustomFileInput/CustomFileInput";
 import { StyledRadio } from "components/CustomRadioButtons/CustomizedRadios";
 import { FormControlLabel } from "@material-ui/core";
-import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema } from "./form";
+import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema, referralDropdown } from "./form";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
-import { createMember, createMemberWithFormData } from "./userProfile.service";
+import { createMember } from "./userProfile.service";
+import { useHistory } from "react-router";
 
 const styles = {
   cardCategoryWhite: {
@@ -39,11 +40,11 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none",
   },
-  cardCategory:{
+  cardCategory: {
     margin: '0.5rem 0',
-    textTransform:"none"
+    textTransform: "none"
   },
-  cardTitle:{
+  cardTitle: {
     margin: '0.5rem 0',
   }
 };
@@ -51,6 +52,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
+  const history = useHistory();
   const classes = useStyles();
 
   const [userProfileState] = useState({
@@ -60,8 +62,25 @@ export default function UserProfile() {
 
   const onSubmit = async (values) => {
     try {
-      await createMember(values);
-      console.log(`values:`, values);
+      let submitValues = values
+      const formData = new FormData();
+      formData.set('firstname', values.firstname.trim().replace(/ +(?= )/g, ''));
+      formData.set('lastname', values.lastname.trim().replace(/ +(?= )/g, ''));
+      formData.set('username', values.username.trim().replace(/ +(?= )/g, ''));
+      formData.set('aadhaarNumber', submitValues.aadhaarNumber);
+      formData.set('address', submitValues.address);
+      formData.set('addressLandmark', submitValues.addressLandmark);
+      formData.set('age', submitValues.age);
+      formData.set('gender', submitValues.gender);
+      formData.set('notes', submitValues.notes);
+      formData.set('phone', submitValues.phone);
+      formData.set('vaccinated', submitValues.vaccinated === "0" ? false : true);
+      formData.set('referral', submitValues.referral ? submitValues.referral.name : "");
+      formData.set('weight', submitValues.weight);
+      formData.append('memberImage', values.image);
+
+      await createMember(formData);
+      history.push("/admin/table");
     } catch (err) {
       console.log(err);
     }
@@ -205,12 +224,10 @@ export default function UserProfile() {
                         <GridItem xs={12} sm={6} md={6}>
                           <TextFieldInput
                             label="Aadhaar No"
-                            name="aadhaarNo"
-                            value={values.aadhaarNo}
+                            name="aadhaarNumber"
+                            value={values.aadhaarNumber}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            helperText={errors.aadhaarNo && touched.aadhaarNo && errors.aadhaarNo}
-                            error={errors.aadhaarNo && touched.aadhaarNo}
                           />
                         </GridItem>
                       </GridContainer>
@@ -223,7 +240,7 @@ export default function UserProfile() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
-                        </GridItem>                        
+                        </GridItem>
                         <GridItem xs={12} sm={6} md={6}>
                           <TextFieldInput
                             label="Landmark"
@@ -238,8 +255,15 @@ export default function UserProfile() {
                             label="Referral"
                             name="referral"
                             value={values.referral}
-                            onChange={handleChange}
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                "referral",
+                                value !== null ? value : initialValues.referral
+                              );
+                            }}
                             onBlur={handleBlur}
+                            options={referralDropdown}
+                            getOptionLabel={options => options && options.name ? options.name : ''}
                           />
                         </GridItem>
                         <GridItem xs={12} sm={6} md={4}>
@@ -274,7 +298,7 @@ export default function UserProfile() {
                           />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={12}>
-                        <TextFieldInput
+                          <TextFieldInput
                             label="Notes"
                             name="notes"
                             multiline
@@ -287,7 +311,7 @@ export default function UserProfile() {
                       </GridContainer>
                     </CardBody>
                     <CardFooter>
-                      <Button type="submit" color="primary">Update Profile</Button>
+                      <Button type="submit" color="primary">Create Profile</Button>
                     </CardFooter>
                   </Card>
                 </GridItem>
@@ -299,14 +323,14 @@ export default function UserProfile() {
                       </a>
                     </CardAvatar>
                     <CardBody profile>
-                      <h4 className={classes.cardTitle}>{values.firstname || values.lastname ? `${values.firstname} ${values.lastname}`: 'Member Name'}</h4>
-                      <h6 className={classes.cardCategory}>{values.username ?`${values.username}`:"Username"}</h6>
+                      <h4 className={classes.cardTitle}>{values.firstname || values.lastname ? `${values.firstname} ${values.lastname}` : 'Member Name'}</h4>
+                      <h6 className={classes.cardCategory}>{values.username ? `${values.username}` : "Username"}</h6>
                       <h6 className={classes.cardCategory}>{`${values.gender}`}</h6>
-                      <h6 className={classes.cardCategory}>{values.age ?`${values.age} years old`:"Age"} and {values.weight ? `${values.weight}kg`: "Weight"}</h6>
-                      <h6 className={classes.cardCategory}>Address:</h6>                      
+                      <h6 className={classes.cardCategory}>{values.age ? `${values.age} years old` : "Age"} and {values.weight ? `${values.weight}kg` : "Weight"}</h6>
+                      <h6 className={classes.cardCategory}>Address:</h6>
                       <p className={classes.description}>
-                        {`${values.address ? values.address:''}`}                        
-                      </p>                      
+                        {`${values.address ? values.address : ''}`}
+                      </p>
                     </CardBody>
                   </Card>
                 </GridItem>

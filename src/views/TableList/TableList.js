@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -12,6 +12,7 @@ import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
 import Danger from "components/Typography/Danger.js";
+import { listMembers } from "./tableList.service";
 
 const styles = {
   cardCategoryWhite: {
@@ -47,6 +48,15 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+
+  useEffect(() => {
+    memberListData();
+  }, []);
+
+  const memberListData = async () => {
+    console.log('fetch', await listMembers())
+  }
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -60,14 +70,14 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Joining Date",'ID',"Name","Gender", "Phone", "Status", "Actions"]}
+              tableHead={["Joining Date", 'ID', "Name", "Gender", "Phone", "Status", "Actions"]}
               tableData={[
-                ["10/01/2022","PFG0001","Mohamed Akmal", "Male","708-692-4691", <Success>In</Success>,<ActionButtonsGroup/>],
-                ["10/01/2022","PFG0002","Mohamed Waseem", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
-                ["10/01/2022","PFG0003","Gunasekaran", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
-                ["10/01/2022","PFG0004","Dilip Kumar", "Male","708-692-4691", <Success>In</Success>, <ActionButtonsGroup/>],
-                ["10/01/2022","PFG0005","Abdullah Basha", "Male","708-692-4691", <Success>In</Success>, <ActionButtonsGroup/>],
-                ["10/01/2022","PFG0006","Muzammil Ahmed", "Male","708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup/>],
+                ["10/01/2022", "PFG0001", "Mohamed Akmal", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
+                ["10/01/2022", "PFG0002", "Mohamed Waseem", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
+                ["10/01/2022", "PFG0003", "Gunasekaran", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
+                ["10/01/2022", "PFG0004", "Dilip Kumar", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
+                ["10/01/2022", "PFG0005", "Abdullah Basha", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
+                ["10/01/2022", "PFG0006", "Muzammil Ahmed", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
               ]}
             />
           </CardBody>
