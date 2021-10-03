@@ -107,7 +107,7 @@ export default function UserProfile() {
           <form onSubmit={handleSubmit}>
             <div>
               <GridContainer spacing={2}>
-                <GridItem xs={12} sm={12} md={8}>
+                <GridItem xs={12} sm={12} md={8} lg={10}>
                   <Card>
                     <CardHeader color="primary">
                       <h4 className={classes.cardTitleWhite}>
@@ -313,25 +313,6 @@ export default function UserProfile() {
                     <CardFooter>
                       <Button type="submit" color="primary">Create Profile</Button>
                     </CardFooter>
-                  </Card>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Card profile>
-                    <CardAvatar profile>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <img src={avatar} alt="..." />
-                      </a>
-                    </CardAvatar>
-                    <CardBody profile>
-                      <h4 className={classes.cardTitle}>{values.firstname || values.lastname ? `${values.firstname} ${values.lastname}` : 'Member Name'}</h4>
-                      <h6 className={classes.cardCategory}>{values.username ? `${values.username}` : "Username"}</h6>
-                      <h6 className={classes.cardCategory}>{`${values.gender}`}</h6>
-                      <h6 className={classes.cardCategory}>{values.age ? `${values.age} years old` : "Age"} and {values.weight ? `${values.weight}kg` : "Weight"}</h6>
-                      <h6 className={classes.cardCategory}>Address:</h6>
-                      <p className={classes.description}>
-                        {`${values.address ? values.address : ''}`}
-                      </p>
-                    </CardBody>
                   </Card>
                 </GridItem>
               </GridContainer>

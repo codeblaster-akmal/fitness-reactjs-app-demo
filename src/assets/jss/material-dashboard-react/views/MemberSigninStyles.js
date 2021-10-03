@@ -1,13 +1,11 @@
 import styled from "styled-components";
+import BgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/Pro-Fit-Gym-Metalic-Logo.jpg'
 
-const MemberSigninStyleWrapper = styled.div`
-  overflow: hidden;  
+const MemberSigninStyleWrapper = styled.div`  
   .triangle-background {
+    background: url(${BgImage}) center / cover;
     width: 100vw;
-    height: 100vh;
-    .bg-video{
-      position: fixed;      
-    }
+    height: 100vh;    
     .grid-container {
       height: 100%;
       position:relative; 
@@ -32,16 +30,20 @@ const MemberSigninStyleWrapper = styled.div`
     font-size: 1rem;
     border-radius: 5px;
     border: 3px solid #777;
-  }
-  /* .dumbell-seperator{
-    transform: rotateZ(-45deg);
-  } */
+  }  
   .isInputFocus {
     border-color: ${({ theme }) => theme.color.pacificBlue};
   }
   .submit-button {
     margin-top: 1rem;
     text-align: center;
+  }
+  .MuiSnackbarContent-action{
+    margin: auto;
+    padding-left: 0;
+    h4,h6{
+      margin: 0.7rem 0;
+    }
   }
 `;
 
