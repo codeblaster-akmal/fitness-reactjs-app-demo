@@ -20,14 +20,14 @@ const ButtonGroupStylewrapper = styled.div`
   
 `;
 
-const ActionButtonsGroup = ({ OnViewClick, OnEditClick}) => {
+const ActionButtonsGroup = ({ OnViewClick, OnEditClick }) => {
 
     return (
         <ButtonGroupStylewrapper>
-            <ButtonGroup size="small" variant='text' aria-label="small text button group">                
-                <Button onClick={OnViewClick}><VisibilityIcon/></Button>
-                <Button onClick={OnEditClick}><EditIcon/></Button>
-            </ButtonGroup>  
+            <ButtonGroup size="small" variant='text' aria-label="small text button group">
+                <Button onClick={OnViewClick}><VisibilityIcon /></Button>
+                <Button onClick={OnEditClick}><EditIcon /></Button>
+            </ButtonGroup>
         </ButtonGroupStylewrapper>
     )
 }

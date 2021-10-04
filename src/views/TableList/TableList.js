@@ -11,8 +11,8 @@ import CardBody from "components/Card/CardBody.js";
 import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
-import Danger from "components/Typography/Danger.js";
 import { listMembers } from "./tableList.service";
+import { Column, TableContainer, TableHeader, TableRow } from "./table.styles";
 
 const styles = {
   cardCategoryWhite: {
@@ -46,6 +46,85 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+const headerColumns = [
+  {
+    id: 1,
+    align: "left",
+    label: "Joining Date",
+    width: "14%",
+  },
+  {
+    id: 2,
+    label: "ID",
+    align: "left",
+    width: "14%",
+  },
+  {
+    id: 3,
+    label: "Name",
+    width: "20%",
+    align: "left",
+
+  },
+  {
+    id: 4,
+    label: "Gender",
+    width: "10%",
+  },
+  {
+    id: 5,
+    label: "Phone",
+    width: "10%",
+    align: "left",
+  },
+  {
+    id: 6,
+    label: "Status",
+    width: "12%",
+
+  },
+  {
+    id: 7,
+    label: "Actions",
+    width: "10%",
+  },
+];
+
+const tableData = [
+  {
+    join: "10/01/2022",
+    id: "PFG0001",
+    name: "Mohamed Akmal",
+    gender: "Male",
+    phone: "708-692-4691",
+    status: "In",
+  },
+  {
+    join: "10/01/2022",
+    id: "PFG0002",
+    name: "Mohamed Waseem",
+    gender: "Male",
+    phone: "708-692-4691",
+    status: "Out",
+  },
+  {
+    join: "10/01/2022",
+    id: "PFG0003",
+    name: "Mujahid Yazdhani",
+    gender: "Male",
+    phone: "708-692-4691",
+    status: "In",
+  },
+  {
+    join: "10/01/2022",
+    id: "PFG0004",
+    name: "Muzammil Ahmed",
+    gender: "Male",
+    phone: "708-692-4691",
+    status: "Out",
+  },
+]
+
 export default function TableList() {
   const classes = useStyles();
 
@@ -55,6 +134,13 @@ export default function TableList() {
 
   const memberListData = async () => {
     console.log('fetch', await listMembers())
+  }
+  const handleViewClick = () => {
+    console.info('View Icon Clicked')
+  }
+
+  const handleEditClick = () => {
+    console.info('Edit Icon Clicked')
   }
 
   return (
@@ -68,18 +154,45 @@ export default function TableList() {
             </p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Joining Date", 'ID', "Name", "Gender", "Phone", "Status", "Actions"]}
-              tableData={[
-                ["10/01/2022", "PFG0001", "Mohamed Akmal", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
-                ["10/01/2022", "PFG0002", "Mohamed Waseem", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
-                ["10/01/2022", "PFG0003", "Gunasekaran", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
-                ["10/01/2022", "PFG0004", "Dilip Kumar", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
-                ["10/01/2022", "PFG0005", "Abdullah Basha", "Male", "708-692-4691", <Success>In</Success>, <ActionButtonsGroup />],
-                ["10/01/2022", "PFG0006", "Muzammil Ahmed", "Male", "708-692-4691", <Warning>Out</Warning>, <ActionButtonsGroup />],
-              ]}
-            />
+            <TableHeader>
+              {headerColumns.map((column) => (
+                <Column
+                  key={column.id}
+                  size={column.width}
+                  alignTo={column.align}
+                >
+                  {column.label}
+                </Column>
+              ))}
+            </TableHeader>
+            <TableContainer>
+              {tableData.map(
+                (row, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <Column size="14%" alignTo="left">
+                        {row.join}
+                      </Column>
+                      <Column size="14%" alignTo="left">
+                        {row.id}
+                      </Column>
+                      <Column size="20%" alignTo="left">{row.name}</Column>
+                      <Column size="10%">{row.gender}</Column>
+                      <Column size="10%" alignTo="left">{row.phone}</Column>
+                      <Column size="12%">
+                        {row.status === 'In' ? <Success>
+                          {row.status}
+                        </Success> : <Warning>{row.status}</Warning>}
+
+                      </Column>
+                      <Column size="10%">
+                        <ActionButtonsGroup OnViewClick={handleViewClick} OnEditClick={handleEditClick} />
+                      </Column>
+                    </TableRow>
+                  );
+                }
+              )}
+            </TableContainer>
           </CardBody>
         </Card>
       </GridItem>

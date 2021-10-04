@@ -1,64 +1,68 @@
-import styled from 'styled-components';
+import styled, { css } from "styled-components";
 
-const ResponsiveTable = styled.div`
-  li {
-    border-radius: 3px;
-    padding: 25px 30px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px sold ${({ theme }) => theme.colors.grey};
+const ResponsiveTable = styled.ul`
+  padding: 0;
+  margin: 0.5rem 0;
+  .MuiTablePagination-toolbar {
+    min-height: 35px;
+    border-top: 2px solid #e7ecef;
   }
-  .table-header {
-    background-color: #95A5A6;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .table-row {
-    background-color: #ffffff;
-    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
-  }
-  .col-1 {
-    flex-basis: 10%;
-  }
-  .col-2 {
-    flex-basis: 40%;
-  }
-  .col-3 {
-    flex-basis: 25%;
-  }
-  .col-4 {
-    flex-basis: 25%;
-  }
-  
+`;
+const TableHeader = styled.li`
+  top: 0;
+  z-index: 1;
+  display: flex;
+  position: sticky;
+  text-align: center;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  justify-content: space-between;
+  color: ${({ theme }) => theme.color.pacificBlue};
   @media all and (max-width: 767px) {
-    .table-header {
-      display: none;
-    }
-    .table-row{
-      
-    }
-    li {
-      display: block;
-    }
-    .col {
-      
-      flex-basis: 100%;
-      
-    }
-    .col {
-      display: flex;
-      padding: 10px 0;
-      &:before {
-        color: #6C7A89;
-        padding-right: 10px;
-        content: attr(data-label);
-        flex-basis: 50%;
-        text-align: right;
-      }
+    display: none;
+  }
+`;
+const Column = styled.div`
+  flex-basis: ${({ size }) => (size ? size : "10%")};
+  text-align: ${({ alignTo }) => (alignTo ? alignTo : "center")};
+  margin: 0 auto;  
+  @media all and (max-width: 767px) {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+    &:before {
+      color: ${({ theme }) => theme.color.pacificBlue};
+      flex-basis: 40%;
+      text-align: left;
+      padding-right: 10px;
+      content: attr(data-label);
     }
   }
+`;
+const TableRow = styled.li`
+  display: flex;
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #fff;
 
+  @media all and (max-width: 767px) {
+    display: block;
+  }
 `;
 
-export default ResponsiveTable;
+const TableContainer = styled.div(({ staticHeight = "35vh" }) => {
+  return {
+    overflowY: "auto",
+    height: `calc(100vh - ${staticHeight})`,
+  };
+});
+
+export {
+  Column,
+  TableRow,
+  TableHeader,
+  TableContainer,
+  ResponsiveTable,
+};
