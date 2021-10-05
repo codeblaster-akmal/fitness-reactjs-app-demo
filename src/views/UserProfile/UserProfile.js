@@ -22,6 +22,7 @@ import { Formik } from "formik";
 import PropTypes from "prop-types";
 import { createMember } from "./userProfile.service";
 import { useHistory } from "react-router";
+import { appendFormData } from "utils";
 
 const styles = {
   cardCategoryWhite: {
@@ -62,23 +63,12 @@ export default function UserProfile() {
 
   const onSubmit = async (values) => {
     try {
-      let submitValues = values
-      const formData = new FormData();
-      formData.set('firstname', values.firstname.trim().replace(/ +(?= )/g, ''));
-      formData.set('lastname', values.lastname.trim().replace(/ +(?= )/g, ''));
-      formData.set('username', values.username.trim().replace(/ +(?= )/g, ''));
-      formData.set('aadhaarNumber', submitValues.aadhaarNumber);
-      formData.set('address', submitValues.address);
-      formData.set('addressLandmark', submitValues.addressLandmark);
-      formData.set('age', submitValues.age);
-      formData.set('gender', submitValues.gender);
-      formData.set('notes', submitValues.notes);
-      formData.set('phone', submitValues.phone);
-      formData.set('vaccinated', submitValues.vaccinated === "0" ? false : true);
-      formData.set('referral', submitValues.referral ? submitValues.referral.name : "");
-      formData.set('weight', submitValues.weight);
-      formData.append('memberImage', values.image);
-
+      const formData = appendFormData({
+        ...values,
+        vaccinated: +values.vaccinated ? true : false,
+        referral: values.referral ? values.referral.name : ""
+      });
+      formData.append("MEMBER_PIC", values.image);
       await createMember(formData);
       history.push("/admin/table");
     } catch (err) {
@@ -224,8 +214,8 @@ export default function UserProfile() {
                         <GridItem xs={12} sm={6} md={6}>
                           <TextFieldInput
                             label="Aadhaar No"
-                            name="aadhaarNumber"
-                            value={values.aadhaarNumber}
+                            name="aadhaarNo"
+                            value={values.aadhaarNo}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
@@ -244,8 +234,8 @@ export default function UserProfile() {
                         <GridItem xs={12} sm={6} md={6}>
                           <TextFieldInput
                             label="Landmark"
-                            name="addressLandmark"
-                            value={values.addressLandmark}
+                            name="landmark"
+                            value={values.landmark}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />

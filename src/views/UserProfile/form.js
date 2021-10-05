@@ -6,7 +6,7 @@ export const initialValues = {
   username: "",
   phone: "",
   address: "",
-  addressLandmark: "",
+  landmark: "",
   image: "",
   weight: "",
   age: "",
@@ -14,7 +14,7 @@ export const initialValues = {
   notes: "",
   referral: "",
   vaccinated: "0",
-  aadhaarNumber: ""
+  aadhaarNo: ""
 };
 
 export const validationSchema = Yup.object({
