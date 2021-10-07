@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -13,6 +13,7 @@ import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
 import { listMembers } from "./tableList.service";
 import { Column, TableContainer, TableHeader, TableRow } from "./table.styles";
+import { getFormattedDate } from "utils/dateNtime";
 
 const styles = {
   cardCategoryWhite: {
@@ -90,50 +91,17 @@ const headerColumns = [
   },
 ];
 
-const tableData = [
-  {
-    join: "10/01/2022",
-    id: "PFG0001",
-    name: "Mohamed Akmal",
-    gender: "Male",
-    phone: "708-692-4691",
-    status: "In",
-  },
-  {
-    join: "10/01/2022",
-    id: "PFG0002",
-    name: "Mohamed Waseem",
-    gender: "Male",
-    phone: "708-692-4691",
-    status: "Out",
-  },
-  {
-    join: "10/01/2022",
-    id: "PFG0003",
-    name: "Mujahid Yazdhani",
-    gender: "Male",
-    phone: "708-692-4691",
-    status: "In",
-  },
-  {
-    join: "10/01/2022",
-    id: "PFG0004",
-    name: "Muzammil Ahmed",
-    gender: "Male",
-    phone: "708-692-4691",
-    status: "Out",
-  },
-]
-
 export default function TableList() {
   const classes = useStyles();
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
     memberListData();
   }, []);
 
   const memberListData = async () => {
-    console.log('fetch', await listMembers())
+    const { data } = await listMembers();
+    setMembers(data);
   }
   const handleViewClick = () => {
     console.info('View Icon Clicked')
@@ -166,25 +134,31 @@ export default function TableList() {
               ))}
             </TableHeader>
             <TableContainer>
-              {tableData.map(
+              {members.map(
                 (row, index) => {
                   return (
                     <TableRow key={index}>
                       <Column size="14%" alignTo="left">
-                        {row.join}
+                        {getFormattedDate(new Date(row.createdAt))}
                       </Column>
                       <Column size="14%" alignTo="left">
-                        {row.id}
+                        {row.memberId}
                       </Column>
-                      <Column size="20%" alignTo="left">{row.name}</Column>
+                      <Column size="20%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
                       <Column size="10%">{row.gender}</Column>
                       <Column size="10%" alignTo="left">{row.phone}</Column>
                       <Column size="12%">
+                        {<Success>
+                          {'In'}
+                        </Success>}
+
+                      </Column>
+                      {/* <Column size="12%">
                         {row.status === 'In' ? <Success>
                           {row.status}
                         </Success> : <Warning>{row.status}</Warning>}
 
-                      </Column>
+                      </Column> */}
                       <Column size="10%">
                         <ActionButtonsGroup OnViewClick={handleViewClick} OnEditClick={handleEditClick} />
                       </Column>
