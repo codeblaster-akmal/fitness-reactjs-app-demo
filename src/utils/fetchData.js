@@ -46,7 +46,7 @@ export const postDataForm = async (url, post, token) => {
     const data = await res.json()
 
     if (data.error) throw data.error;
-
+    
     return data;
 }
 
