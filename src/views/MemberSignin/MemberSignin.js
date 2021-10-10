@@ -18,51 +18,109 @@ import avatar from "assets/img/faces/marc.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { memberSigninInitialValues, memberSigninValidationSchema } from "./form";
-import { createSignin } from "./memberSignin.service";
+import { fetchMember, updateMember, verifyMember } from "./memberSignin.service";
+import * as Yup from "yup";
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
 }
 
 const Signin = () => {
-  const [state, setState] = useState({
+
+  const initialValues = {
+    user: "",
+    passcode: ""
+  };
+
+  const memberSearchValidationSchema = Yup.object({
+    user: Yup.string().required("Required!")
+  });
+
+  const memberSigninValidationSchema = Yup.object({
+    user: Yup.string().required("Required!"),
+    passcode: Yup.string().required("Required!")
+  });
+
+  const initialSiginState = {
+    label: "Enter PIN",
+    disableSearchInput: false,
+    initialValues,
+    validationSchema: memberSearchValidationSchema,
+    searchBtnType: "submit",
+    submitBtnType: "button",
+    onSubmit: onMemberSearch
+  };
+
+  const [snackbar, setSnackbar] = useState({
     open: false,
     vertical: 'top',
     horizontal: 'center',
   });
-  const [memberSigninState] = useState({
-    memberSigninInitialValues, memberSigninValidationSchema
-  });
 
-  const { vertical, horizontal, open } = state;
+  const [signin, setSignin] = useState(initialSiginState);
+
+  const { vertical, horizontal, open } = snackbar;
 
   const handleClick = (newState) => () => {
-    setState({ open: true, ...newState });
+    setSnackbar({ open: true, ...newState });
   };
 
   const handleClose = () => {
-    setState({ ...state, open: false });
+    setSnackbar({ ...snackbar, open: false });
   };
 
-  const onSubmit = async (values) => {
-    let singinValues = values;
-
-    if (singinValues.passcode.split('').length === 4) {
-      try {
-        const res = await createSignin(singinValues);
-        console.log('response', res)
-      } catch (err) {
-        console.log('error', err)
+  async function onMemberSearch(values, { resetForm }) {
+    try {
+      const { data } = await fetchMember(values);
+      if (data) {
+        setSignin(prevState => {
+          return {
+            ...prevState,
+            disableSearchInput: true,
+            memberInfo: data,
+            searchBtnType: "button",
+            submitBtnType: "submit",
+            validationSchema: memberSigninValidationSchema,
+            onSubmit: onSubmit
+          }
+        });
+      } else {
+        resetStateNForm(resetForm);
       }
+    } catch (err) {
+      console.log('error', err)
     }
+  };
+
+  async function onSubmit(values, { resetForm }) {
+    try {
+      let payload = {};
+      if (!signin.memberInfo.isSignup) {
+        payload = { passcode: values.passcode };
+        await updateMember(signin.memberInfo.id, payload);
+      } else {
+        payload = {
+          memberId: signin.memberInfo.id,
+          isAvailable: !signin.memberInfo.isAvailable
+        }
+        await verifyMember(signin.memberInfo.id, payload);
+      }
+      resetStateNForm(resetForm);
+    } catch (err) {
+      console.log('error', err)
+    }
+  };
+
+  function resetStateNForm(resetForm) {
+    setSignin(initialSiginState);
+    resetForm();
   }
 
   return (
     <Formik
-      initialValues={memberSigninState.memberSigninInitialValues}
-      onSubmit={onSubmit}
-      validationSchema={memberSigninState.memberSigninValidationSchema}
+      initialValues={signin.initialValues}
+      onSubmit={signin.onSubmit}
+      validationSchema={signin.validationSchema}
       enableReinitialize
     >
       {(props) => {
@@ -96,9 +154,10 @@ const Signin = () => {
                           }
                           error={errors.user && touched.user}
                           InputProps={{
+                            readOnly: signin.disableSearchInput,
                             endAdornment: (
                               <InputAdornment>
-                                <IconButton size="small">
+                                <IconButton size="small" type={signin.searchBtnType}>
                                   <SearchIcon />
                                 </IconButton>
                               </InputAdornment>
@@ -106,7 +165,7 @@ const Signin = () => {
                           }}
                         />
                         <Info>
-                          <h5>Generate Pin</h5>
+                          <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
                         </Info>
                         <OtpInput
                           inputStyle="inputStyle"
@@ -118,19 +177,15 @@ const Signin = () => {
                           containerStyle="containerStyle"
                           name="passcode"
                           value={values.passcode}
+                          isInputSecure={true}
                           onChange={(e) => {
                             setFieldValue("passcode", e)
                           }}
                           onBlur={handleBlur}
-                          helperText={
-                            errors.passcode &&
-                            touched.passcode &&
-                            errors.passcode
-                          }
-                          error={errors.passcode && touched.passcode}
+                          hasErrored={true}
                         />
                         <div className="submit-button">
-                          <Button type="submit" color="primary" round onClick={handleClick({ vertical: 'top', horizontal: 'right' })}>
+                          <Button type={signin.submitBtnType} color="primary" round>
                             Submit
                           </Button>
                         </div>
@@ -155,7 +210,6 @@ const Signin = () => {
                       <h6>Username/Member ID</h6>
                       <h6>Status<Success>In</Success></h6>
                       <h6>Fee status</h6>
-
                     </CardBody>
                   </Card> </>}
                 />

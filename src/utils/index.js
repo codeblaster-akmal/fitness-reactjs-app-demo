@@ -15,3 +15,10 @@ export const appendFormData = (values, except = []) => {
 
     return formData;
 };
+
+/* request attributes query */
+export const reqAttrQry = (label, attrArr) => {
+    let str = "";
+    attrArr.forEach((attr, index) => (str += `${label}[${index}]=${attr}&`));
+    return `${str.substring(0, str.length - 1)}`;
+};

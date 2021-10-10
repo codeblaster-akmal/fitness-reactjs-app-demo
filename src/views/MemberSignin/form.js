@@ -5,6 +5,10 @@ export const memberSigninInitialValues = {
     passcode: ""
 };
 
+export const memberSearchValidationSchema = Yup.object({
+    user: Yup.string().required("Required!")
+});
+
 export const memberSigninValidationSchema = Yup.object({
     user: Yup.string().required("Required!"),
     passcode: Yup.string().required("Required!")

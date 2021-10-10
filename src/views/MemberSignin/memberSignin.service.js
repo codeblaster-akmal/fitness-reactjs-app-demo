@@ -1,7 +1,21 @@
-import { postData } from "../../utils/fetchData";
+import { reqAttrQry } from "utils";
+import { getData, putData } from "../../utils/fetchData";
 
-const URL = "members-signin";
+const URL = "members";
 
-export const createSignin = (payload) => {
-    postData(`${URL}`, payload);
+export const fetchMember = (payload) => {
+
+    const attr = reqAttrQry("attr", ["id", "isSignup"]);
+
+    return getData(`${URL}/null?signin=${payload.user}&${attr}`, payload);
+};
+
+export const updateMember = (id, payload) => {
+
+    return putData(`${URL}/${id}?passcode=true`, payload);
+};
+
+export const verifyMember = (id, payload) => {
+
+    return putData(`${URL}/${id}?member_track=true`, payload);
 };
