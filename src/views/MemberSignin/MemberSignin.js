@@ -6,8 +6,6 @@ import React, { useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import OtpInput from "react-otp-input";
 import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/MemberSigninStyles";
-import SearchIcon from "@material-ui/icons/Search";
-import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Info from "components/Typography/Info.js";
 import Button from "components/CustomButtons/Button.js";
@@ -18,8 +16,10 @@ import avatar from "assets/img/faces/marc.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { fetchMember, updateMember, verifyMember } from "./memberSignin.service";
+import { fetchMember, updateMember, updateMemberTrack } from "./memberSignin.service";
 import * as Yup from "yup";
+import { useToaster } from "components/Snackbar/AlertToaster";
+import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -38,7 +38,7 @@ const Signin = () => {
 
   const memberSigninValidationSchema = Yup.object({
     user: Yup.string().required("Required!"),
-    passcode: Yup.string().required("Required!")
+    passcode: Yup.string().required("Required!").test('len', 'Invalid Pin!', val => val?.length === 4)
   });
 
   const initialSiginState = {
@@ -48,7 +48,6 @@ const Signin = () => {
     validationSchema: memberSearchValidationSchema,
     searchBtnType: "submit",
     submitBtnType: "button",
-    onSubmit: onMemberSearch
   };
 
   const [snackbar, setSnackbar] = useState({
@@ -58,18 +57,27 @@ const Signin = () => {
   });
 
   const [signin, setSignin] = useState(initialSiginState);
+  const toaster = useToaster();
 
   const { vertical, horizontal, open } = snackbar;
 
-  const handleClick = (newState) => () => {
-    setSnackbar({ open: true, ...newState });
-  };
+  const handleClick = (data) => {
+    setSnackbar({ ...snackbar, open: true, data });
+  }
 
   const handleClose = () => {
     setSnackbar({ ...snackbar, open: false });
-  };
+  }
 
-  async function onMemberSearch(values, { resetForm }) {
+  const onSubmit = (values, { resetForm }) => {
+    if (values.passcode) {
+      validateMember(values, resetForm);
+    } else {
+      onMemberSearch(values, resetForm);
+    }
+  }
+
+  const onMemberSearch = async (values, resetForm) => {
     try {
       const { data } = await fetchMember(values);
       if (data) {
@@ -81,18 +89,18 @@ const Signin = () => {
             searchBtnType: "button",
             submitBtnType: "submit",
             validationSchema: memberSigninValidationSchema,
-            onSubmit: onSubmit
           }
         });
       } else {
+        toaster(MSG_TYPE.WARNING, "Member not found!");
         resetStateNForm(resetForm);
       }
     } catch (err) {
-      console.log('error', err)
+      toaster(MSG_TYPE.WARNING, err);
     }
-  };
+  }
 
-  async function onSubmit(values, { resetForm }) {
+  const validateMember = async (values, resetForm) => {
     try {
       let payload = {};
       if (!signin.memberInfo.isSignup) {
@@ -101,15 +109,17 @@ const Signin = () => {
       } else {
         payload = {
           memberId: signin.memberInfo.id,
-          isAvailable: !signin.memberInfo.isAvailable
+          isAvailable: !signin.memberInfo.isAvailable,
+          passcode: values.passcode
         }
-        await verifyMember(signin.memberInfo.id, payload);
+        await updateMemberTrack(signin.memberInfo.id, payload);
+        handleClick(signin.memberInfo);
       }
       resetStateNForm(resetForm);
     } catch (err) {
-      console.log('error', err)
+      toaster(MSG_TYPE.WARNING, err);
     }
-  };
+  }
 
   function resetStateNForm(resetForm) {
     setSignin(initialSiginState);
@@ -119,7 +129,7 @@ const Signin = () => {
   return (
     <Formik
       initialValues={signin.initialValues}
-      onSubmit={signin.onSubmit}
+      onSubmit={onSubmit}
       validationSchema={signin.validationSchema}
       enableReinitialize
     >
@@ -131,7 +141,8 @@ const Signin = () => {
           handleChange,
           handleBlur,
           handleSubmit,
-          setFieldValue
+          setFieldValue,
+          resetForm
         } = props;
         return (
           <form onSubmit={handleSubmit}>
@@ -167,7 +178,7 @@ const Signin = () => {
                         <Info>
                           <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
                         </Info>
-                        <Collapse in={true}>
+                        <Collapse in={signin.disableSearchInput}>
                           <OtpInput
                             inputStyle="inputStyle"
                             isInputNum
@@ -184,11 +195,11 @@ const Signin = () => {
                               setFieldValue("passcode", e)
                             }}
                             onBlur={handleBlur}
-                            hasErrored={true}
+                            hasErrored={(errors.passcode && touched.passcode) ? true : false}
                           />
                         </Collapse>
                         <div className="submit-button">
-                          <Button type='rest' color="primary" round>
+                          <Button type='button' onClick={() => resetStateNForm(resetForm)} color="primary" round>
                             Reset
                           </Button>
                           <Button type={signin.submitBtnType} color="primary" round>
@@ -212,9 +223,9 @@ const Signin = () => {
                       </a>
                     </CardAvatar>
                     <CardBody profile>
-                      <h4>Name</h4>
-                      <h6>Username/Member ID</h6>
-                      <h6>Status<Success>In</Success></h6>
+                      <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
+                      <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
+                      <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
                       <h6>Fee status</h6>
                     </CardBody>
                   </Card>}
