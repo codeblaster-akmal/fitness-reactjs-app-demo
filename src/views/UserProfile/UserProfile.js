@@ -159,6 +159,7 @@ export default function UserProfile() {
                             value={values.phone}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            inputProps={{ maxLength: 10 }}
                             helperText={
                               errors.phone && touched.phone && errors.phone
                             }
@@ -174,6 +175,7 @@ export default function UserProfile() {
                             onBlur={handleBlur}
                             helperText={errors.age && touched.age && errors.age}
                             error={errors.age && touched.age}
+                            inputProps={{ maxLength: 3 }}
                           />
                         </GridItem>
                         <GridItem xs={12} sm={6} md={3}>
@@ -185,6 +187,7 @@ export default function UserProfile() {
                             onBlur={handleBlur}
                             helperText={errors.weight && touched.weight && errors.weight}
                             error={errors.weight && touched.weight}
+                            inputProps={{ maxLength: 3 }}
                           />
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6}>
@@ -220,6 +223,7 @@ export default function UserProfile() {
                             value={values.aadhaarNo}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            inputProps={{ maxLength: 12 }}
                           />
                         </GridItem>
                       </GridContainer>

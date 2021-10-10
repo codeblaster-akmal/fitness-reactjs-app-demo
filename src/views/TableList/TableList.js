@@ -148,17 +148,11 @@ export default function TableList() {
                       <Column size="10%">{row.gender}</Column>
                       <Column size="10%" alignTo="left">{row.phone}</Column>
                       <Column size="12%">
-                        {<Success>
-                          {'In'}
-                        </Success>}
+                        {row.isAvailable == 1 ? <Success>
+                          {"In"}
+                        </Success> : <Warning>{"Out"}</Warning>}
 
                       </Column>
-                      {/* <Column size="12%">
-                        {row.status === 'In' ? <Success>
-                          {row.status}
-                        </Success> : <Warning>{row.status}</Warning>}
-
-                      </Column> */}
                       <Column size="10%">
                         <ActionButtonsGroup OnViewClick={handleViewClick} OnEditClick={handleEditClick} />
                       </Column>
