@@ -13,7 +13,7 @@ import Info from "components/Typography/Info.js";
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
-import { Snackbar, Slide } from "@material-ui/core";
+import { Snackbar, Slide, Collapse } from "@material-ui/core";
 import avatar from "assets/img/faces/marc.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
@@ -157,9 +157,9 @@ const Signin = () => {
                             readOnly: signin.disableSearchInput,
                             endAdornment: (
                               <InputAdornment>
-                                <IconButton size="small" type={signin.searchBtnType}>
-                                  <SearchIcon />
-                                </IconButton>
+                                <Button size="small" color="white" type={signin.searchBtnType}>
+                                  Search
+                                </Button>
                               </InputAdornment>
                             ),
                           }}
@@ -167,24 +167,30 @@ const Signin = () => {
                         <Info>
                           <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
                         </Info>
-                        <OtpInput
-                          inputStyle="inputStyle"
-                          isInputNum
-                          numInputs={4}
-                          separator={<FitnessCenterIcon className='dumbell-seperator' />}
-                          shouldAutoFocus
-                          focusStyle="isInputFocus"
-                          containerStyle="containerStyle"
-                          name="passcode"
-                          value={values.passcode}
-                          isInputSecure={true}
-                          onChange={(e) => {
-                            setFieldValue("passcode", e)
-                          }}
-                          onBlur={handleBlur}
-                          hasErrored={true}
-                        />
+                        <Collapse in={true}>
+                          <OtpInput
+                            inputStyle="inputStyle"
+                            isInputNum
+                            numInputs={4}
+                            separator={<FitnessCenterIcon className='dumbell-seperator' />}
+                            shouldAutoFocus
+                            focusStyle="isInputFocus"
+                            containerStyle="containerStyle"
+                            errorStyle="isError"
+                            name="passcode"
+                            value={values.passcode}
+                            isInputSecure={true}
+                            onChange={(e) => {
+                              setFieldValue("passcode", e)
+                            }}
+                            onBlur={handleBlur}
+                            hasErrored={true}
+                          />
+                        </Collapse>
                         <div className="submit-button">
+                          <Button type='rest' color="primary" round>
+                            Reset
+                          </Button>
                           <Button type={signin.submitBtnType} color="primary" round>
                             Submit
                           </Button>
@@ -199,7 +205,7 @@ const Signin = () => {
                   onClose={handleClose}
                   autoHideDuration={3000}
                   key={vertical + horizontal}
-                  action={<><Card profile>
+                  action={<Card profile>
                     <CardAvatar profile>
                       <a href="#pablo" onClick={(e) => e.preventDefault()}>
                         <img src={avatar} alt="..." />
@@ -211,7 +217,7 @@ const Signin = () => {
                       <h6>Status<Success>In</Success></h6>
                       <h6>Fee status</h6>
                     </CardBody>
-                  </Card> </>}
+                  </Card>}
                 />
               </div>
             </MemberSigninStyleWrapper>

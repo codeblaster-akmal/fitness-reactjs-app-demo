@@ -15,7 +15,10 @@ const TextFieldInputWrapper = styled.div`
     color: ${({ theme }) => theme.color.pacificBlue};
   }
   .MuiOutlinedInput-adornedEnd {
-    padding-right: 10px;
+    padding-right: 0;
+  }
+  .MuiInputAdornment-positionStart{
+    margin: 0;
   }
   .MuiSvgIcon-root {
     color: #fff;

@@ -28,7 +28,7 @@ const buttonStyle = {
     border: "none",
     borderRadius: "3px",
     position: "relative",
-    padding: "12px 30px",
+    padding: "10px 30px",
     margin: ".3125rem 1px",
     fontSize: "12px",
     fontWeight: "400",
@@ -91,7 +91,7 @@ const buttonStyle = {
   white: {
     "&,&:focus,&:hover": {
       backgroundColor: whiteColor,
-      color: grayColor[0],
+      color: grayColor[1],
     },
   },
   rose: {

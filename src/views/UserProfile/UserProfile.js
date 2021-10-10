@@ -7,11 +7,9 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import AutocompleteInput from "components/AutocompleteInput/AutocompleteInput.js";
-import avatar from "assets/img/faces/marc.jpg";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import CustomizedRadios from "components/CustomRadioButtons/CustomizedRadios";
 import CustomFileInput from "components/CustomFileInput/CustomFileInput";
@@ -23,6 +21,8 @@ import PropTypes from "prop-types";
 import { createMember } from "./userProfile.service";
 import { useHistory } from "react-router";
 import { appendFormData } from "utils";
+import { useToaster } from "components/Snackbar/AlertToaster";
+import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 
 const styles = {
   cardCategoryWhite: {
@@ -53,6 +53,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
+  const toaster = useToaster();
   const history = useHistory();
   const classes = useStyles();
 
@@ -71,8 +72,9 @@ export default function UserProfile() {
       formData.append("MEMBER_PIC", values.image);
       await createMember(formData);
       history.push("/admin/table");
+      toaster(MSG_TYPE.SUCCESS, "Profile updated successfully");
     } catch (err) {
-      console.log(err);
+      toaster(MSG_TYPE.WARNING, err);
     }
   };
 

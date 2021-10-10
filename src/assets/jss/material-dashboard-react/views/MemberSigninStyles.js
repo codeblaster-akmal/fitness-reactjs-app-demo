@@ -34,9 +34,13 @@ const MemberSigninStyleWrapper = styled.div`
   .isInputFocus {
     border-color: ${({ theme }) => theme.color.pacificBlue};
   }
+  .isError{
+    border: 2px solid ${({ theme }) => theme.color.error}
+  }
   .submit-button {
-    margin-top: 1rem;
-    text-align: center;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
   }
   .MuiSnackbarContent-action{
     margin: auto;

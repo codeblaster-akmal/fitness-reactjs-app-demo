@@ -6,7 +6,8 @@ export default {
     sage: "#c2c2a6",
     pacificBlue: "#00acc1",
     cardBg: 'rgba(46, 47, 50, 0.7)',
-    grey: '#777'
+    grey: '#777',
+    error: "#f44336"
   },
   fontStyle: ({
     weight = "400",
