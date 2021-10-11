@@ -106,6 +106,7 @@ const Signin = () => {
       if (!signin.memberInfo.isSignup) {
         payload = { passcode: values.passcode };
         await updateMember(signin.memberInfo.id, payload);
+        toaster(MSG_TYPE.SUCCESS, "Your PIN has been generated successfully!");
       } else {
         payload = {
           memberId: signin.memberInfo.id,
@@ -175,10 +176,10 @@ const Signin = () => {
                             ),
                           }}
                         />
-                        <Info>
-                          <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
-                        </Info>
                         <Collapse in={signin.disableSearchInput}>
+                          <Info>
+                            <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
+                          </Info>
                           <OtpInput
                             inputStyle="inputStyle"
                             isInputNum
@@ -197,15 +198,15 @@ const Signin = () => {
                             onBlur={handleBlur}
                             hasErrored={(errors.passcode && touched.passcode) ? true : false}
                           />
+                          <div className="submit-button">
+                            <Button type='button' onClick={() => resetStateNForm(resetForm)} color="primary" round>
+                              Reset
+                            </Button>
+                            <Button type={signin.submitBtnType} color="primary" round>
+                              Submit
+                            </Button>
+                          </div>
                         </Collapse>
-                        <div className="submit-button">
-                          <Button type='button' onClick={() => resetStateNForm(resetForm)} color="primary" round>
-                            Reset
-                          </Button>
-                          <Button type={signin.submitBtnType} color="primary" round>
-                            Submit
-                          </Button>
-                        </div>
                       </CardBody>
                     </Card>
                   </GridItem>

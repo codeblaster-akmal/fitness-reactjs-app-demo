@@ -79,7 +79,7 @@ const AlertToaster = ({ children }) => {
       <ToasterStyleWrapper>
         <Snackbar
           open={open}
-          autoHideDuration={5000}
+          autoHideDuration={10000}
           onClose={handleClose}
           anchorOrigin={{ vertical, horizontal }}
           TransitionComponent={transition}
