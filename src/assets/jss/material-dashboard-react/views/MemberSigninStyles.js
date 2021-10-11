@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import BgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/Pro-Fit-Gym-Metalic-Logo.jpg'
+import BgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/exercise-weights.jpg'
 
 const MemberSigninStyleWrapper = styled.div`  
   .triangle-background {
@@ -10,11 +10,6 @@ const MemberSigninStyleWrapper = styled.div`
       height: 100%;
       position:relative; 
       z-index:1;    
-    }
-    .field-container {
-      display: grid;
-      align-content: center;
-      background-color: ${({ theme }) => theme.color.cardBg};
       h5 {
         text-align: center;
       }

@@ -20,6 +20,7 @@ import { fetchMember, updateMember, updateMemberTrack } from "./memberSignin.ser
 import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
+import CustomFixedplugin from "components/CustomFixedPlugin/CustomFixedplugin";
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -231,6 +232,9 @@ const Signin = () => {
                     </CardBody>
                   </Card>}
                 />
+                <CustomFixedplugin>
+
+                </CustomFixedplugin>
               </div>
             </MemberSigninStyleWrapper>
           </form>

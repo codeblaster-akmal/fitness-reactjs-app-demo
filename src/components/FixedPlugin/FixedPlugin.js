@@ -10,11 +10,11 @@ import imagine2 from "assets/img/body-builder-2.jpg";
 import imagine3 from "assets/img/body-builder-3.jpg";
 import imagine4 from "assets/img/body-builder-4.jpg";
 
-import Button from "components/CustomButtons/Button.js";
+// import Button from "components/CustomButtons/Button.js";
 
 export default function FixedPlugin(props) {
-  const [classes, setClasses] = React.useState("dropdown show");
-  const [bg_checked, setBg_checked] = React.useState(false);
+  // const [classes, setClasses] = React.useState("dropdown show");
+  // const [bg_checked, setBg_checked] = React.useState(false);
   const [bgImage, setBgImage] = React.useState(props.bgImage);
   const handleClick = () => {
     props.handleFixedClick();
