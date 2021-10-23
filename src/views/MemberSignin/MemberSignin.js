@@ -155,6 +155,7 @@ const Signin = () => {
                     <Card>
                       <CardBody>
                         <TextFieldInput
+                          autocomplete='on'
                           label="Search by Username/ID"
                           name="user"
                           value={values.user}

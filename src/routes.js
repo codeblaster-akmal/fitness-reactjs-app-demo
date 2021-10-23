@@ -2,7 +2,7 @@
 // import Dashboard from "@material-ui/icons/Dashboard";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
-// import LocationOn from "@material-ui/icons/LocationOn";
+import { HiCurrencyRupee } from "react-icons/hi";
 // import Notifications from "@material-ui/icons/Notifications";
 // import Unarchive from "@material-ui/icons/Unarchive";
 // import Language from "@material-ui/icons/Language";
@@ -11,6 +11,7 @@ import HowToRegIcon from "@material-ui/icons/HowToReg";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
+import FeeStructures from "views/FeeStructures/FeeStructures";
 // import Icons from "views/Icons/Icons.js";
 // import Maps from "views/Maps/Maps.js";
 // import NotificationsPage from "views/Notifications/Notifications.js";
@@ -51,14 +52,14 @@ const dashboardRoutes = [
     component: Typography,
     layout: "/admin",
   },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   rtlName: "خرائط",
-  //   icon: LocationOn,
-  //   component: Maps,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/fee",
+    name: "Fees structure",
+    rtlName: "خرائط",
+    icon: HiCurrencyRupee,
+    component: FeeStructures,
+    layout: "/admin",
+  },
   // {
   //   path: "/notifications",
   //   name: "Notifications",

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
 
 const ButtonGroupStylewrapper = styled.div`
     display: inline-flex;
@@ -20,13 +21,20 @@ const ButtonGroupStylewrapper = styled.div`
   
 `;
 
-const ActionButtonsGroup = ({ OnViewClick, OnEditClick }) => {
+const ActionButtonsGroup = ({ OnViewClick, OnEditClick, saveIcon, editIcon, viewIcon, OnSaveClick }) => {
 
     return (
         <ButtonGroupStylewrapper>
             <ButtonGroup size="small" variant='text' aria-label="small text button group">
-                <Button onClick={OnViewClick}><VisibilityIcon /></Button>
-                <Button onClick={OnEditClick}><EditIcon /></Button>
+                {saveIcon &&
+                    <Button onClick={OnSaveClick}><SaveIcon /></Button>
+                }
+                {viewIcon &&
+                    <Button onClick={OnViewClick}><VisibilityIcon /></Button>
+                }
+                {editIcon &&
+                    <Button onClick={OnEditClick}><EditIcon /></Button>
+                }
             </ButtonGroup>
         </ButtonGroupStylewrapper>
     )

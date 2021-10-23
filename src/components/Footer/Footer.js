@@ -14,12 +14,12 @@ export default function Footer(props) {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-      <div className={classes.container}>        
+      <div className={classes.container}>
         <p className={classes.right}>
           <span>
             &copy; {1900 + new Date().getYear()}{" "}
             <a
-              href="https://www.creative-tim.com?ref=mdr-footer"
+              href="#"
               target="_blank"
               className={classes.a}
             >

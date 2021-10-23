@@ -4,13 +4,15 @@ const TextFieldInputWrapper = styled.div`
   .MuiInputBase-root,
   .MuiOutlinedInput-root,
   .MuiInputLabel-outlined,
-  .MuiOutlinedInput-notchedOutline {
+  .MuiOutlinedInput-notchedOutline, 
+  .MuiInput-underline::before {
     color: #fff;
     border-color: #777;
     font-size: 0.9rem;
   }
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
-  .MuiInputLabel-shrink {
+  .MuiInputLabel-shrink,
+  .MuiInput-underline::after {
     border-color: #00acc1;
     color: ${({ theme }) => theme.color.pacificBlue};
   }
@@ -23,6 +25,7 @@ const TextFieldInputWrapper = styled.div`
   .MuiSvgIcon-root {
     color: #fff;
   }
+   
 `;
 
 export default TextFieldInputWrapper;
