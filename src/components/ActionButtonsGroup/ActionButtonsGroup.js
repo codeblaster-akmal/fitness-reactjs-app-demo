@@ -26,14 +26,14 @@ const ActionButtonsGroup = ({ OnViewClick, OnEditClick, saveIcon, editIcon, view
     return (
         <ButtonGroupStylewrapper>
             <ButtonGroup size="small" variant='text' aria-label="small text button group">
-                {saveIcon &&
-                    <Button onClick={OnSaveClick}><SaveIcon /></Button>
-                }
                 {viewIcon &&
                     <Button onClick={OnViewClick}><VisibilityIcon /></Button>
                 }
                 {editIcon &&
                     <Button onClick={OnEditClick}><EditIcon /></Button>
+                }
+                {saveIcon &&
+                    <Button onClick={OnSaveClick}><SaveIcon /></Button>
                 }
             </ButtonGroup>
         </ButtonGroupStylewrapper>

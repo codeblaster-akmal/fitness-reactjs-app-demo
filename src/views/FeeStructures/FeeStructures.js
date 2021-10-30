@@ -1,5 +1,5 @@
 import FeeStructureStyleWrapper from 'assets/jss/material-dashboard-react/views/FeeStructureStyles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
@@ -12,6 +12,9 @@ import { Column } from 'views/TableList/table.styles';
 import { TableContainer } from 'views/TableList/table.styles';
 import { TableRow } from 'views/TableList/table.styles';
 import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
+import { fetchAllCategoryPeriodAmount, updateCategoryPeriodAmount } from './feeStructures.service';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const styles = {
     cardCategoryWhite: {
@@ -44,6 +47,7 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
+
 const headerColumns = [
     {
         id: 1,
@@ -71,35 +75,39 @@ const headerColumns = [
     },
 ];
 
-const FeeColumns = [
-    {
-        id: 1,
-        catergory: "weight only",
-        period: "1 year",
-        amount: 1500,
-    },
-    {
-        id: 2,
-        catergory: "weight and cardio",
-        period: "6 moths",
-        amount: 1000,
-    },
-    {
-        id: 3,
-        catergory: "weight only",
-        period: "3 months",
-        amount: 800,
-    },
-    {
-        id: 4,
-        catergory: "weight and cardio",
-        period: "Monthly",
-        amount: 500,
-    }
-];
-
 const FeeStructures = () => {
+
     const classes = useStyles();
+
+    const [data, setData] = useState([]);
+
+    const getAllCategoryPeriodAmount = async () => {
+        try {
+            const { data } = await fetchAllCategoryPeriodAmount();
+            setData(data);
+        } catch (err) {
+            // toaster(MSG_TYPE.ERROR, err);
+            console.log("fetchAllCategoryPeriodAmount", err);
+        }
+    }
+
+    useEffect(() => {
+        getAllCategoryPeriodAmount();
+    }, []);
+
+    const validationSchema = Yup.object({
+        amount: Yup.string().required("Required!"),
+    });
+
+    const onSubmit = async (values) => {
+        try {
+            const { id, amount } = values;
+            await updateCategoryPeriodAmount(id, { amount });
+        } catch (err) {
+            console.log("Fees-structure: ", err);
+        }
+    }
+
     return (
         <FeeStructureStyleWrapper>
             <GridContainer>
@@ -124,29 +132,64 @@ const FeeStructures = () => {
                                 ))}
                             </TableHeader>
                             <TableContainer>
-                                {FeeColumns.map(
-                                    (row) => {
-                                        return (
-                                            <TableRow key={row.id}>
-                                                <Column size="20%" alignTo="left">
-                                                    {row.catergory}
-                                                </Column>
-                                                <Column size="15%" alignTo="left">{row.period}</Column>
-                                                <Column size="10%" alignTo="left">
-                                                    <TextFieldInput
-                                                        readOnly
-                                                        name="amount"
-                                                        variant="standard"
-                                                        defaultValue={row.amount}
-                                                        onChange={e => e.target}
-                                                    />
-                                                </Column>
-                                                <Column size="10%">
-                                                    <ActionButtonsGroup saveIcon editIcon OnSaveClick={() => console.info('Saved successfully')} OnEditClick={() => console.info("Edit clicked")} />
-                                                </Column>
-                                            </TableRow>
-                                        );
-                                    }
+                                {data.map((item) => {
+                                    return (
+                                        <Formik
+                                            initialValues={{ ...item, isDisable: true }}
+                                            onSubmit={onSubmit}
+                                            validationSchema={validationSchema}
+                                            enableReinitialize
+                                            key={item.id}
+                                        >
+                                            {(props) => {
+                                                const {
+                                                    values,
+                                                    touched,
+                                                    errors,
+                                                    handleChange,
+                                                    setFieldValue,
+                                                    handleBlur,
+                                                    handleSubmit
+                                                } = props;
+                                                return (
+                                                    <form onSubmit={handleSubmit}>
+                                                        <TableRow>
+                                                            <Column size="20%" alignTo="left">
+                                                                {item.category.name}
+                                                            </Column>
+                                                            <Column size="15%" alignTo="left">{item.period.name}</Column>
+                                                            <Column size="10%" alignTo="left">
+                                                                <TextFieldInput
+                                                                    disabled={values.isDisable}
+                                                                    name="amount"
+                                                                    type="number"
+                                                                    variant="standard"
+                                                                    value={values.amount}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    helperText={
+                                                                        errors.amount &&
+                                                                        touched.amount &&
+                                                                        errors.amount
+                                                                    }
+                                                                    error={errors.amount && touched.amount}
+                                                                />
+                                                            </Column>
+                                                            <Column size="10%">
+                                                                <ActionButtonsGroup
+                                                                    saveIcon
+                                                                    editIcon
+                                                                    OnSaveClick={() => onSubmit(values)}
+                                                                    OnEditClick={() => setFieldValue("isDisable", !values.isDisable)}
+                                                                />
+                                                            </Column>
+                                                        </TableRow>
+                                                    </form>
+                                                );
+                                            }}
+                                        </Formik>
+                                    );
+                                }
                                 )}
                             </TableContainer>
                         </CardBody>

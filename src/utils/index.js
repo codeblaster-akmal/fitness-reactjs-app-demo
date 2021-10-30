@@ -22,3 +22,10 @@ export const reqAttrQry = (label, attrArr) => {
     attrArr.forEach((attr, index) => (str += `${label}[${index}]=${attr}&`));
     return `${str.substring(0, str.length - 1)}`;
 };
+
+/* request schema query */
+export const reqSchemaQry = (schemaArr) => {
+    let str = "";
+    schemaArr.forEach((schema) => (str += `${schema}=1&`));
+    return `${str.substring(0, str.length - 1)}`;
+  };
