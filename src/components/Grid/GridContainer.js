@@ -13,7 +13,7 @@ const styles = {
 
 
 export default function GridContainer(props) {
-  const { children, spacing,className, ...rest } = props;
+  const { children, spacing, className, ...rest } = props;
   return (
     <Grid container spacing={spacing} {...rest} style={styles.grid} className={className}>
       {children}

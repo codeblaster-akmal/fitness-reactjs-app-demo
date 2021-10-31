@@ -27,17 +27,21 @@ import { default as StyleVariables } from "./assets/jss/styleVariables";
 import "assets/css/material-dashboard-react.css?v=1.10.0";
 import Signin from "views/MemberSignin/MemberSignin";
 import AlertToaster from "components/Snackbar/AlertToaster";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 ReactDOM.render(
   <ThemeProvider theme={StyleVariables}>
     <AlertToaster>
       <BrowserRouter>
-        <Switch>
-          <Route path="/admin" component={Admin} />
-          <Route path="/signin" component={Signin} />
-          <Route path="/rtl" component={RTL} />
-          <Redirect from="/" to="/admin/user" />
-        </Switch>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Switch>
+            <Route path="/admin" component={Admin} />
+            <Route path="/signin" component={Signin} />
+            <Route path="/rtl" component={RTL} />
+            <Redirect from="/" to="/admin/user" />
+          </Switch>
+        </MuiPickersUtilsProvider>
       </BrowserRouter>
     </AlertToaster>
   </ThemeProvider>,

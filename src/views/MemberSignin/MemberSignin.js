@@ -155,7 +155,7 @@ const Signin = () => {
                     <Card>
                       <CardBody>
                         <TextFieldInput
-                          autocomplete='on'
+                          autoComplete='on'
                           label="Search by Username/ID"
                           name="user"
                           value={values.user}
@@ -233,9 +233,7 @@ const Signin = () => {
                     </CardBody>
                   </Card>}
                 />
-                <CustomFixedplugin>
-
-                </CustomFixedplugin>
+                <CustomFixedplugin />
               </div>
             </MemberSigninStyleWrapper>
           </form>
