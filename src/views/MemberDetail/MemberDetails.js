@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import ProfileCard from 'assets/jss/material-dashboard-react/components/profileCard';
@@ -11,12 +11,10 @@ import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import { TableHeader, Column, TableContainer, TableRow } from 'views/TableList/table.styles';
 import Button from "components/CustomButtons/Button.js";
-import CustomModal from 'assets/jss/material-dashboard-react/components/customModal';
-import AutocompleteInput from 'components/AutocompleteInput/AutocompleteInput';
-import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
 import AddIcon from '@material-ui/icons/Add';
+import { fetchCategoryPeriodAmounts, fetchMember } from './memberDetail.service';
+import NewTransactionForm from './NewTransactionForm';
+import { ThreeDRotationSharp } from '@material-ui/icons';
 
 const styles = {
     cardCategoryWhite: {
@@ -112,134 +110,174 @@ const transactionDetail = [
 
 const useStyles = makeStyles(styles);
 
-const MemberDetails = () => {
+const MemberDetails = (props) => {
+
+    const { match } = props;
+    const { id } = match.params;
+
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [selectedDate, handleDateChange] = useState(new Date());
+    const [member, setMember] = useState();
+    const [categoryPeriodAmounts, setCategoryPeriodAmounts] = useState([]);
+
     const handleOpen = () => setOpen(true);
+
     const handleClose = () => setOpen(false);
+
+    const memberStateUpdate = data => {
+        setMember(data);
+    }
+
+    const getMemberDetail = async () => {
+        try {
+            const { data } = await fetchMember(id);
+            console.log("data: ", data)
+            memberStateUpdate({
+                ...data,
+                member_transactions: data.member_transactions.map(transaction => {
+                    return {
+                        ...transaction,
+                        from: new Date(transaction.from).toDateString(),
+                        to: new Date(transaction.to).toDateString(),
+                        isSelected: false
+                    }
+                })
+            });
+        } catch (err) {
+            // toaster(MSG_TYPE.ERROR, err);
+        }
+    }
+
+    const getCategoryPeriodAmounts = async () => {
+        try {
+            const { data } = await fetchCategoryPeriodAmounts();
+            console.log(87687678, data);
+            setCategoryPeriodAmounts(data.map(item => {
+                return {
+                    ...item,
+                    name: `${item.category.name} - ${item.period.name}`
+                }
+            }));
+        } catch (err) {
+            // toaster(MSG_TYPE.ERROR, err);
+        }
+    }
+
+    const handleTransactionRadio = (tId) => () => {
+        memberStateUpdate(prevState => {
+            return {
+                ...prevState,
+                member_transactions: prevState.member_transactions.map(transaction => {
+                    if (tId === transaction.id) {
+                        return {
+                            ...transaction,
+                            isSelected: true
+                        }
+                    } else {
+                        return {
+                            ...transaction,
+                            isSelected: false
+                        }
+                    }
+                })
+            }
+        });
+    }
+
+    useEffect(() => {
+        getMemberDetail();
+        getCategoryPeriodAmounts();
+    }, []);
+
     return (
         <MemberDetailStyleWrapper>
-            <GridContainer spacing={2}>
-                <GridItem xs={12} sm={12} md={6} lg={6}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>
-                                Transaction
-                            </h4>
-                        </CardHeader>
-                        <CardBody>
-                            <input type="radio" id='card-1' name="radiobtn" />
-                            <label htmlFor='card-1'>
-                                <Box padding={2} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
-                                    <Box color='info.main'>Weight & Cardio - 3 months</Box>
-                                    <Box color='info.main'>Amount: ₹1000</Box>
-                                    <Box color='success.main'>Paid</Box>
-                                    <Box color='info.main'>From: May 30 2021 To: July 30 2021</Box>
-                                </Box>
-                            </label>
-                        </CardBody>
-                    </Card>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6} lg={6}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>
-                                Details
-                            </h4>
-                        </CardHeader>
-                        <CardBody>
-                            <GridContainer justifyContent='center'>
-                                <GridItem>
-                                    <Button startIcon={<AddIcon />} color="primary" onClick={handleOpen}>New Transaction</Button>
-                                </GridItem>
-                                <GridItem>
-                                    <ProfileCard profileImage={avatar} memberName='Francesco Moustache' memberId='PF000001'
-                                        userName='username@123' phoneNo='9283802842' aadhaarNo='999941057058' />
-                                </GridItem>
-                            </GridContainer>
-                            <TableHeader>
-                                {headerColumns.map((column) => (
-                                    <Column
-                                        key={column.id}
-                                        size={column.width}
-                                        alignTo={column.align}
-                                    >
-                                        {column.label}
-                                    </Column>
+            {member &&
+                <GridContainer spacing={2}>
+                    <GridItem xs={12} sm={12} md={6} lg={6}>
+                        <Card>
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhite}>
+                                    Transaction
+                                </h4>
+                            </CardHeader>
+                            <CardBody>
+                                {member.member_transactions.map(transaction => (
+                                    <Fragment key={transaction.id}>
+                                        <input
+                                            type="radio"
+                                            id={`card-${transaction.id}`}
+                                            name={transaction.id}
+                                            onChange={handleTransactionRadio(transaction.id)}
+                                            checked={transaction.isSelected}
+                                        />
+                                        <label htmlFor={`card-${transaction.id}`}>
+                                            <Box padding={2} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
+                                                <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
+                                                <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
+                                                <Box color='success.main'>{transaction.status}</Box>
+                                                <Box color='info.main'>From: {transaction.from} To: {transaction.to}</Box>
+                                            </Box>
+                                        </label>
+                                    </Fragment>
                                 ))}
-                            </TableHeader>
-                            <TableContainer>
-                                {transactionDetail.map(
-                                    (row) => {
-                                        return (
-                                            <TableRow key={row.id}>
-                                                <Column size={row.width} alignTo="left">
-                                                    {row.date}
-                                                </Column>
-                                                <Column size={row.width} alignTo="left">
-                                                    {row.amount}
-                                                </Column>
-                                            </TableRow>
-                                        );
-                                    }
-                                )}
-                            </TableContainer>
-                        </CardBody>
-                    </Card>
-                </GridItem>
-            </GridContainer>
-            <CustomModal open={open} FadeIn={open} onClose={handleClose}>
-                <AutocompleteInput
-                    label="Category"
-                    name="category"
-                />
-                <GridContainer spacing={2} justifyContent='center'>
-                    <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <TextFieldInput
-                            label="Actual Amount"
-                            name="actual"
-                        />
+                            </CardBody>
+                        </Card>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <TextFieldInput
-                            label="Paid Amount"
-                            name="paid"
-                        />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={6} className='date-field'>
-                        <TextFieldInputWrapper>
-                            <KeyboardDatePicker
-                                autoOk
-                                variant="inline"
-                                inputVariant="outlined"
-                                label="From"
-                                format="MM/dd/yyyy"
-                                value={selectedDate}
-                                InputAdornmentProps={{ position: "start" }}
-                                onChange={date => handleDateChange(date)}
-                            />
-                        </TextFieldInputWrapper>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={6} className='date-field'>
-                        <TextFieldInputWrapper>
-                            <KeyboardDatePicker
-                                autoOk
-                                variant="inline"
-                                inputVariant="outlined"
-                                label="To"
-                                format="MM/dd/yyyy"
-                                value={selectedDate}
-                                InputAdornmentProps={{ position: "start" }}
-                                onChange={date => handleDateChange(date)}
-                            />
-                        </TextFieldInputWrapper>
-                    </GridItem>
-                    <GridItem>
-                        <Button color="primary" onClick={handleOpen}>Save</Button>
+                        <Card>
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhite}>
+                                    Details
+                                </h4>
+                            </CardHeader>
+                            <CardBody>
+                                <GridContainer justifyContent='center'>
+                                    <GridItem>
+                                        <Button startIcon={<AddIcon />} color="primary" onClick={handleOpen}>New Transaction</Button>
+                                    </GridItem>
+                                    <GridItem>
+                                        <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
+                                            userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo} />
+                                    </GridItem>
+                                </GridContainer>
+                                <TableHeader>
+                                    {headerColumns.map(column => (
+                                        <Column
+                                            key={column.id}
+                                            size={column.width}
+                                            alignTo={column.align}
+                                        >
+                                            {column.label}
+                                        </Column>
+                                    ))}
+                                </TableHeader>
+                                <TableContainer>
+                                    {transactionDetail.map(
+                                        (row) => {
+                                            return (
+                                                <TableRow key={row.id}>
+                                                    <Column size={row.width} alignTo="left">
+                                                        {row.date}
+                                                    </Column>
+                                                    <Column size={row.width} alignTo="left">
+                                                        {row.amount}
+                                                    </Column>
+                                                </TableRow>
+                                            );
+                                        }
+                                    )}
+                                </TableContainer>
+                            </CardBody>
+                        </Card>
                     </GridItem>
                 </GridContainer>
-            </CustomModal>
+            }
+            <NewTransactionForm
+                open={open}
+                handleClose={handleClose}
+                categoryPeriodAmounts={categoryPeriodAmounts}
+                id={id}
+            />
         </MemberDetailStyleWrapper>
     )
 }

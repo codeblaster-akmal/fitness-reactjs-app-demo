@@ -63,7 +63,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/details",
+    path: "/details/:id",
     name: "Member Details",
     rtlName: "خرائط",
     icon: BiDetail,

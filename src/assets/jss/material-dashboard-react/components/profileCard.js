@@ -75,14 +75,14 @@ const CardStyleWrapper = styled.div`
 const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profileImage }) => {
 	return (
 		<CardStyleWrapper>
-			<div class="content">
-				<div class="card">
-					<div class="firstinfo"><img src={profileImage} />
-						<div class="profileinfo">
+			<div className="content">
+				<div className="card">
+					<div className="firstinfo"><img src={profileImage} />
+						<div className="profileinfo">
 							<h1>{memberName}</h1>
 							<h3>{memberId} / {userName}</h3>
-							<p class="bio">Ph: {phoneNo}</p>
-							<p class="bio">Aadhaar No: {aadhaarNo}</p>
+							<p className="bio">Ph: {phoneNo}</p>
+							<p className="bio">Aadhaar No: {aadhaarNo}</p>
 						</div>
 					</div>
 				</div>
