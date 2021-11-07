@@ -90,7 +90,10 @@ const headerColumns = [
   },
 ];
 
-export default function TableList() {
+export default function TableList(props) {
+
+  const { history } = props;
+
   const classes = useStyles();
   const [members, setMembers] = useState([]);
 
@@ -99,15 +102,20 @@ export default function TableList() {
   }, []);
 
   const memberListData = async () => {
-    const { data } = await listMembers();
-    setMembers(data);
+    try {
+      const { data } = await listMembers();
+      setMembers(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
+
   const handleViewClick = () => {
     console.info('View Icon Clicked')
   }
 
-  const handleEditClick = () => {
-    console.info('Edit Icon Clicked')
+  const handleEditClick = id => () => {
+    history.push(`/admin/user/${id}`);
   }
 
   return (
@@ -133,30 +141,29 @@ export default function TableList() {
               ))}
             </TableHeader>
             <TableContainer>
-              {members.map(
-                (row, index) => {
-                  return (
-                    <TableRow key={index}>
-                      <Column size="14%" alignTo="left">
-                        {getFormattedDate(new Date(row.createdAt))}
-                      </Column>
-                      <Column size="14%" alignTo="left">
-                        {row.memberId}
-                      </Column>
-                      <Column size="20%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
-                      <Column size="10%">{row.gender}</Column>
-                      <Column size="10%" alignTo="left">{row.phone}</Column>
-                      <Column size="12%">
-                        {row.isAvailable == 1 ? <Success>
-                          {"In"}
-                        </Success> : <Warning>{"Out"}</Warning>}
-                      </Column>
-                      <Column size="10%">
-                        <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick} OnEditClick={handleEditClick} />
-                      </Column>
-                    </TableRow>
-                  );
-                }
+              {members.map((row, index) => {
+                return (
+                  <TableRow key={index}>
+                    <Column size="14%" alignTo="left">
+                      {getFormattedDate(new Date(row.createdAt))}
+                    </Column>
+                    <Column size="14%" alignTo="left">
+                      {row.memberId}
+                    </Column>
+                    <Column size="20%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
+                    <Column size="10%">{row.gender}</Column>
+                    <Column size="10%" alignTo="left">{row.phone}</Column>
+                    <Column size="12%">
+                      {row.isAvailable == 1 ? <Success>
+                        {"In"}
+                      </Success> : <Warning>{"Out"}</Warning>}
+                    </Column>
+                    <Column size="10%">
+                      <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick} OnEditClick={handleEditClick(row.id)} />
+                    </Column>
+                  </TableRow>
+                );
+              }
               )}
             </TableContainer>
           </CardBody>

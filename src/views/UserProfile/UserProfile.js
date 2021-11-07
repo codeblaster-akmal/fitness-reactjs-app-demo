@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -18,7 +18,7 @@ import { FormControlLabel } from "@material-ui/core";
 import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema, referralDropdown } from "./form";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
-import { createMember } from "./userProfile.service";
+import { createMember, fetchMember, updateMember } from "./userProfile.service";
 import { useHistory } from "react-router";
 import { appendFormData } from "utils";
 import { useToaster } from "components/Snackbar/AlertToaster";
@@ -52,14 +52,21 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function UserProfile() {
+export default function UserProfile(props) {
+
+  const { match } = props;
+  const { id } = match.params;
+
   const toaster = useToaster();
   const history = useHistory();
   const classes = useStyles();
 
-  const [userProfileState] = useState({
-    initialValues,
-    validationSchema,
+  const [userProfileState, setUserProfileState] = useState({
+    initialValues: {
+      ...initialValues,
+      btnTxt: "Create Profile"
+    },
+    validationSchema
   });
 
   const onSubmit = async (values) => {
@@ -70,13 +77,41 @@ export default function UserProfile() {
         referral: values.referral ? values.referral.name : ""
       });
       formData.append("MEMBER_PIC", values.image);
-      await createMember(formData);
-      history.push("/admin/table");
+      if (values.id) {
+        await updateMember(values.id, formData);
+      } else {
+        await createMember(formData);
+      }
       toaster(MSG_TYPE.SUCCESS, "Profile updated successfully");
+      history.push("/admin/table");
     } catch (err) {
       toaster(MSG_TYPE.WARNING, err);
     }
   };
+
+  const onMemberEdit = async () => {
+    try {
+      const { data } = await fetchMember(id);
+      setUserProfileState(prevState => {
+        return {
+          ...prevState,
+          initialValues: {
+            ...prevState,
+            ...data,
+            vaccinated: data.vaccinated ? "1" : "0",
+            existProfilePic: data.image,
+            btnTxt: "Update Profile"
+          }
+        }
+      });
+    } catch (err) {
+      // toaster(MSG_TYPE.ERROR, err);
+    }
+  };
+
+  useEffect(() => {
+    if (id) onMemberEdit();
+  }, []);
 
   return (
     <Formik
@@ -307,7 +342,7 @@ export default function UserProfile() {
                       </GridContainer>
                     </CardBody>
                     <CardFooter>
-                      <Button type="submit" color="primary">Create Profile</Button>
+                      <Button type="submit" color="primary">{values.btnTxt}</Button>
                     </CardFooter>
                   </Card>
                 </GridItem>
