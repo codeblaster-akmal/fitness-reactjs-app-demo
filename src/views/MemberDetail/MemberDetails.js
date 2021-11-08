@@ -1,20 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { Box } from '@material-ui/core';
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core';
-import ProfileCard from 'assets/jss/material-dashboard-react/components/profileCard';
 import MemberDetailStyleWrapper from 'assets/jss/material-dashboard-react/views/MemberDetailStyle'
-import avatar from "assets/img/faces/marc.jpg";
-import Card from 'components/Card/Card';
-import CardBody from 'components/Card/CardBody';
-import CardHeader from 'components/Card/CardHeader';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
-import { TableHeader, Column, TableContainer, TableRow } from 'views/TableList/table.styles';
-import Button from "components/CustomButtons/Button.js";
-import AddIcon from '@material-ui/icons/Add';
 import { fetchCategoryPeriodAmounts, fetchMember } from './memberDetail.service';
-import NewTransactionForm from './NewTransactionForm';
-import { ThreeDRotationSharp } from '@material-ui/icons';
+import { HiCurrencyRupee } from "react-icons/hi";
+import CustomTabs from 'components/CustomTabs/CustomTabs';
+import { BiDetail } from "react-icons/bi";
+import MemberInfo from './MemberInfo';
+import MemberTransaction from './MemberTransaction';
+import { CgTrack } from 'react-icons/cg'
+import MemberTrack from './MemberTrack';
 
 const styles = {
     cardCategoryWhite: {
@@ -193,91 +189,38 @@ const MemberDetails = (props) => {
         <MemberDetailStyleWrapper>
             {member &&
                 <GridContainer spacing={2}>
-                    <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <Card>
-                            <CardHeader color="primary">
-                                <h4 className={classes.cardTitleWhite}>
-                                    Transaction
-                                </h4>
-                            </CardHeader>
-                            <CardBody>
-                                {member.member_transactions.map(transaction => (
-                                    <Fragment key={transaction.id}>
-                                        <input
-                                            type="radio"
-                                            id={`card-${transaction.id}`}
-                                            name={transaction.id}
-                                            onChange={handleTransactionRadio(transaction.id)}
-                                            checked={transaction.isSelected}
-                                        />
-                                        <label htmlFor={`card-${transaction.id}`}>
-                                            <Box padding={2} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
-                                                <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
-                                                <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
-                                                <Box color='success.main'>{transaction.status}</Box>
-                                                <Box color='info.main'>From: {transaction.from} To: {transaction.to}</Box>
-                                            </Box>
-                                        </label>
-                                    </Fragment>
-                                ))}
-                            </CardBody>
-                        </Card>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={6}>
-                        <Card>
-                            <CardHeader color="primary">
-                                <h4 className={classes.cardTitleWhite}>
-                                    Details
-                                </h4>
-                            </CardHeader>
-                            <CardBody>
-                                <GridContainer justifyContent='center'>
-                                    <GridItem>
-                                        <Button startIcon={<AddIcon />} color="primary" onClick={handleOpen}>New Transaction</Button>
-                                    </GridItem>
-                                    <GridItem>
-                                        <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-                                            userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo} />
-                                    </GridItem>
-                                </GridContainer>
-                                <TableHeader>
-                                    {headerColumns.map(column => (
-                                        <Column
-                                            key={column.id}
-                                            size={column.width}
-                                            alignTo={column.align}
-                                        >
-                                            {column.label}
-                                        </Column>
-                                    ))}
-                                </TableHeader>
-                                <TableContainer>
-                                    {transactionDetail.map(
-                                        (row) => {
-                                            return (
-                                                <TableRow key={row.id}>
-                                                    <Column size={row.width} alignTo="left">
-                                                        {row.date}
-                                                    </Column>
-                                                    <Column size={row.width} alignTo="left">
-                                                        {row.amount}
-                                                    </Column>
-                                                </TableRow>
-                                            );
-                                        }
-                                    )}
-                                </TableContainer>
-                            </CardBody>
-                        </Card>
+                    <GridItem xs={12} sm={12} md={12} lg={12}>
+                        <CustomTabs
+                            // title="Detail:"
+                            headerColor="primary"
+                            tabs={[
+                                {
+                                    tabName: "Member info",
+                                    tabIcon: BiDetail,
+                                    tabContent: (
+                                        <MemberInfo member={member} />
+                                    ),
+                                },
+                                {
+                                    tabName: "Transaction",
+                                    tabIcon: HiCurrencyRupee,
+                                    tabContent: (
+                                        <MemberTransaction member={member} open={open} handleOpen={handleOpen} handleClose={handleClose} handleTransactionRadio={handleTransactionRadio} headerColumns={headerColumns} transactionDetail={transactionDetail} id={id} categoryPeriodAmounts={categoryPeriodAmounts} />
+                                    ),
+                                },
+                                {
+                                    tabName: "Member track",
+                                    tabIcon: CgTrack,
+                                    tabContent: (
+                                        <MemberTrack />
+                                    ),
+                                },
+                            ]}
+                        />
+
                     </GridItem>
                 </GridContainer>
             }
-            <NewTransactionForm
-                open={open}
-                handleClose={handleClose}
-                categoryPeriodAmounts={categoryPeriodAmounts}
-                id={id}
-            />
         </MemberDetailStyleWrapper>
     )
 }
