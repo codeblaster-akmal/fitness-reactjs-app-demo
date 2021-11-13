@@ -1,17 +1,16 @@
 import GridContainer from "components/Grid/GridContainer";
 import GridItem from "components/Grid/GridItem";
-import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import RemoveIcon from '@material-ui/icons/Remove';
 // core components
 import React, { useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import OtpInput from "react-otp-input";
 import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/MemberSigninStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Info from "components/Typography/Info.js";
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
-import { Snackbar, Slide, Collapse } from "@material-ui/core";
+import { Snackbar, Slide, Collapse, Box } from "@material-ui/core";
 import avatar from "assets/img/faces/marc.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
@@ -154,39 +153,41 @@ const Signin = () => {
                   <GridItem xs={6} sm={6} md={4}>
                     <Card>
                       <CardBody>
+                        <CardAvatar profile>
+                          <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                            <img src={avatar} alt="..." />
+                          </a>
+                        </CardAvatar>
+                        <h5>Username / ID</h5>
                         <TextFieldInput
                           autoComplete='on'
-                          label="Search by Username/ID"
+                          placeholder="Search by Username/ID"
                           name="user"
                           value={values.user}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          InputProps={{
+                            readOnly: signin.disableSearchInput
+                          }}
                           helperText={
                             errors.user &&
                             touched.user &&
                             errors.user
                           }
                           error={errors.user && touched.user}
-                          InputProps={{
-                            readOnly: signin.disableSearchInput,
-                            endAdornment: (
-                              <InputAdornment>
-                                <Button size="small" color="white" type={signin.searchBtnType}>
-                                  Search
-                                </Button>
-                              </InputAdornment>
-                            ),
-                          }}
                         />
+                        <Box display='flex' justifyContent="flex-end">
+                          <Button size="small" color="primary" type={signin.searchBtnType}>
+                            Search
+                          </Button>
+                        </Box>
                         <Collapse in={signin.disableSearchInput}>
-                          <Info>
-                            <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
-                          </Info>
+                          <h5>{(signin?.memberInfo?.isSignup === false) ? "Generate Pin" : "Enter Pin"}</h5>
                           <OtpInput
                             inputStyle="inputStyle"
                             isInputNum
                             numInputs={4}
-                            separator={<FitnessCenterIcon className='dumbell-seperator' />}
+                            separator={<RemoveIcon className='dumbell-seperator' />}
                             shouldAutoFocus
                             focusStyle="isInputFocus"
                             containerStyle="containerStyle"

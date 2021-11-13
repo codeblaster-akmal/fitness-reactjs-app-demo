@@ -1,11 +1,14 @@
 import React from 'react'
-import { FaGooglePay } from "react-icons/fa";
+// import { FaGooglePay } from "react-icons/fa";
 import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import QRcode from "assets/img/QR-Code.png";
-import UPIpayment from "assets/img/Online-UPI-Payment.png";
+// import UPIpayment from "assets/img/Online-UPI-Payment.png";
+import Button from "components/CustomButtons/Button.js";
+import { BiScan } from "react-icons/bi"
+import { Box } from '@material-ui/core';
 
 const CustomerFixedPluginStyles = styled.div`
   .payment-button{
@@ -13,29 +16,15 @@ const CustomerFixedPluginStyles = styled.div`
     top: 10rem;
     z-index: 1;
     right: 0;
-    max-width: 15%;
-    background: rgba(0,0,0,.3);
+    max-width: 15%;    
     border-radius: .5rem 0 0 .5rem;
     cursor: pointer;
-    padding: 0.5rem;
-      h6{
-          text-transform: inherit;
-          margin:0; 
-          line-height:1.5;
-        }
-        img{
-            width: 100%;
-            height: 100%;
-        }
+    padding: 0.5rem;      
+        
   }
   
 `;
-const PopperContent = styled.div`
-  .popper-content{
-      display: flex;
-      flex-direction: column;
-  }
-`;
+
 const CustomFixedplugin = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
@@ -51,20 +40,16 @@ const CustomFixedplugin = () => {
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
-                        <Paper>
-                            <PopperContent>
-                                <img src={QRcode} alt="UPI" />
-                            </PopperContent>
-                        </Paper>
+                        <Box width='50%' height='50%' marginLeft='auto'>
+                            <img src={QRcode} alt="UPI" width='100%' height='100%' />
+                        </Box>
                     </Fade>
                 )}
             </Popper>
-            <div className='payment-button' onClick={handleClick('left-start')}>
-                <h6>
-                    {/* <FaGooglePay /> */}
-                    Pay using UPI
-                </h6>
-                <img src={UPIpayment} alt="UPI" />
+            <div className="payment-button">
+                <Button startIcon={<BiScan />} size="small" color="primary" onClick={handleClick('left')} round>
+                    Show QR
+                </Button>
             </div>
         </CustomerFixedPluginStyles>
     )

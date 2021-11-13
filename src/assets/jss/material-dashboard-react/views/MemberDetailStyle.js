@@ -38,6 +38,9 @@ const MemberDetailStyleWrapper = styled.div`
 .date-field{
     margin-top: 1rem;
 }
+h5{
+    margin-bottom: 8px;
+}
 `;
 
 export default MemberDetailStyleWrapper;

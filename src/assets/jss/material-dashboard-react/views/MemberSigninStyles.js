@@ -10,10 +10,7 @@ const MemberSigninStyleWrapper = styled.div`
       height: 100%;
       position:relative; 
       z-index:1;    
-      h5 {
-        text-align: center;
-      }
-    }
+    }    
   }
   .containerStyle {
     justify-content: center;
@@ -23,8 +20,10 @@ const MemberSigninStyleWrapper = styled.div`
     height: 1.5rem;
     margin: 0 0.5rem;
     font-size: 1rem;
-    border-radius: 5px;
-    border: 3px solid #777;
+    border-radius: 2px;
+    color: #fff;
+    background-color: ${({ theme }) => theme.color.black};
+    border: 3px solid ${({ theme }) => theme.color.black};
   }  
   .isInputFocus {
     border-color: ${({ theme }) => theme.color.pacificBlue};
@@ -35,7 +34,8 @@ const MemberSigninStyleWrapper = styled.div`
   .submit-button {
     margin-top: 2rem;
     display: flex;
-    justify-content: space-evenly;
+    column-gap: 0.5rem;
+    justify-content: flex-end;
   }
   .MuiSnackbarContent-action{
     margin: auto;

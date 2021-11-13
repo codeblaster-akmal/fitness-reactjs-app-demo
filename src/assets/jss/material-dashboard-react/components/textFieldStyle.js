@@ -5,15 +5,18 @@ const TextFieldInputWrapper = styled.div`
   .MuiOutlinedInput-root,
   .MuiInputLabel-outlined,
   .MuiOutlinedInput-notchedOutline, 
+  .MuiFormLabel-root,
   .MuiInput-underline::before {
     color: #fff;
     border-color: #777;
     font-size: 0.9rem;
   }
-  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+  .MuiOutlinedInput-root.Mui-focused, 
+  .MuiFormLabel-root.Mui-focused, 
+  .MuiOutlinedInput-notchedOutline,
   .MuiInputLabel-shrink,
   .MuiInput-underline::after {
-    border-color: #00acc1;
+    border-color: ${({ theme }) => theme.color.pacificBlue} !important;
     color: ${({ theme }) => theme.color.pacificBlue};
   }
   .MuiOutlinedInput-adornedEnd {
