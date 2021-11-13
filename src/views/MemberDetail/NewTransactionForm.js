@@ -10,8 +10,12 @@ import Button from "components/CustomButtons/Button.js";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 import { createMemberTransaction } from './memberDetail.service';
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
 function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
+
+    const toaster = useToaster();
 
     const initialValues = {
         categoryPeriodAmountId: "",
@@ -19,7 +23,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
         paidAmount: "",
         from: new Date(),
         to: new Date()
-    }
+    };
 
     const validationSchema = Yup.object({
         categoryPeriodAmountId: Yup.object().required('Required!'),
@@ -42,16 +46,15 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
 
     const onSubmit = async values => {
         try {
-            console.log("values: ", values);
             values.status = values.amount === values.paidAmount ? "PAID" : !values.paidAmount ? "UNPAID" : "PARTIALLY";
             values.categoryPeriodAmountId = values.categoryPeriodAmountId.id;
             values.setCurrentDateTime = new Date();
             values.memberId = id;
             await createMemberTransaction(values);
             handleClose();
-            // toaster(MSG_TYPE.ERROR, err);
+            toaster(MSG_TYPE.SUCCESS, "New Transaction created!");
         } catch (err) {
-            // toaster(MSG_TYPE.ERROR, err);
+            toaster(MSG_TYPE.ERROR, err);
         }
     }
 
@@ -83,7 +86,6 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
                         handleSubmit,
                         setFieldValue
                     } = props;
-                    console.log(87678678, errors)
                     return (
                         <form onSubmit={handleSubmit}>
                             <AutocompleteInput

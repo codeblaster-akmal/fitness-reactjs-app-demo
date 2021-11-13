@@ -15,6 +15,8 @@ import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
 import { fetchAllCategoryPeriodAmount, updateCategoryPeriodAmount } from './feeStructures.service';
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
 const styles = {
     cardCategoryWhite: {
@@ -78,6 +80,7 @@ const headerColumns = [
 const FeeStructures = () => {
 
     const classes = useStyles();
+    const toaster = useToaster();
 
     const [data, setData] = useState([]);
 
@@ -86,8 +89,7 @@ const FeeStructures = () => {
             const { data } = await fetchAllCategoryPeriodAmount();
             setData(data);
         } catch (err) {
-            // toaster(MSG_TYPE.ERROR, err);
-            console.log("fetchAllCategoryPeriodAmount", err);
+            toaster(MSG_TYPE.ERROR, err);
         }
     }
 

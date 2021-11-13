@@ -105,7 +105,7 @@ export default function UserProfile(props) {
         }
       });
     } catch (err) {
-      // toaster(MSG_TYPE.ERROR, err);
+      toaster(MSG_TYPE.ERROR, err);
     }
   };
 

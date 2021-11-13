@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core';
 import MemberDetailStyleWrapper from 'assets/jss/material-dashboard-react/views/MemberDetailStyle'
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
@@ -11,32 +10,8 @@ import MemberInfo from './MemberInfo';
 import MemberTransaction from './MemberTransaction';
 import { CgTrack } from 'react-icons/cg'
 import MemberTrack from './MemberTrack';
-
-const styles = {
-    cardCategoryWhite: {
-        color: "rgba(255,255,255,.62)",
-        margin: "0",
-        fontSize: "14px",
-        marginTop: "0",
-        marginBottom: "0",
-    },
-    cardTitleWhite: {
-        color: "#FFFFFF",
-        marginTop: "0px",
-        minHeight: "auto",
-        fontWeight: "300",
-        fontFamily: "'Roboto', 'Poppins', 'Arial', sans-serif",
-        marginBottom: "3px",
-        textDecoration: "none",
-    },
-    cardCategory: {
-        margin: '0.5rem 0',
-        textTransform: "none"
-    },
-    cardTitle: {
-        margin: '0.5rem 0',
-    }
-};
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
 const headerColumns = [
     {
@@ -53,65 +28,13 @@ const headerColumns = [
     },
 ];
 
-const transactionDetail = [
-    {
-        id: 1,
-        align: "left",
-        date: "10/01/2021",
-        amount: "1000",
-        width: "14%",
-    },
-    {
-        id: 2,
-        date: "10/01/2021",
-        amount: '1000',
-        align: "left",
-        width: "14%",
-    },
-    {
-        id: 3,
-        date: "10/01/2021",
-        amount: '1000',
-        width: "14%",
-        align: "left",
-
-    },
-    {
-        id: 4,
-        date: "10/01/2021",
-        amount: '1000',
-        width: "14%",
-    },
-    {
-        id: 5,
-        date: "10/01/2021",
-        amount: '1000',
-        width: "14%",
-        align: "left",
-    },
-    {
-        id: 6,
-        date: "10/01/2021",
-        amount: '1000',
-        width: "14%",
-
-    },
-    {
-        id: 7,
-        date: "10/01/2021",
-        damount: '1000',
-        width: "14%",
-    },
-];
-
-const useStyles = makeStyles(styles);
-
 const MemberDetails = (props) => {
 
     const { match } = props;
     const { id } = match.params;
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const toaster = useToaster();
 
-    const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [member, setMember] = useState();
     const [categoryPeriodAmounts, setCategoryPeriodAmounts] = useState([]);
@@ -120,34 +43,35 @@ const MemberDetails = (props) => {
 
     const handleClose = () => setOpen(false);
 
-    const memberStateUpdate = data => {
-        setMember(data);
-    }
-
     const getMemberDetail = async () => {
         try {
             const { data } = await fetchMember(id);
-            console.log("data: ", data)
-            memberStateUpdate({
+            setMember({
                 ...data,
+                image: data.image && `${baseUrl}/${data.image}`,
                 member_transactions: data.member_transactions.map(transaction => {
                     return {
                         ...transaction,
                         from: new Date(transaction.from).toDateString(),
                         to: new Date(transaction.to).toDateString(),
-                        isSelected: false
+                        isSelected: false,
+                        member_transaction_tracks: transaction.member_transaction_tracks.map(transactionTrack => {
+                            return {
+                                ...transactionTrack,
+                                date: new Date(transactionTrack.setCurrentDateTime).toLocaleDateString(),
+                            }
+                        })
                     }
                 })
             });
         } catch (err) {
-            // toaster(MSG_TYPE.ERROR, err);
+            toaster(MSG_TYPE.ERROR, err);
         }
     }
 
     const getCategoryPeriodAmounts = async () => {
         try {
             const { data } = await fetchCategoryPeriodAmounts();
-            console.log(87687678, data);
             setCategoryPeriodAmounts(data.map(item => {
                 return {
                     ...item,
@@ -155,16 +79,18 @@ const MemberDetails = (props) => {
                 }
             }));
         } catch (err) {
-            // toaster(MSG_TYPE.ERROR, err);
+            toaster(MSG_TYPE.ERROR, err);
         }
     }
 
     const handleTransactionRadio = (tId) => () => {
-        memberStateUpdate(prevState => {
+        setMember(prevState => {
+            let selectedTransaction;
             return {
                 ...prevState,
                 member_transactions: prevState.member_transactions.map(transaction => {
                     if (tId === transaction.id) {
+                        selectedTransaction = transaction;
                         return {
                             ...transaction,
                             isSelected: true
@@ -175,7 +101,8 @@ const MemberDetails = (props) => {
                             isSelected: false
                         }
                     }
-                })
+                }),
+                selectedTransaction
             }
         });
     }
@@ -205,7 +132,7 @@ const MemberDetails = (props) => {
                                     tabName: "Transaction",
                                     tabIcon: HiCurrencyRupee,
                                     tabContent: (
-                                        <MemberTransaction member={member} open={open} handleOpen={handleOpen} handleClose={handleClose} handleTransactionRadio={handleTransactionRadio} headerColumns={headerColumns} transactionDetail={transactionDetail} id={id} categoryPeriodAmounts={categoryPeriodAmounts} />
+                                        <MemberTransaction member={member} open={open} handleOpen={handleOpen} handleClose={handleClose} handleTransactionRadio={handleTransactionRadio} headerColumns={headerColumns} id={id} categoryPeriodAmounts={categoryPeriodAmounts} />
                                     ),
                                 },
                                 {

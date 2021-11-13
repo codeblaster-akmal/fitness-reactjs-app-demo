@@ -9,8 +9,10 @@ import { TableContainer } from 'views/TableList/table.styles';
 import { TableRow } from 'views/TableList/table.styles';
 import AddIcon from '@material-ui/icons/Add';
 import NewTransactionForm from './NewTransactionForm';
+import TransactionTrackForm from './TransactionTrackForm';
 
-const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, transactionDetail, handleTransactionRadio }) => {
+const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio }) => {
+
     return (
         <Box height='100vh' overflow='visible'>
             <GridContainer spacing={4}>
@@ -37,38 +39,42 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                     ))}
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6} lg={6}>
-                    <GridContainer justifyContent='center'>
+                    <GridContainer justifyContent='flex-end'>
                         <GridItem>
                             <Button startIcon={<AddIcon />} color="primary" onClick={handleOpen}>New Transaction</Button>
                         </GridItem>
                     </GridContainer>
-                    <TableHeader>
-                        {headerColumns.map(column => (
-                            <Column
-                                key={column.id}
-                                size={column.width}
-                                alignTo={column.align}
-                            >
-                                {column.label}
-                            </Column>
-                        ))}
-                    </TableHeader>
-                    <TableContainer>
-                        {transactionDetail.map(
-                            (row) => {
-                                return (
-                                    <TableRow key={row.id}>
-                                        <Column size={row.width} alignTo="left">
-                                            {row.date}
-                                        </Column>
-                                        <Column size={row.width} alignTo="left">
-                                            {row.amount}
-                                        </Column>
-                                    </TableRow>
-                                );
-                            }
-                        )}
-                    </TableContainer>
+                    {member.selectedTransaction &&
+                        <>
+                            <TransactionTrackForm member={member} />
+                            <TableHeader>
+                                {headerColumns.map(column => (
+                                    <Column
+                                        key={column.id}
+                                        size={column.width}
+                                        alignTo={column.align}
+                                    >
+                                        {column.label}
+                                    </Column>
+                                ))}
+                            </TableHeader>
+                            <TableContainer>
+                                {member.selectedTransaction.member_transaction_tracks.map((row) => {
+                                    return (
+                                        <TableRow key={row.id}>
+                                            <Column size={row.width} alignTo="left">
+                                                {row.date}
+                                            </Column>
+                                            <Column size={row.width} alignTo="left">
+                                                {row.amount}
+                                            </Column>
+                                        </TableRow>
+                                    );
+                                }
+                                )}
+                            </TableContainer>
+                        </>
+                    }
                 </GridItem>
             </GridContainer>
             <NewTransactionForm
