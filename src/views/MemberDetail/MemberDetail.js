@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MemberDetailStyleWrapper from 'assets/jss/material-dashboard-react/views/MemberDetailStyle'
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
-import { fetchCategoryPeriodAmounts, fetchMember } from './memberDetail.service';
+import { fetchCategoryPeriodAmounts, fetchMember } from './MemberDetail.service';
 import { HiCurrencyRupee } from "react-icons/hi";
 import CustomTabs from 'components/CustomTabs/CustomTabs';
 import { BiDetail } from "react-icons/bi";
@@ -28,7 +28,7 @@ const headerColumns = [
     },
 ];
 
-const MemberDetails = (props) => {
+const MemberDetail = (props) => {
 
     const { match } = props;
     const { id } = match.params;
@@ -152,4 +152,4 @@ const MemberDetails = (props) => {
     )
 }
 
-export default MemberDetails
+export default MemberDetail

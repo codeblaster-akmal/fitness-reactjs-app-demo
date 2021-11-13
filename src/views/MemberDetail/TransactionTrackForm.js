@@ -4,7 +4,7 @@ import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
 import Primary from 'components/Typography/Primary';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
-import { createMemberTransactionTrack } from './memberDetail.service';
+import { createMemberTransactionTrack } from './MemberDetail.service';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Button from "components/CustomButtons/Button";

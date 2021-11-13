@@ -10,8 +10,8 @@ import CardBody from "components/Card/CardBody.js";
 import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
-import { listMembers } from "./tableList.service";
-import { Column, TableContainer, TableHeader, TableRow } from "./table.styles";
+import { listMembers } from "./MemberList.service";
+import { Column, TableContainer, TableHeader, TableRow } from "./MemberList.styles";
 import { getFormattedDate } from "utils/dateNtime";
 
 const styles = {

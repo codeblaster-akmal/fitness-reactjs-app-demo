@@ -3,10 +3,10 @@ import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import React, { Fragment } from 'react'
 import Button from "components/CustomButtons/Button.js";
-import { TableHeader } from 'views/TableList/table.styles';
-import { Column } from 'views/TableList/table.styles';
-import { TableContainer } from 'views/TableList/table.styles';
-import { TableRow } from 'views/TableList/table.styles';
+import { TableHeader } from 'views/MemberList/MemberList.styles.js';
+import { Column } from 'views/MemberList/MemberList.styles.js';
+import { TableContainer } from 'views/MemberList/MemberList.styles.js';
+import { TableRow } from 'views/MemberList/MemberList.styles.js';
 import AddIcon from '@material-ui/icons/Add';
 import NewTransactionForm from './NewTransactionForm';
 import TransactionTrackForm from './TransactionTrackForm';

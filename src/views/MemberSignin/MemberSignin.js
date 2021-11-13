@@ -15,7 +15,7 @@ import avatar from "assets/img/faces/marc.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { fetchMember, updateMember, updateMemberTrack } from "./memberSignin.service";
+import { fetchMember, updateMember, updateMemberTrack } from "./MemberSignin.service";
 import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";

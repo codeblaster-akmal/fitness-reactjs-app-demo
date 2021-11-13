@@ -9,7 +9,7 @@ import GridItem from 'components/Grid/GridItem';
 import Button from "components/CustomButtons/Button.js";
 import { Formik } from "formik";
 import * as Yup from 'yup';
-import { createMemberTransaction } from './memberDetail.service';
+import { createMemberTransaction } from './MemberDetail.service';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
