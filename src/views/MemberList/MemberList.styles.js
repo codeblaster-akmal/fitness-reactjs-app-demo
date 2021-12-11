@@ -12,7 +12,7 @@ const TableHeader = styled.li`
   top: 0;
   z-index: 1;
   display: flex;
-  position: sticky;
+  position: ${({ position }) => position || 'sticky'};;
   text-align: center;
   align-items: center;
   padding: 0.5rem 0.5rem;
@@ -52,7 +52,7 @@ const TableRow = styled.li`
   }
 `;
 
-const TableContainer = styled.div(({ staticHeight = "35vh" }) => {
+const TableContainer = styled.div(({ staticHeight = "45vh" }) => {
   return {
     overflowY: "auto",
     height: `calc(100vh - ${staticHeight})`,

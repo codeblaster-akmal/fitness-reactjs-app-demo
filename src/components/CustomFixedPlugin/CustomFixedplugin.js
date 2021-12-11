@@ -13,13 +13,12 @@ import { Box } from '@material-ui/core';
 const CustomerFixedPluginStyles = styled.div`
   .payment-button{
     position: absolute;
-    top: 10rem;
+    top: 8rem;
     z-index: 1;
-    right: 0;
-    max-width: 15%;    
+    right: -4px;
     border-radius: .5rem 0 0 .5rem;
     cursor: pointer;
-    padding: 0.5rem;      
+    padding: 0.5rem 0;      
         
   }
   

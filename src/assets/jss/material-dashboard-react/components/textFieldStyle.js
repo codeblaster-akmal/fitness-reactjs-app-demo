@@ -23,12 +23,17 @@ const TextFieldInputWrapper = styled.div`
     padding-right: 0;
   }
   .MuiInputAdornment-positionStart{
-    margin: 0;
+    margin-left: -5px ;
   }
   .MuiSvgIcon-root {
     color: #fff;
   }
-   
+  .MuiFormLabel-root.Mui-disabled{
+    color: #777;
+  }
+  .MuiInputAdornment-root{
+    height: 2em;
+  }
 `;
 
 export default TextFieldInputWrapper;

@@ -10,9 +10,14 @@ import CardBody from "components/Card/CardBody.js";
 import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
-import { listMembers } from "./MemberList.service";
+import { listMembers, signedInOptions } from "./MemberList.service";
 import { Column, TableContainer, TableHeader, TableRow } from "./MemberList.styles";
 import { getFormattedDate } from "utils/dateNtime";
+import TextFieldInputWrapper from "assets/jss/material-dashboard-react/components/textFieldStyle";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import TextFieldInput from "components/TextFieldInput/TextFieldInput";
+import AutocompleteInput from "components/AutocompleteInput/AutocompleteInput";
+import { Box } from "@material-ui/core";
 
 const styles = {
   cardCategoryWhite: {
@@ -82,9 +87,14 @@ const headerColumns = [
     label: "Status",
     width: "12%",
 
+  },{
+    id: 7,
+    label: "Sigined in",
+    width: "5%",
+
   },
   {
-    id: 7,
+    id: 8,
     label: "Actions",
     width: "10%",
   },
@@ -129,6 +139,47 @@ export default function TableList(props) {
             </p>
           </CardHeader>
           <CardBody>
+            <Box my={3}>
+              <GridContainer alignItems='center' justifyContent='space-between'>
+                <GridItem md={3} lg={3}>
+                  <TextFieldInputWrapper>
+                    <KeyboardDatePicker
+                      autoOk
+                      variant="inline"
+                      label="Date"
+                      format="dd/MM/yyyy"
+                      InputAdornmentProps={{ position: "end" }}
+                    />
+                  </TextFieldInputWrapper>
+                </GridItem>
+                <GridItem md={3} lg={3}>
+                  <TextFieldInput
+                    label="Id / Name / Phone no."
+                    name="searchByAll"
+                    variant="standard"
+                  />
+                </GridItem>
+                <GridItem md={3} lg={3}>
+                  <AutocompleteInput
+                    label="Status"
+                    name="status"
+                    variant="standard"
+                    id="status"
+                    optionTitle="name"
+                  />
+                </GridItem>
+                <GridItem md={3} lg={3}>
+                  <AutocompleteInput
+                    label="Signed in"
+                    name="signedIn"
+                    variant="standard"
+                    id="status"
+                    options={signedInOptions}
+                    optionTitle="name"
+                  />
+                </GridItem>
+              </GridContainer>
+            </Box>
             <TableHeader>
               {headerColumns.map((column) => (
                 <Column
@@ -158,6 +209,7 @@ export default function TableList(props) {
                         {"In"}
                       </Success> : <Warning>{"Out"}</Warning>}
                     </Column>
+                    <Column size="5%" alignTo="left">{'Yes'}</Column>
                     <Column size="10%">
                       <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick} OnEditClick={handleEditClick(row.id)} />
                     </Column>

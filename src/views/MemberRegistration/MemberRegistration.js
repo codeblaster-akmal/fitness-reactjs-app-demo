@@ -47,6 +47,9 @@ const styles = {
   },
   cardTitle: {
     margin: '0.5rem 0',
+  },
+  radioFieldGroup: {
+    alignSelf: 'flex-end'
   }
 };
 
@@ -225,7 +228,7 @@ export default function UserProfile(props) {
                             inputProps={{ maxLength: 3 }}
                           />
                         </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
+                        <GridItem xs={12} sm={6} md={6} className={classes.radioFieldGroup}>
                           <CustomizedRadios
                             FormTitle="Gender"
                             name="gender"
@@ -297,7 +300,7 @@ export default function UserProfile(props) {
                             getOptionLabel={options => options && options.name ? options.name : ''}
                           />
                         </GridItem>
-                        <GridItem xs={12} sm={6} md={4}>
+                        <GridItem xs={12} sm={6} md={4} className={classes.radioFieldGroup}>
                           <CustomizedRadios
                             FormTitle="Vacinated"
                             name="vaccinated"

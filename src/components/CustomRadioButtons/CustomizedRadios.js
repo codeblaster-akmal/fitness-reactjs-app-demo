@@ -10,13 +10,16 @@ import PropTypes from "prop-types";
 
 const RadioStyleWrapper = styled.div`
   .MuiFormLabel-root.Mui-focused {
-    color: #00acc1;
+    color: ${({ theme }) => theme.color.pacificBlue};
   }
   .MuiFormLabel-root {
     color: #fff;
   }
+  .MuiFormControl-root ,
   .MuiFormGroup-root {
+    column-gap: 1.5rem;
     flex-direction: row;
+    align-items: flex-end;
   }
   legend {
     margin-bottom: 10px;
@@ -87,7 +90,7 @@ export function StyledRadio(props) {
 export default function CustomizedRadios({ FormTitle, children, ...rest }) {
   return (
     <RadioStyleWrapper>
-      <FormControl component="fieldset">
+      <FormControl component="div" fullWidth>
         <FormLabel component="legend">{FormTitle}</FormLabel>
         <RadioGroup {...rest}>{children}</RadioGroup>
       </FormControl>

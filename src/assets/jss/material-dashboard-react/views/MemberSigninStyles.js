@@ -1,16 +1,59 @@
 import styled from "styled-components";
-import BgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/exercise-weights.jpg'
 
 const MemberSigninStyleWrapper = styled.div`  
   .triangle-background {
-    background: url(${BgImage}) center / cover;
     width: 100vw;
     height: 100vh;    
+    position: relative;
+    overflow: hidden;
+    video{
+      position: absolute;
+      top: 0;
+      left: 0;      
+      object-fit: cover;
+    }
     .grid-container {
       height: 100%;
       position:relative; 
       z-index:1;    
     }    
+    .typewriter p {
+    font-size: 45px;
+    font-weight: lighter;
+    white-space: nowrap;
+    position: relative;
+    overflow:hidden ;
+    padding: 1rem .5rem;
+    animation: typing 4.5s steps(20) infinite;
+}
+.typewriter p::after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 4px;
+    background: #dadada;
+    right: 0;
+    top: 0;
+    animation: cursor 1s infinite;
+}
+
+@keyframes typing {
+    from {width:0}
+    to {width: 100%;}
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
   }
   .containerStyle {
     justify-content: center;

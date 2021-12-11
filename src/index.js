@@ -29,6 +29,7 @@ import Signin from "views/MemberSignin/MemberSignin";
 import AlertToaster from "components/Snackbar/AlertToaster";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import Login from "views/Login/Login";
 
 ReactDOM.render(
   <ThemeProvider theme={StyleVariables}>
@@ -38,6 +39,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/admin" component={Admin} />
             <Route path="/signin" component={Signin} />
+            <Route path="/login" component={Login} />
             <Route path="/rtl" component={RTL} />
             <Redirect from="/" to="/admin/user" />
           </Switch>

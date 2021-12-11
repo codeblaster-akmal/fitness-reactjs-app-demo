@@ -8,8 +8,6 @@ import CustomTabs from 'components/CustomTabs/CustomTabs';
 import { BiDetail } from "react-icons/bi";
 import MemberInfo from './MemberInfo';
 import MemberTransaction from './MemberTransaction';
-import { CgTrack } from 'react-icons/cg'
-import MemberTrack from './MemberTrack';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
@@ -134,14 +132,7 @@ const MemberDetail = (props) => {
                                     tabContent: (
                                         <MemberTransaction member={member} open={open} handleOpen={handleOpen} handleClose={handleClose} handleTransactionRadio={handleTransactionRadio} headerColumns={headerColumns} id={id} categoryPeriodAmounts={categoryPeriodAmounts} />
                                     ),
-                                },
-                                {
-                                    tabName: "Member track",
-                                    tabIcon: CgTrack,
-                                    tabContent: (
-                                        <MemberTrack />
-                                    ),
-                                },
+                                },                                
                             ]}
                         />
 

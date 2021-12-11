@@ -11,7 +11,7 @@ import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
 import { Snackbar, Slide, Collapse, Box } from "@material-ui/core";
-import avatar from "assets/img/faces/marc.jpg";
+import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
@@ -149,8 +149,19 @@ const Signin = () => {
           <form onSubmit={handleSubmit}>
             <MemberSigninStyleWrapper>
               <div className="triangle-background">
-                <GridContainer justify="center" alignItems='center' className="grid-container">
-                  <GridItem xs={6} sm={6} md={4}>
+                <video
+                  src="https://www.spinat.fr/wp-content/uploads/2020/11/green-color-powder-explosion-on-black-isolated-bac-A5B68UY.webmhd.mp4"
+                  style={{ width: window.innerWidth, height: window.innerHeight }}
+                  muted
+                  loop
+                  playsInline
+                  autoPlay>
+                </video>
+                <GridContainer justifyContent="center" alignItems='center' className="grid-container">
+                  <GridItem xs={10} sm={10} md={4} lg={4}>
+                    <div class="typewriter">
+                      <p>Welcome to <strong>Pro-Fit Gym</strong></p>
+                    </div>
                     <Card>
                       <CardBody>
                         <CardAvatar profile>
@@ -160,7 +171,8 @@ const Signin = () => {
                         </CardAvatar>
                         <h5>Username / ID</h5>
                         <TextFieldInput
-                          autoComplete='on'
+                          autoFocus
+                          autoComplete='email number'
                           placeholder="Search by Username/ID"
                           name="user"
                           value={values.user}
@@ -220,19 +232,20 @@ const Signin = () => {
                   onClose={handleClose}
                   autoHideDuration={3000}
                   key={vertical + horizontal}
-                  action={<Card profile>
-                    <CardAvatar profile>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <img src={avatar} alt="..." />
-                      </a>
-                    </CardAvatar>
-                    <CardBody profile>
-                      <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
-                      <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
-                      <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
-                      <h6>Fee status</h6>
-                    </CardBody>
-                  </Card>}
+                  action={
+                    <Card profile>
+                      <CardAvatar profile>
+                        <a href="#user" onClick={(e) => e.preventDefault()}>
+                          <img src={avatar} alt="..." />
+                        </a>
+                      </CardAvatar>
+                      <CardBody profile>
+                        <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
+                        <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
+                        <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
+                        <h6>Fee status</h6>
+                      </CardBody>
+                    </Card>}
                 />
                 <CustomFixedplugin />
               </div>

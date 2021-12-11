@@ -211,7 +211,7 @@ export default function Notifications() {
         </GridContainer>
         <br />
         <br />
-        <GridContainer justify="center">
+        <GridContainer justifyContent="center">
           <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>
             <h5>
               Notifications Places
@@ -220,7 +220,7 @@ export default function Notifications() {
             </h5>
           </GridItem>
         </GridContainer>
-        <GridContainer justify="center">
+        <GridContainer justifyContent="center">
           <GridItem xs={12} sm={12} md={10} lg={8}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={4}>
@@ -280,7 +280,7 @@ export default function Notifications() {
             </GridContainer>
           </GridItem>
         </GridContainer>
-        <GridContainer justify={"center"}>
+        <GridContainer justifyContent={"center"}>
           <GridItem xs={12} sm={12} md={10} lg={8}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={4}>

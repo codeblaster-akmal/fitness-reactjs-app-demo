@@ -1,16 +1,20 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect } from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classnames from "classnames";
-
 import imagine1 from "assets/img/body-builder-1.jpg";
 import imagine2 from "assets/img/body-builder-2.jpg";
 import imagine3 from "assets/img/body-builder-3.jpg";
 import imagine4 from "assets/img/body-builder-4.jpg";
 
-// import Button from "components/CustomButtons/Button.js";
+const imagesContainer = [
+  { id: 1, currentSlide: imagine1 },
+  { id: 2, currentSlide: imagine2 },
+  { id: 3, currentSlide: imagine3 },
+  { id: 4, currentSlide: imagine4 },
+]
 
 export default function FixedPlugin(props) {
   // const [classes, setClasses] = React.useState("dropdown show");
@@ -19,11 +23,26 @@ export default function FixedPlugin(props) {
   const handleClick = () => {
     props.handleFixedClick();
   };
+
+  // const handleAutoChange = () => {
+  //   for (let imageIndex = 0; imageIndex < imagesContainer.length; imageIndex++) {
+  //     const intervel = setInterval(() => {
+  //       setBgImage(imagesContainer[imageIndex].currentSlide);
+  //       props.handleImageClick(imagesContainer[imageIndex].currentSlide);
+  //       if (imageIndex === imagesContainer.length) {
+  //         clearInterval(intervel);
+  //       }
+  //       console.log(`9867865`, imageIndex)
+  //     }, 3000);
+  //   }
+  // }
+
+  useEffect(() => {
+    // handleAutoChange()
+  }, [bgImage])
   return (
     <div
-      className={classnames("fixed-plugin", {
-        "rtl-fixed-plugin": props.rtlActive,
-      })}
+      className={classnames("fixed-plugin")}
     >
       <div id="fixedPluginClasses" className={props.fixedClasses}>
         <div onClick={handleClick}>
@@ -82,50 +101,16 @@ export default function FixedPlugin(props) {
             </a>
           </li>
           <li className="header-title">Images</li>
-          <li className={bgImage === imagine1 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine1);
-                props.handleImageClick(imagine1);
-              }}
-            >
-              <img src={imagine1} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine2 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine2);
-                props.handleImageClick(imagine2);
-              }}
-            >
-              <img src={imagine2} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine3 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine3);
-                props.handleImageClick(imagine3);
-              }}
-            >
-              <img src={imagine3} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine4 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine4);
-                props.handleImageClick(imagine4);
-              }}
-            >
-              <img src={imagine4} alt="..." />
-            </a>
-          </li>
+          {imagesContainer.map((img => (
+            <li key={img.id} className={bgImage === img.currentSlide ? "active" : ""}>
+              <a
+                className="img-holder switch-trigger"
+              //onClick={() => handleAutoChange(img)}
+              >
+                <img src={img.currentSlide} alt="..." />
+              </a>
+            </li>
+          )))}
           <li className="adjustments-line" />
         </ul>
       </div>
@@ -136,7 +121,6 @@ export default function FixedPlugin(props) {
 FixedPlugin.propTypes = {
   bgImage: PropTypes.string,
   handleFixedClick: PropTypes.func,
-  rtlActive: PropTypes.bool,
   fixedClasses: PropTypes.string,
   bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
   handleColorClick: PropTypes.func,

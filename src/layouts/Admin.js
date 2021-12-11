@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+// import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
@@ -17,6 +17,10 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/body-builder-1.jpg";
 import logo from "assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png";
+import imagine1 from "assets/img/body-builder-1.jpg";
+import imagine2 from "assets/img/body-builder-2.jpg";
+import imagine3 from "assets/img/body-builder-3.jpg";
+import imagine4 from "assets/img/body-builder-4.jpg";
 
 let ps;
 
@@ -41,6 +45,12 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
+  // const imagesContainer = [
+  //   { id: 1, currentSlide: imagine1 },
+  //   { id: 2, currentSlide: imagine2 },
+  //   { id: 3, currentSlide: imagine3 },
+  //   { id: 4, currentSlide: imagine4 },
+  // ]
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -50,9 +60,11 @@ export default function Admin({ ...rest }) {
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
   const handleImageClick = (image) => {
     setImage(image);
   };
+
   const handleColorClick = (color) => {
     setColor(color);
   };
@@ -119,14 +131,14 @@ export default function Admin({ ...rest }) {
           <div className={classes.map}>{switchRoutes}</div>
         )}
         {getRoute() ? <Footer /> : null}
-        <FixedPlugin
+        {/* <FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
           bgColor={color}
           bgImage={image}
           handleFixedClick={handleFixedClick}
           fixedClasses={fixedClasses}
-        />
+        /> */}
       </div>
     </div>
   );

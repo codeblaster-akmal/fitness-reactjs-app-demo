@@ -4,7 +4,7 @@ import TextFieldInput from "components/TextFieldInput/TextFieldInput.js";
 import AutocompleteInputStyleWrapper from "assets/jss/material-dashboard-react/components/autocompleteStyle";
 import PropTypes from "prop-types";
 
-const AutocompleteInput = ({ optionTitle, options, label, ...rest }) => {
+const AutocompleteInput = ({ optionTitle, options, label, variant, ...rest }) => {
   return (
     <AutocompleteInputStyleWrapper>
       <Autocomplete
@@ -12,7 +12,7 @@ const AutocompleteInput = ({ optionTitle, options, label, ...rest }) => {
         options={options}
         getOptionLabel={(option) => option[optionTitle]}
         renderInput={(params) => (
-          <TextFieldInput {...params} label={label} size="small" />
+          <TextFieldInput {...params} label={label} variant={variant} size="small" />
         )}
         {...rest}
       />
