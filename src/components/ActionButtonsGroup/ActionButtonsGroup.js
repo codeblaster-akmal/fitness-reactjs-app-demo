@@ -21,7 +21,7 @@ const ButtonGroupStylewrapper = styled.div`
   
 `;
 
-const ActionButtonsGroup = ({ OnViewClick, OnEditClick, saveIcon, editIcon, viewIcon, OnSaveClick }) => {
+const ActionButtonsGroup = ({ OnViewClick, OnEditClick, saveIcon, editIcon, viewIcon, OnSaveClick, saveBtnType = "button" }) => {
 
     return (
         <ButtonGroupStylewrapper>
@@ -33,7 +33,7 @@ const ActionButtonsGroup = ({ OnViewClick, OnEditClick, saveIcon, editIcon, view
                     <Button onClick={OnEditClick}><EditIcon /></Button>
                 }
                 {saveIcon &&
-                    <Button onClick={OnSaveClick}><SaveIcon /></Button>
+                    <Button type={saveBtnType} onClick={OnSaveClick}><SaveIcon /></Button>
                 }
             </ButtonGroup>
         </ButtonGroupStylewrapper>

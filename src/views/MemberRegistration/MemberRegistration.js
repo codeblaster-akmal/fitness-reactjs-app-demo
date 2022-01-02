@@ -19,7 +19,7 @@ import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema,
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 import { createMember, fetchMember, updateMember } from "./MemberRegistration.service";
-import { useHistory } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { appendFormData } from "utils";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
@@ -55,7 +55,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function UserProfile(props) {
+function UserProfile(props) {
 
   const { match } = props;
   const { id } = match.params;
@@ -365,3 +365,5 @@ UserProfile.propTypes = {
   handleBlur: PropTypes.any,
   handleSubmit: PropTypes.any,
 };
+
+export default withRouter(UserProfile)

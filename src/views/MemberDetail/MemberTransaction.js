@@ -46,7 +46,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                     </GridContainer>
                     {member.selectedTransaction &&
                         <>
-                            <TransactionTrackForm member={member} />
+                            {member.selectedTransaction.status !== "PAID" && <TransactionTrackForm member={member} />}
                             <TableHeader>
                                 {headerColumns.map(column => (
                                     <Column

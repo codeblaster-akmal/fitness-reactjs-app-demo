@@ -9,6 +9,7 @@ import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup
 import { makeStyles } from "@material-ui/core/styles";
 import { TableHeader } from 'views/MemberList/MemberList.styles.js';
 import { Column } from 'views/MemberList/MemberList.styles.js';
+import { TableContainer } from 'views/MemberList/MemberList.styles.js';
 import { TableRow } from 'views/MemberList/MemberList.styles.js';
 import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
 import { fetchAllCategoryPeriodAmount, updateCategoryPeriodAmount } from './FeeStructures.service';
@@ -97,15 +98,19 @@ const FeeStructures = () => {
     }, []);
 
     const validationSchema = Yup.object({
-        amount: Yup.string().required("Required!"),
+        amount: Yup.number().min(1, 'Invalid amount!').required("Required!"),
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values, { setFieldValue }) => {
         try {
-            const { id, amount } = values;
-            await updateCategoryPeriodAmount(id, { amount });
+            if (!values.isDisable) {
+                const { id, amount } = values;
+                await updateCategoryPeriodAmount(id, { amount });
+                setFieldValue("isDisable", true);
+                toaster(MSG_TYPE.SUCCESS, "Amount updated successfully!");
+            }
         } catch (err) {
-            console.log("Fees-structure: ", err);
+            toaster(MSG_TYPE.ERROR, err);
         }
     }
 
@@ -132,65 +137,67 @@ const FeeStructures = () => {
                                     </Column>
                                 ))}
                             </TableHeader>
-                            {data.map((item) => {
-                                return (
-                                    <Formik
-                                        initialValues={{ ...item, isDisable: true }}
-                                        onSubmit={onSubmit}
-                                        validationSchema={validationSchema}
-                                        enableReinitialize
-                                        key={item.id}
-                                    >
-                                        {(props) => {
-                                            const {
-                                                values,
-                                                touched,
-                                                errors,
-                                                handleChange,
-                                                setFieldValue,
-                                                handleBlur,
-                                                handleSubmit
-                                            } = props;
-                                            return (
-                                                <form onSubmit={handleSubmit}>
-                                                    <TableRow>
-                                                        <Column size="20%" alignTo="left">
-                                                            {item.category.name}
-                                                        </Column>
-                                                        <Column size="15%" alignTo="left">{item.period.name}</Column>
-                                                        <Column size="10%" alignTo="left">
-                                                            <TextFieldInput
-                                                                disabled={values.isDisable}
-                                                                name="amount"
-                                                                type="number"
-                                                                variant="standard"
-                                                                value={values.amount}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                helperText={
-                                                                    errors.amount &&
-                                                                    touched.amount &&
-                                                                    errors.amount
-                                                                }
-                                                                error={errors.amount && touched.amount}
-                                                            />
-                                                        </Column>
-                                                        <Column size="10%">
-                                                            <ActionButtonsGroup
-                                                                saveIcon
-                                                                editIcon
-                                                                OnSaveClick={() => onSubmit(values)}
-                                                                OnEditClick={() => setFieldValue("isDisable", !values.isDisable)}
-                                                            />
-                                                        </Column>
-                                                    </TableRow>
-                                                </form>
-                                            );
-                                        }}
-                                    </Formik>
-                                );
-                            }
-                            )}
+                            <TableContainer>
+                                {data.map((item) => {
+                                    return (
+                                        <Formik
+                                            initialValues={{ ...item, isDisable: true }}
+                                            onSubmit={onSubmit}
+                                            validationSchema={validationSchema}
+                                            enableReinitialize
+                                            key={item.id}
+                                        >
+                                            {(props) => {
+                                                const {
+                                                    values,
+                                                    touched,
+                                                    errors,
+                                                    handleChange,
+                                                    setFieldValue,
+                                                    handleBlur,
+                                                    handleSubmit
+                                                } = props;
+                                                return (
+                                                    <form onSubmit={handleSubmit}>
+                                                        <TableRow>
+                                                            <Column size="20%" alignTo="left">
+                                                                {item.category.name}
+                                                            </Column>
+                                                            <Column size="15%" alignTo="left">{item.period.name}</Column>
+                                                            <Column size="10%" alignTo="left">
+                                                                <TextFieldInput
+                                                                    disabled={values.isDisable}
+                                                                    name="amount"
+                                                                    type="number"
+                                                                    variant="standard"
+                                                                    value={values.amount}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    helperText={
+                                                                        errors.amount &&
+                                                                        touched.amount &&
+                                                                        errors.amount
+                                                                    }
+                                                                    error={errors.amount && touched.amount}
+                                                                />
+                                                            </Column>
+                                                            <Column size="10%">
+                                                                <ActionButtonsGroup
+                                                                    saveIcon
+                                                                    editIcon
+                                                                    saveBtnType="submit"
+                                                                    OnEditClick={() => setFieldValue("isDisable", !values.isDisable)}
+                                                                />
+                                                            </Column>
+                                                        </TableRow>
+                                                    </form>
+                                                );
+                                            }}
+                                        </Formik>
+                                    );
+                                }
+                                )}
+                            </TableContainer>
                         </CardBody>
                     </Card>
                 </GridItem>

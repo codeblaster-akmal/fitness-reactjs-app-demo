@@ -27,7 +27,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
 
     const validationSchema = Yup.object({
         categoryPeriodAmountId: Yup.object().required('Required!'),
-        amount: Yup.number().required('Required!'),
+        amount: Yup.number().min(1, 'Invalid amount!').required('Required!'),
         paidAmount: Yup.number()
             .when(
                 'amount',

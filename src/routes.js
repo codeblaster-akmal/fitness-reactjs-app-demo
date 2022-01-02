@@ -20,7 +20,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/user",
+    path: "/member/add",
     name: "Member Registration",
     rtlName: "ملف تعريفي للمستخدم",
     icon: HowToRegIcon,
@@ -28,20 +28,30 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/member/edit/:id",
+    name: "Member Registration",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: HowToRegIcon,
+    component: MemberRegistration,
+    layout: "/admin",
+    notInSB: true
+  },
+  {
     path: "/table",
-    name: "Table List",
+    name: "Member List",
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: MemberList,
     layout: "/admin",
   },
   {
-    path: "/typography",
-    name: "Typography",
-    rtlName: "طباعة",
-    icon: LibraryBooks,
-    component: Typography,
+    path: "/member/view/:id",
+    name: "Member Details",
+    rtlName: "خرائط",
+    icon: BiDetail,
+    component: MemberDetail,
     layout: "/admin",
+    notInSB: true
   },
   {
     path: "/fee",
@@ -49,14 +59,6 @@ const dashboardRoutes = [
     rtlName: "خرائط",
     icon: HiCurrencyRupee,
     component: FeeStructures,
-    layout: "/admin",
-  },
-  {
-    path: "/details/:id",
-    name: "Member Details",
-    rtlName: "خرائط",
-    icon: BiDetail,
-    component: MemberDetail,
     layout: "/admin",
   }
 ];

@@ -120,12 +120,12 @@ export default function TableList(props) {
     }
   }
 
-  const handleViewClick = () => {
-    console.info('View Icon Clicked')
+  const handleViewClick = id => () => {
+    history.push(`/admin/member/view/${id}`);
   }
 
   const handleEditClick = id => () => {
-    history.push(`/admin/user/${id}`);
+    history.push(`/admin/member/edit/${id}`);
   }
 
   return (
@@ -211,7 +211,7 @@ export default function TableList(props) {
                     </Column>
                     <Column size="5%" alignTo="left">{'Yes'}</Column>
                     <Column size="10%">
-                      <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick} OnEditClick={handleEditClick(row.id)} />
+                    <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick(row.id)} OnEditClick={handleEditClick(row.id)} />
                     </Column>
                   </TableRow>
                 );
