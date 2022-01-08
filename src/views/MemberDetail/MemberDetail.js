@@ -130,9 +130,19 @@ const MemberDetail = (props) => {
                                     tabName: "Transaction",
                                     tabIcon: HiCurrencyRupee,
                                     tabContent: (
-                                        <MemberTransaction member={member} open={open} handleOpen={handleOpen} handleClose={handleClose} handleTransactionRadio={handleTransactionRadio} headerColumns={headerColumns} id={id} categoryPeriodAmounts={categoryPeriodAmounts} />
+                                        <MemberTransaction
+                                            member={member}
+                                            open={open}
+                                            handleOpen={handleOpen}
+                                            handleClose={handleClose}
+                                            handleTransactionRadio={handleTransactionRadio}
+                                            headerColumns={headerColumns}
+                                            id={id}
+                                            categoryPeriodAmounts={categoryPeriodAmounts}
+                                            getMemberDetail={getMemberDetail}
+                                        />
                                     ),
-                                },                                
+                                },
                             ]}
                         />
 

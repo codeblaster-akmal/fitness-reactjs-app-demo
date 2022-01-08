@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import NewTransactionForm from './NewTransactionForm';
 import TransactionTrackForm from './TransactionTrackForm';
 
-const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio }) => {
+const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio, getMemberDetail }) => {
 
     return (
         <Box height='100vh' overflow='visible'>
@@ -82,6 +82,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                 open={open}
                 handleClose={handleClose}
                 categoryPeriodAmounts={categoryPeriodAmounts}
+                getMemberDetail={getMemberDetail}
             />
         </Box>
     )

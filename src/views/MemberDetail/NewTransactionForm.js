@@ -13,7 +13,7 @@ import { createMemberTransaction } from './MemberDetail.service';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
-function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
+function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getMemberDetail }) {
 
     const toaster = useToaster();
 
@@ -53,6 +53,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id }) {
             await createMemberTransaction(values);
             handleClose();
             toaster(MSG_TYPE.SUCCESS, "New Transaction created!");
+            getMemberDetail();
         } catch (err) {
             toaster(MSG_TYPE.ERROR, err);
         }
