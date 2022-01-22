@@ -9,13 +9,12 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import AutocompleteInput from "components/AutocompleteInput/AutocompleteInput.js";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import CustomizedRadios from "components/CustomRadioButtons/CustomizedRadios";
 import CustomFileInput from "components/CustomFileInput/CustomFileInput";
 import { StyledRadio } from "components/CustomRadioButtons/CustomizedRadios";
 import { FormControlLabel } from "@material-ui/core";
-import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema, referralDropdown } from "./MemberRegistration.form";
+import { gendersRadioList, initialValues, vaccinatedRadioList, validationSchema } from "./MemberRegistration.form";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 import { createMember, fetchMember, updateMember } from "./MemberRegistration.service";
@@ -77,7 +76,6 @@ function UserProfile(props) {
       const formData = appendFormData({
         ...values,
         vaccinated: +values.vaccinated ? true : false,
-        referral: values.referral ? values.referral.name : ""
       });
       formData.append("MEMBER_PIC", values.image);
       if (values.id) {
@@ -285,22 +283,11 @@ function UserProfile(props) {
                           />
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6}>
-                          <AutocompleteInput
-                            label="Referral"
-                            name="referral"
-                            value={values.referral}
-                            onChange={(e, value) => {
-                              setFieldValue(
-                                "referral",
-                                value !== null ? value : initialValues.referral
-                              );
-                            }}
-                            onBlur={handleBlur}
-                            options={referralDropdown}
-                            getOptionLabel={options => options && options.name ? options.name : ''}
+                          <CustomFileInput
+                            onChange={(e) => setFieldValue("image", e?.target?.files[0])}
                           />
                         </GridItem>
-                        <GridItem xs={12} sm={6} md={4} className={classes.radioFieldGroup}>
+                        <GridItem xs={12} sm={6} md={6} className={classes.radioFieldGroup}>
                           <CustomizedRadios
                             FormTitle="Vacinated"
                             name="vaccinated"
@@ -325,11 +312,6 @@ function UserProfile(props) {
                               })
                             }
                           </CustomizedRadios>
-                        </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
-                          <CustomFileInput
-                            onChange={(e) => setFieldValue("image", e?.target?.files[0])}
-                          />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={12}>
                           <TextFieldInput

@@ -18,7 +18,7 @@ const MemberSigninStyleWrapper = styled.div`
       z-index:1;    
     }    
     .typewriter p {
-    font-size: 45px;
+    font-size: 2rem;
     font-weight: lighter;
     white-space: nowrap;
     position: relative;

@@ -17,9 +17,10 @@ const RadioStyleWrapper = styled.div`
   }
   .MuiFormControl-root ,
   .MuiFormGroup-root {
-    column-gap: 1.5rem;
+    column-gap: 1rem;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: space-between;
   }
   legend {
     margin-bottom: 10px;

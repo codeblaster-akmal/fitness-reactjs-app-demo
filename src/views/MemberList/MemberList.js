@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
@@ -62,7 +60,7 @@ const headerColumns = [
     id: 2,
     label: "ID",
     align: "left",
-    width: "14%",
+    width: "10%",
   },
   {
     id: 3,
@@ -87,7 +85,7 @@ const headerColumns = [
     label: "Status",
     width: "12%",
 
-  },{
+  }, {
     id: 7,
     label: "Sigined in",
     width: "5%",
@@ -198,7 +196,7 @@ export default function TableList(props) {
                     <Column size="14%" alignTo="left">
                       {getFormattedDate(new Date(row.createdAt))}
                     </Column>
-                    <Column size="14%" alignTo="left">
+                    <Column size="10%" alignTo="left">
                       {row.memberId}
                     </Column>
                     <Column size="20%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
@@ -209,9 +207,11 @@ export default function TableList(props) {
                         {"In"}
                       </Success> : <Warning>{"Out"}</Warning>}
                     </Column>
-                    <Column size="5%" alignTo="left">{'Yes'}</Column>
+                    <Column size="5%" alignTo="left">{row.isSignup == 1 ? <Success>
+                      {"Yes"}
+                    </Success> : <Warning>{"No"}</Warning>}</Column>
                     <Column size="10%">
-                    <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick(row.id)} OnEditClick={handleEditClick(row.id)} />
+                      <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick(row.id)} OnEditClick={handleEditClick(row.id)} />
                     </Column>
                   </TableRow>
                 );
