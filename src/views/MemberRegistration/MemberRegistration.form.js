@@ -12,7 +12,6 @@ export const initialValues = {
   age: "",
   gender: "MALE",
   notes: "",
-  referral: "",
   vaccinated: "0",
   aadhaarNo: ""
 };
@@ -38,18 +37,6 @@ export const gendersRadioList = [
   {
     value: "OTHER",
     label: "Other",
-  }
-];
-
-export const referralDropdown = [
-  {
-    name: "waseem"
-  },
-  {
-    name: "akmal"
-  },
-  {
-    name: "john"
   }
 ];
 

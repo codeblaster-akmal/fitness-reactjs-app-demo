@@ -13,7 +13,7 @@ export const fetchMember = id => {
         "periods"
     ]);
 
-    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "age", "gender", "vaccinated", "address", "landmark", "image", "referral", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
+    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "age", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
     const memberTransactionsAttr = reqAttrQry("member_transactions_attr", ["id", "amount", "from", "to", "setCurrentDateTime", "status"]);
     const memberTransactionTracksAttr = reqAttrQry("member_transaction_tracks_attr", ["amount", "setCurrentDateTime"]);
     const categoryPeriodAmountsAttr = reqAttrQry("category_period_amounts_attr", ["amount"]);
