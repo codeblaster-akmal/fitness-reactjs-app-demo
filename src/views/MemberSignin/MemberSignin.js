@@ -19,6 +19,7 @@ import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import CustomFixedplugin from "components/CustomFixedPlugin/CustomFixedplugin";
+import Warning from "components/Typography/Warning.js";
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -84,7 +85,7 @@ const Signin = () => {
           return {
             ...prevState,
             disableSearchInput: true,
-            memberInfo: data,
+            memberInfo: {...data, feeStatus: data.member_transactions && data.member_transactions.length && new Date().toLocaleDateString() <= new Date(Math.max(...data.member_transactions.map(e => new Date(e.to)))).toLocaleDateString() && data.member_transactions.every((foo) => foo.status == "PAID") ? true : false},
             searchBtnType: "button",
             submitBtnType: "submit",
             validationSchema: memberSigninValidationSchema,
@@ -98,7 +99,7 @@ const Signin = () => {
       toaster(MSG_TYPE.WARNING, err);
     }
   }
-
+  
   const validateMember = async (values, resetForm) => {
     try {
       let payload = {};
@@ -125,7 +126,7 @@ const Signin = () => {
     setSignin(initialSiginState);
     resetForm();
   }
-
+  
   return (
     <Formik
       initialValues={signin.initialValues}
@@ -242,7 +243,7 @@ const Signin = () => {
                         <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
                         <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
                         <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
-                        <h6>Fee status</h6>
+                        <h6>Fee status{snackbar?.data?.feeStatus ? <Success>{"Paid"}</Success> : <Warning>{"Due"}</Warning>}</h6>
                       </CardBody>
                     </Card>}
                 />

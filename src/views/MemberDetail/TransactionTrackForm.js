@@ -53,6 +53,7 @@ function TransactionTrackForm({ member }) {
             await createMemberTransactionTrack(payload);
             resetForm();
             toaster(MSG_TYPE.SUCCESS, "Transaction updated successfully!");
+            window.location.reload(false);
         } catch (err) {
             toaster(MSG_TYPE.ERROR, err);
         }
