@@ -32,7 +32,11 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
             .when(
                 'amount',
                 (amount, schema) => (amount && schema.max(amount, "Invaid amount!")),
-            ).required('Required!'),
+            ).required('Required!').test(
+                'Is positive?', 
+                'ERROR: The number must be greater than 0!', 
+                (value) => value > 0
+              ),
         from: Yup
             .date()
             .required(),
