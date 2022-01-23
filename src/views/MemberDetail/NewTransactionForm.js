@@ -50,7 +50,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
 
     const onSubmit = async values => {
         try {
-            values.status = values.amount === values.paidAmount ? "PAID" : !values.paidAmount ? "UNPAID" : "PARTIALLY";
+            values.status = values.amount === +values.paidAmount ? "PAID" : !values.paidAmount ? "UNPAID" : "PARTIALLY";
             values.categoryPeriodAmountId = values.categoryPeriodAmountId.id;
             values.setCurrentDateTime = new Date();
             values.memberId = id;
