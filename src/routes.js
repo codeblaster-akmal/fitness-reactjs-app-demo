@@ -1,12 +1,10 @@
 import Dashboard from "@material-ui/icons/Dashboard";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { BiDetail } from "react-icons/bi";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import MemberRegistration from "views/MemberRegistration/MemberRegistration";
 import MemberList from "views/MemberList/MemberList";
-import Typography from "views/Typography/Typography.js";
 import FeeStructures from "views/FeeStructures/FeeStructures";
 import MemberDetail from "views/MemberDetail/MemberDetail";
 

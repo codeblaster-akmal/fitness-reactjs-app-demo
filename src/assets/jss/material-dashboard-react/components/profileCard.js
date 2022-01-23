@@ -1,10 +1,16 @@
 import React from 'react'
 import styled from 'styled-components';
+import CustomSwitch from './customSwitch';
 
 const CardStyleWrapper = styled.div`
   .content {
 	 position: relative;
-}
+	}
+	.switch-container{
+		position: absolute;
+		top: 0.5rem;
+		right: 1.5rem;	
+	}
  .card {
 	 /* width: 500px; */
 	 /* min-height: 100px; */
@@ -77,13 +83,17 @@ const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profi
 		<CardStyleWrapper>
 			<div className="content">
 				<div className="card">
-					<div className="firstinfo"><img src={profileImage} />
+					<div className="firstinfo">
+						<img src={profileImage} />
 						<div className="profileinfo">
 							<h1>{memberName}</h1>
 							<h3>{memberId} / {userName}</h3>
 							<p className="bio">Ph: {phoneNo}</p>
 							<p className="bio">Aadhaar No: {aadhaarNo}</p>
 						</div>
+					</div>
+					<div className="switch-container">
+						<CustomSwitch />
 					</div>
 				</div>
 			</div>

@@ -111,7 +111,6 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                                         label="Amount"
                                         name="amount"
                                         id="amount"
-                                        type="number"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.amount}
@@ -123,8 +122,8 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                                     <TextFieldInput
                                         label="Paid Amount"
                                         name="paidAmount"
-                                        type="number"
                                         id="paidAmount"
+                                        inputProps={{ maxLength: 4 }}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.paidAmount}

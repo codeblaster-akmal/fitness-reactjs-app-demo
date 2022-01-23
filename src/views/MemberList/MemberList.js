@@ -53,8 +53,8 @@ const headerColumns = [
   {
     id: 1,
     align: "left",
-    label: "Joining Date",
-    width: "14%",
+    label: "Date of Join ",
+    width: "10%",
   },
   {
     id: 2,
@@ -65,7 +65,7 @@ const headerColumns = [
   {
     id: 3,
     label: "Name",
-    width: "20%",
+    width: "15%",
     align: "left",
 
   },
@@ -83,16 +83,23 @@ const headerColumns = [
   {
     id: 6,
     label: "Status",
-    width: "12%",
+    width: "10%",
 
-  }, {
+  },
+  {
     id: 7,
     label: "Sigined in",
-    width: "5%",
+    width: "8%",
 
   },
   {
     id: 8,
+    label: "Fee Status",
+    width: "10%",
+
+  },
+  {
+    id: 9,
     label: "Actions",
     width: "10%",
   },
@@ -193,23 +200,26 @@ export default function TableList(props) {
               {members.map((row, index) => {
                 return (
                   <TableRow key={index}>
-                    <Column size="14%" alignTo="left">
+                    <Column size="10%" alignTo="left">
                       {getFormattedDate(new Date(row.createdAt))}
                     </Column>
                     <Column size="10%" alignTo="left">
                       {row.memberId}
                     </Column>
-                    <Column size="20%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
+                    <Column size="15%" alignTo="left">{`${row.firstname} ${row.lastname}`}</Column>
                     <Column size="10%">{row.gender}</Column>
                     <Column size="10%" alignTo="left">{row.phone}</Column>
-                    <Column size="12%">
-                      {row.isAvailable == 1 ? <Success>
+                    <Column size="10%">
+                      {row.isAvailable ? <Success>
                         {"In"}
                       </Success> : <Warning>{"Out"}</Warning>}
                     </Column>
-                    <Column size="5%" alignTo="left">{row.isSignup == 1 ? <Success>
+                    <Column size="8%">{row.isSignup ? <Success>
                       {"Yes"}
                     </Success> : <Warning>{"No"}</Warning>}</Column>
+                    <Column size="10%">{row.feeStatus ? <Success>
+                      {"Paid"}
+                    </Success> : <Warning>{"Due"}</Warning>}</Column>
                     <Column size="10%">
                       <ActionButtonsGroup viewIcon editIcon OnViewClick={handleViewClick(row.id)} OnEditClick={handleEditClick(row.id)} />
                     </Column>

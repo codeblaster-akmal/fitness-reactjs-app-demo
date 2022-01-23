@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import OtpInput from "react-otp-input";
 import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/MemberSigninStyles";
-import Info from "components/Typography/Info.js";
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";

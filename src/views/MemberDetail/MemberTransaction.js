@@ -12,31 +12,33 @@ import NewTransactionForm from './NewTransactionForm';
 import TransactionTrackForm from './TransactionTrackForm';
 
 const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio, getMemberDetail }) => {
-
+    console.log(`member.member_transactions`, member.member_transactions)
     return (
-        <Box height='100vh' overflow='visible'>
+        <Box>
             <GridContainer spacing={4}>
                 <GridItem xs={12} sm={12} md={6} lg={6}>
-                    {member.member_transactions.map(transaction => (
-                        <Fragment key={transaction.id}>
-                            <input
-                                type="radio"
-                                id={`card-${transaction.id}`}
-                                name={transaction.id}
-                                onChange={handleTransactionRadio(transaction.id)}
-                                checked={transaction.isSelected}
-                            />
-                            <label htmlFor={`card-${transaction.id}`}>
-                                <Box padding={2} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
-                                    <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
-                                    <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
-                                    <Box color='success.main'>{transaction.status}</Box>
-                                    <Box color='info.main'>From: {transaction.from}</Box>
-                                    <Box color='info.main'>To: {transaction.to}</Box>
-                                </Box>
-                            </label>
-                        </Fragment>
-                    ))}
+                    <TableContainer staticHeight='30vh'>
+                        {member.member_transactions.map(transaction => (
+                            <Fragment key={transaction.id}>
+                                <input
+                                    type="radio"
+                                    id={`card-${transaction.id}`}
+                                    name={transaction.id}
+                                    onChange={handleTransactionRadio(transaction.id)}
+                                    checked={transaction.isSelected}
+                                />
+                                <label htmlFor={`card-${transaction.id}`}>
+                                    <Box padding={2} mb={'1rem'} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
+                                        <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
+                                        <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
+                                        <Box color={`${transaction.status === 'PAID' ? 'success.main' : transaction.status === 'PARTIALLY' ? 'warning.main' : 'error.main'}`}>{transaction.status}</Box>
+                                        <Box color='info.main'>From: {transaction.from}</Box>
+                                        <Box color='info.main'>To: {transaction.to}</Box>
+                                    </Box>
+                                </label>
+                            </Fragment>
+                        ))}
+                    </TableContainer>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6} lg={6}>
                     <GridContainer justifyContent='flex-end'>
