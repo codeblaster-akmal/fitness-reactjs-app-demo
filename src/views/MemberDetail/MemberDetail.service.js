@@ -10,7 +10,8 @@ export const fetchMember = id => {
         "member_transaction_tracks",
         "category_period_amounts",
         "categories",
-        "periods"
+        "periods",
+        "member_tracks"
     ]);
 
     const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "age", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
@@ -19,8 +20,9 @@ export const fetchMember = id => {
     const categoryPeriodAmountsAttr = reqAttrQry("category_period_amounts_attr", ["amount"]);
     const categoriesAttr = reqAttrQry("categories_attr", ["name"]);
     const periodsAttr = reqAttrQry("periods_attr", ["name"]);
+    const memberTracksAttr = reqAttrQry("member_tracks_attr", ["setCurrentDateTime", "isAvailable"]);
 
-    return getData(`${URL}/${id}?${schemas}&${attr}&${memberTransactionsAttr}&${memberTransactionTracksAttr}&${categoryPeriodAmountsAttr}&${categoriesAttr}&${periodsAttr}`);
+    return getData(`${URL}/${id}?${schemas}&${attr}&${memberTransactionsAttr}&${memberTransactionTracksAttr}&${categoryPeriodAmountsAttr}&${categoriesAttr}&${periodsAttr}&${memberTracksAttr}`);
 }
 
 export const fetchCategoryPeriodAmounts = () => {

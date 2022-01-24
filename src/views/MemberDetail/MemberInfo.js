@@ -9,7 +9,7 @@ const MemberInfo = ({ member }) => {
     return (
         <GridContainer spacing={4}>
             <GridItem xs={12} sm={12} md={6} lg={6}>
-                <MemberTrack />
+                <MemberTrack member={member}/>
             </GridItem>
             <GridItem xs={12} sm={12} md={6} lg={6}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}

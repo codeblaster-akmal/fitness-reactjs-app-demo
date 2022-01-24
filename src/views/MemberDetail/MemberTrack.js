@@ -1,10 +1,8 @@
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle'
-import React, { useEffect, useState } from 'react'
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import { Box } from '@material-ui/core';
-import { listMembers } from 'views/MemberList/MemberList.service';
 import { TableHeader } from 'views/MemberList/MemberList.styles';
 import { Column } from 'views/MemberList/MemberList.styles';
 import { TableContainer } from 'views/MemberList/MemberList.styles';
@@ -27,21 +25,7 @@ const headerColumns = [
     },
 ];
 
-const MemberTrack = () => {
-    const [members, setMembers] = useState([]);
-
-    useEffect(() => {
-        memberListData();
-    }, []);
-
-    const memberListData = async () => {
-        try {
-            const { data } = await listMembers();
-            setMembers(data);
-        } catch (err) {
-            console.log(err);
-        }
-    }
+const MemberTrack = ({ member }) => {
     return (
         <Box>
             <GridContainer alignItems='center' justifyContent='space-between'>
@@ -69,6 +53,7 @@ const MemberTrack = () => {
                 </GridItem>
             </GridContainer>
             <Box mt={'2rem'}>
+                {member.member_tracks.length ? <>
                 <TableHeader>
                     {headerColumns.map((column) => (
                         <Column
@@ -81,11 +66,11 @@ const MemberTrack = () => {
                     ))}
                 </TableHeader>
                 <TableContainer>
-                    {members.map((row, index) => {
+                    {member.member_tracks.map((row, index) => {
                         return (
                             <TableRow key={index}>
                                 <Column size="50%" alignTo="left">
-                                    {getFormattedDate(new Date(row.createdAt))}
+                                    {getFormattedDate(new Date(row.setCurrentDateTime))}
                                 </Column>
                                 <Column size="50%">{row.isAvailable ? <Success>
                                     {"In"}
@@ -95,6 +80,7 @@ const MemberTrack = () => {
                     }
                     )}
                 </TableContainer>
+                </> : "No Data..."}
             </Box>
         </Box>
     )
