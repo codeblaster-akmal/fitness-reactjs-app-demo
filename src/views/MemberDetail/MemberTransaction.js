@@ -31,6 +31,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                                     <Box padding={2} mb={'1rem'} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
                                         <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
                                         <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
+                                        <Box color='info.main'>Balance amount: ₹ {transaction.balance}</Box>
                                         <Box color={`${transaction.status === 'PAID' ? 'success.main' : transaction.status === 'PARTIALLY' ? 'warning.main' : 'error.main'}`}>{transaction.status}</Box>
                                         <Box color='info.main'>From: {transaction.from}</Box>
                                         <Box color='info.main'>To: {transaction.to}</Box>

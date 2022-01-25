@@ -53,6 +53,7 @@ const MemberDetail = (props) => {
                         from: new Date(transaction.from).toDateString(),
                         to: new Date(transaction.to).toDateString(),
                         isSelected: false,
+                        balance: transaction.amount - transaction.member_transaction_tracks.reduce((accumulator, current) => accumulator + current.amount, 0),
                         member_transaction_tracks: transaction.member_transaction_tracks.map(transactionTrack => {
                             return {
                                 ...transactionTrack,
