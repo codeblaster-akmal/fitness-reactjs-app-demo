@@ -47,7 +47,7 @@ const MemberDetail = (props) => {
             setMember({
                 ...data,
                 image: data.image && `${baseUrl}/${data.image}`,
-                member_transactions: data.member_transactions.map(transaction => {
+                member_transactions: data.member_transactions.reverse().map(transaction => {
                     return {
                         ...transaction,
                         from: new Date(transaction.from).toDateString(),
