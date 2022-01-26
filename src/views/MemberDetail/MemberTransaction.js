@@ -10,9 +10,9 @@ import { TableRow } from 'views/MemberList/MemberList.styles.js';
 import AddIcon from '@material-ui/icons/Add';
 import NewTransactionForm from './NewTransactionForm';
 import TransactionTrackForm from './TransactionTrackForm';
+import TransactionCard from 'assets/jss/material-dashboard-react/views/MemberDetailStyle';
 
 const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio, getMemberDetail }) => {
-    console.log(`member.member_transactions`, member.member_transactions)
     return (
         <Box>
             <GridContainer spacing={4}>
@@ -26,17 +26,18 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                                     name={transaction.id}
                                     onChange={handleTransactionRadio(transaction.id)}
                                     checked={transaction.isSelected}
+                                    hidden
                                 />
-                                <label htmlFor={`card-${transaction.id}`}>
+                                <TransactionCard htmlFor={`card-${transaction.id}`}>
                                     <Box padding={2} mb={'1rem'} borderRadius={10} component="div" display="flex" justifyContent='space-between' flexWrap='wrap' className='cardIndicator'>
                                         <Box color='info.main'>{`${transaction.category_period_amount.category.name} - ${transaction.category_period_amount.period.name}`}</Box>
                                         <Box color='info.main'>Amount: ₹ {transaction.amount}</Box>
                                         <Box color='info.main'>Balance amount: ₹ {transaction.balance}</Box>
-                                        <Box color={`${transaction.status === 'PAID' ? 'success.main' : transaction.status === 'PARTIALLY' ? 'warning.main' : 'error.main'}`}>{transaction.status}</Box>
+                                        <Box display={'inline'} fontSize={'12px'} border={'1px solid'} borderRadius={3} px={1} py={'1px'} color={`${transaction.status === 'PAID' ? 'success.main' : transaction.status === 'PARTIALLY' ? 'warning.main' : 'error.main'}`}>{transaction.status}</Box>
                                         <Box color='info.main'>From: {transaction.from}</Box>
                                         <Box color='info.main'>To: {transaction.to}</Box>
                                     </Box>
-                                </label>
+                                </TransactionCard>
                             </Fragment>
                         ))}
                     </TableContainer>

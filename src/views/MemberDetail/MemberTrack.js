@@ -14,13 +14,18 @@ const headerColumns = [
     {
         id: 1,
         align: "left",
-        label: "Date/Time ",
-        width: "50%",
+        label: "Date",
+        width: "30%",
     },
     {
         id: 2,
+        label: "Time",
+        width: "30%",
+    },
+    {
+        id: 3,
         label: "Status",
-        width: "50%",
+        width: "30%",
     },
 ];
 
@@ -68,10 +73,13 @@ const MemberTrack = ({ member }) => {
                         {member.member_tracks.map((row, index) => {
                             return (
                                 <TableRow key={index}>
-                                    <Column size="50%" alignTo="left">
-                                        {row.tDate} {row.tTime}
+                                    <Column size="30%" alignTo="left">
+                                        {row.tDate}
                                     </Column>
-                                    <Column size="50%">{row.isAvailable ? <Success>
+                                    <Column size="30%" alignTo="left">
+                                        {row.tTime}
+                                    </Column>
+                                    <Column size="30%">{row.isAvailable ? <Success>
                                         {"In"}
                                     </Success> : <Warning>{"Out"}</Warning>}</Column>
                                 </TableRow>

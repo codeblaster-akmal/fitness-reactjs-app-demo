@@ -8,12 +8,12 @@ import MemberTrack from './MemberTrack';
 const MemberInfo = ({ member }) => {
     return (
         <GridContainer spacing={4}>
-            <GridItem xs={12} sm={12} md={6} lg={6}>
-                <MemberTrack member={member}/>
+            <GridItem xs={12} sm={12} md={8} lg={8}>
+                <MemberTrack member={member} />
             </GridItem>
-            <GridItem xs={12} sm={12} md={6} lg={6}>
+            <GridItem xs={12} sm={12} md={4} lg={4}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-                    userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} />
+                    userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} address={member.address} />
             </GridItem>
         </GridContainer>
     )

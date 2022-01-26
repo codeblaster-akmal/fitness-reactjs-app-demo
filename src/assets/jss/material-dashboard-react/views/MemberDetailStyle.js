@@ -1,46 +1,38 @@
 import styled from 'styled-components';
 
-const MemberDetailStyleWrapper = styled.div`
-  input[type="radio"] {
-    display: none;
-
-        ~ label {
+const TransactionCard = styled.label`
             display: block;
             position: relative;
             cursor: pointer;
             margin-bottom: 0;
 
             &:before {
-                background-color: #ffffff;
+                background-color: transparent;
                 color: #ffffff;
                 content: " ";
                 display: block;
-                border-radius: 50px;
+                border-radius: 50px 0 0 50px;
                 position: absolute;
-                top: -5px;
-                right: -5px;
-                width: 20px;
-                height: 20px;
-                text-align: center;
+                top: 0;
+                left: 0;
+                bottom:0;
+                width: 10px;
+                z-index:1;
                 line-height: 24px;
                 transition-duration: 0.4s;
-                transform: scale(0);
-            }
-        }
-        
-        &:checked + label .cardIndicator {
+                transform: scaleY(0);
+            }        
+        &:checked + &:before {
             background-color: #ffffff;
+            transform: scaleY(1);
         }
-        &:not(:checked) + label .cardIndicator{
+        &:checked + .cardIndicator {
             background-color: #000;
         }
-    }
-.date-field{
-    margin-top: 1rem;
-}
-h5{
-    margin-bottom: 8px;
-}
+        &:not(:checked) + .cardIndicator{
+            background-color: #000;
+        }
+
 `;
 
-export default MemberDetailStyleWrapper;
+export default TransactionCard;

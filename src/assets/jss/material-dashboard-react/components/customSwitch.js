@@ -1,15 +1,15 @@
-import { FormControlLabel, Switch } from '@material-ui/core'
+import { Box, FormControlLabel, Switch } from '@material-ui/core'
 import React from 'react'
 
 const CustomSwitch = ({ ...restProps }) => {
     return (
-        <div>
+        <Box>
             <FormControlLabel
                 control={<Switch size="small" color="primary" {...restProps} />}
                 label="Forgot Pin"
                 labelPlacement="start"
             />
-        </div>
+        </Box>
     )
 }
 
