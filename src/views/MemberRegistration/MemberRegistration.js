@@ -22,6 +22,9 @@ import { useHistory, withRouter } from "react-router";
 import { appendFormData } from "utils";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
+
 
 const styles = {
   cardCategoryWhite: {
@@ -77,7 +80,9 @@ function UserProfile(props) {
         ...values,
         vaccinated: +values.vaccinated ? true : false,
       });
+      formData.set("dob", values.dob);
       formData.append("MEMBER_PIC", values.image);
+
       if (values.id) {
         await updateMember(values.id, formData);
       } else {
@@ -203,16 +208,18 @@ function UserProfile(props) {
                           />
                         </GridItem>
                         <GridItem xs={12} sm={6} md={3}>
-                          <TextFieldInput
-                            label="Age"
-                            name="age"
-                            value={values.age}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            helperText={errors.age && touched.age && errors.age}
-                            error={errors.age && touched.age}
-                            inputProps={{ maxLength: 3 }}
-                          />
+                          <TextFieldInputWrapper>
+                            <KeyboardDatePicker
+                              autoOk
+                              variant="inline"
+                              inputVariant="outlined"
+                              label="DOB"
+                              format="dd/MM/yyyy"
+                              value={values.dob}
+                              InputAdornmentProps={{ position: "start" }}
+                              onChange={(date) =>setFieldValue("dob", date || new Date())}
+                            />
+                          </TextFieldInputWrapper>
                         </GridItem>
                         <GridItem xs={12} sm={6} md={3}>
                           <TextFieldInput
@@ -284,8 +291,12 @@ function UserProfile(props) {
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6}>
                           <CustomFileInput
-                            onChange={(e) => setFieldValue("image", e?.target?.files[0])}
+                            onChange={(e) => {
+                              setFieldValue("image", e?.target?.files[0])
+                              setFieldValue("fileName", e?.target?.files[0]?.name.length > 15 ? `${e?.target?.files[0]?.name.substring(0, 15)}...` : e?.target?.files[0]?.name)
+                            }}
                           />
+                          {values.fileName}
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6} className={classes.radioFieldGroup}>
                           <CustomizedRadios

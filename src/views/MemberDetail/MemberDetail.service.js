@@ -1,4 +1,4 @@
-import { getData, postData } from "../../utils/fetchData";
+import { getData, postData, putData } from "../../utils/fetchData";
 import { reqSchemaQry, reqAttrQry } from "utils";
 
 const URL = "members";
@@ -14,7 +14,7 @@ export const fetchMember = id => {
         "member_tracks"
     ]);
 
-    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "age", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
+    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "dob", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
     const memberTransactionsAttr = reqAttrQry("member_transactions_attr", ["id", "amount", "from", "to", "setCurrentDateTime", "status"]);
     const memberTransactionTracksAttr = reqAttrQry("member_transaction_tracks_attr", ["amount", "setCurrentDateTime"]);
     const categoryPeriodAmountsAttr = reqAttrQry("category_period_amounts_attr", ["amount"]);
@@ -46,3 +46,7 @@ export const createMemberTransaction = payload => {
 export const createMemberTransactionTrack = payload => {
     return postData("member-transaction-tracks", payload);
 }
+
+export const updateMember = (id, payload) => {
+    return putData(`${URL}/${id}`, payload);
+};

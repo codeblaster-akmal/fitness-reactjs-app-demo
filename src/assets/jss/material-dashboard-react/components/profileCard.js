@@ -78,7 +78,7 @@ const CardStyleWrapper = styled.div`
 }
 `;
 
-const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profileImage }) => {
+const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profileImage, onTogglePin, checked }) => {
 	return (
 		<CardStyleWrapper>
 			<div className="content">
@@ -93,7 +93,10 @@ const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profi
 						</div>
 					</div>
 					<div className="switch-container">
-						<CustomSwitch />
+						<CustomSwitch
+							checked={checked}
+							onChange={onTogglePin}
+						/>
 					</div>
 				</div>
 			</div>

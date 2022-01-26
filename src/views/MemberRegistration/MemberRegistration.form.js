@@ -9,11 +9,12 @@ export const initialValues = {
   landmark: "",
   image: "",
   weight: "",
-  age: "",
+  dob: new Date(),
   gender: "MALE",
   notes: "",
   vaccinated: "0",
-  aadhaarNo: ""
+  aadhaarNo: "",
+  fileName: "",
 };
 
 export const validationSchema = Yup.object({
@@ -21,7 +22,7 @@ export const validationSchema = Yup.object({
   lastname: Yup.string().required("Required!"),
   username: Yup.string().required("Required!"),
   weight: Yup.string().required("Required!"),
-  age: Yup.string().required("Required!"),
+  dob: Yup.date().required("Required!"),
   phone: Yup.string().matches(/^\d{10}$/, 'Phone number is not valid').required('Required!'),
 });
 
