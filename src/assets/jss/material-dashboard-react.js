@@ -215,7 +215,7 @@ const title = {
   marginTop: "30px",
   marginBottom: "25px",
   minHeight: "32px",
-  fontFamily: "'Oxanium','Roboto', 'Poppins'",
+  fontFamily: "'Oxanium','Poppins','Roboto'",
   "& small": {
     color: grayColor[1],
     fontWeight: "400",

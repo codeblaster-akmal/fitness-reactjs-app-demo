@@ -121,7 +121,7 @@ const MemberDetail = (props) => {
     }, []);
 
     return (
-        <MemberDetailStyleWrapper>
+        <>
             {member &&
                 <GridContainer spacing={2}>
                     <GridItem xs={12} sm={12} md={12} lg={12}>
@@ -159,7 +159,7 @@ const MemberDetail = (props) => {
                     </GridItem>
                 </GridContainer>
             }
-        </MemberDetailStyleWrapper>
+        </>
     )
 }
 
