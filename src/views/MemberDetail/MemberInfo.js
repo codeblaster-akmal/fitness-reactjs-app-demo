@@ -27,20 +27,12 @@ const MemberInfo = ({ member }) => {
 
     return (
         <GridContainer spacing={4}>
-<<<<<<< HEAD
             <GridItem xs={12} sm={12} md={6} lg={6}>
-=======
-            <GridItem xs={12} sm={12} md={8} lg={8}>
->>>>>>> f70eb0033fb0769b4dfdb079d5288c4522284b75
                 <MemberTrack member={member} />
             </GridItem>
             <GridItem xs={12} sm={12} md={4} lg={4}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-<<<<<<< HEAD
                     userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
-=======
-                    userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} address={member.address} />
->>>>>>> f70eb0033fb0769b4dfdb079d5288c4522284b75
             </GridItem>
         </GridContainer>
     )

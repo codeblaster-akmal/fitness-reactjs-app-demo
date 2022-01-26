@@ -18,11 +18,7 @@ padding : 1rem;
 	}
 `;
 
-<<<<<<< HEAD
-const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, profileImage, onTogglePin, checked }) => {
-=======
-const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, address }) => {
->>>>>>> f70eb0033fb0769b4dfdb079d5288c4522284b75
+const ProfileCard = ({ memberName, memberId, userName, phoneNo, aadhaarNo, onTogglePin, checked }) => {
 	return (
 		<CardStyleWrapper>
 			<Card profile>
