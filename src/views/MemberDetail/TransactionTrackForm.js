@@ -11,7 +11,7 @@ import Button from "components/CustomButtons/Button";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
-function TransactionTrackForm({ member }) {
+function TransactionTrackForm({ member, getMemberDetail }) {
 
     const toaster = useToaster();
 
@@ -50,10 +50,11 @@ function TransactionTrackForm({ member }) {
             values.setCurrentDateTime = new Date();
             values.memberTransactionId = member.selectedTransaction.id;
             const payload = calcTotalAmount(values);
+            payload.memberId = member.id
             await createMemberTransactionTrack(payload);
             resetForm();
             toaster(MSG_TYPE.SUCCESS, "Transaction updated successfully!");
-            window.location.reload(false);
+            getMemberDetail();
         } catch (err) {
             toaster(MSG_TYPE.ERROR, err);
         }

@@ -119,12 +119,7 @@ export default function TableList(props) {
   const memberListData = async () => {
     try {
       const { data } = await listMembers();
-      setMembers(data.map((val) => {
-        return { 
-          ...val,
-          feeStatus: val.member_transactions && val.member_transactions.length && new Date().toLocaleDateString() <= new Date(Math.max(...val.member_transactions.map(e => new Date(e.to)))).toLocaleDateString() && val.member_transactions.every((foo) => foo.status == "PAID") ? true : false
-        }
-    }));
+      setMembers(data);
     } catch (err) {
       console.log(err);
     }

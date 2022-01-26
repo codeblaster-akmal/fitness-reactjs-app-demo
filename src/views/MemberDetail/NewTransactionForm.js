@@ -34,8 +34,8 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                 (amount, schema) => (amount && schema.max(amount, "Invaid amount!")),
             ).required('Required!').test(
                 'Is positive?', 
-                'ERROR: The number must be greater than 0!', 
-                (value) => value > 0
+                'The number should be positive!', 
+                (value) => value > -1
               ),
         from: Yup
             .date()
@@ -50,7 +50,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
 
     const onSubmit = async values => {
         try {
-            values.status = values.amount === +values.paidAmount ? "PAID" : !values.paidAmount ? "UNPAID" : "PARTIALLY";
+            values.status = values.amount === +values.paidAmount ? "PAID" : +values.paidAmount === 0 ? "UNPAID" : "PARTIALLY";
             values.categoryPeriodAmountId = values.categoryPeriodAmountId.id;
             values.setCurrentDateTime = new Date();
             values.memberId = id;

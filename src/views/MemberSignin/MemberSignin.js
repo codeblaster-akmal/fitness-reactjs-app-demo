@@ -43,6 +43,7 @@ const Signin = () => {
 
   const initialSiginState = {
     label: "Enter PIN",
+    image: avatar,
     disableSearchInput: false,
     initialValues,
     validationSchema: memberSearchValidationSchema,
@@ -57,6 +58,7 @@ const Signin = () => {
   });
 
   const [signin, setSignin] = useState(initialSiginState);
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const toaster = useToaster();
 
   const { vertical, horizontal, open } = snackbar;
@@ -85,7 +87,7 @@ const Signin = () => {
           return {
             ...prevState,
             disableSearchInput: true,
-            memberInfo: {...data, feeStatus: data.member_transactions && data.member_transactions.length && new Date().toLocaleDateString() <= new Date(Math.max(...data.member_transactions.map(e => new Date(e.to)))).toLocaleDateString() && data.member_transactions.every((foo) => foo.status == "PAID") ? true : false},
+            memberInfo: {...data, image: data.image && `${baseUrl}/${data.image}`},
             searchBtnType: "button",
             submitBtnType: "submit",
             validationSchema: memberSigninValidationSchema,
@@ -126,7 +128,7 @@ const Signin = () => {
     setSignin(initialSiginState);
     resetForm();
   }
-  
+  console.log(6564699,signin)
   return (
     <Formik
       initialValues={signin.initialValues}
@@ -166,7 +168,7 @@ const Signin = () => {
                       <CardBody>
                         <CardAvatar profile>
                           <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                            <img src={avatar} alt="..." />
+                            <img src={signin?.memberInfo?.image || avatar} alt="..." />
                           </a>
                         </CardAvatar>
                         <h5>Username / ID</h5>
@@ -236,7 +238,7 @@ const Signin = () => {
                     <Card profile>
                       <CardAvatar profile>
                         <a href="#user" onClick={(e) => e.preventDefault()}>
-                          <img src={avatar} alt="..." />
+                          <img src={snackbar?.data?.image || avatar} alt="..." />
                         </a>
                       </CardAvatar>
                       <CardBody profile>

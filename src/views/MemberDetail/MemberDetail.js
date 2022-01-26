@@ -10,6 +10,7 @@ import MemberInfo from './MemberInfo';
 import MemberTransaction from './MemberTransaction';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
+import { getFormattedDate } from 'utils/dateNtime';
 
 const headerColumns = [
     {
@@ -59,7 +60,15 @@ const MemberDetail = (props) => {
                                 ...transactionTrack,
                                 date: new Date(transactionTrack.setCurrentDateTime).toLocaleDateString(),
                             }
-                        })
+                        }),
+                    }
+                }),
+                member_tracks: data.member_tracks.map(track => {
+                    let time = new Date(track.setCurrentDateTime);
+                    return {
+                        ...track,
+                        tDate: getFormattedDate(new Date(track.setCurrentDateTime)),
+                        tTime: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
                     }
                 })
             });

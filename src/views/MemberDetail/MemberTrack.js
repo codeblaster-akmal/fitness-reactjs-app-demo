@@ -7,7 +7,6 @@ import { TableHeader } from 'views/MemberList/MemberList.styles';
 import { Column } from 'views/MemberList/MemberList.styles';
 import { TableContainer } from 'views/MemberList/MemberList.styles';
 import { TableRow } from 'views/MemberList/MemberList.styles';
-import { getFormattedDate } from 'utils/dateNtime';
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
 
@@ -54,32 +53,32 @@ const MemberTrack = ({ member }) => {
             </GridContainer>
             <Box mt={'2rem'}>
                 {member.member_tracks.length ? <>
-                <TableHeader>
-                    {headerColumns.map((column) => (
-                        <Column
-                            key={column.id}
-                            size={column.width}
-                            alignTo={column.align}
-                        >
-                            {column.label}
-                        </Column>
-                    ))}
-                </TableHeader>
-                <TableContainer>
-                    {member.member_tracks.map((row, index) => {
-                        return (
-                            <TableRow key={index}>
-                                <Column size="50%" alignTo="left">
-                                    {getFormattedDate(new Date(row.setCurrentDateTime))}
-                                </Column>
-                                <Column size="50%">{row.isAvailable ? <Success>
-                                    {"In"}
-                                </Success> : <Warning>{"Out"}</Warning>}</Column>
-                            </TableRow>
-                        );
-                    }
-                    )}
-                </TableContainer>
+                    <TableHeader>
+                        {headerColumns.map((column) => (
+                            <Column
+                                key={column.id}
+                                size={column.width}
+                                alignTo={column.align}
+                            >
+                                {column.label}
+                            </Column>
+                        ))}
+                    </TableHeader>
+                    <TableContainer>
+                        {member.member_tracks.map((row, index) => {
+                            return (
+                                <TableRow key={index}>
+                                    <Column size="50%" alignTo="left">
+                                        {row.tDate} {row.tTime}
+                                    </Column>
+                                    <Column size="50%">{row.isAvailable ? <Success>
+                                        {"In"}
+                                    </Success> : <Warning>{"Out"}</Warning>}</Column>
+                                </TableRow>
+                            );
+                        }
+                        )}
+                    </TableContainer>
                 </> : "No Data..."}
             </Box>
         </Box>

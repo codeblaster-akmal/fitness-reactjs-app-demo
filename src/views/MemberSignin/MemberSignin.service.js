@@ -1,18 +1,13 @@
-import { reqAttrQry, reqSchemaQry } from "utils";
+import { reqAttrQry } from "utils";
 import { getData, putData } from "../../utils/fetchData";
 
 const URL = "members";
 
 export const fetchMember = (payload) => {
 
-    const schemas = reqSchemaQry([
-        "member_transactions"
-    ]);
+    const attr = reqAttrQry("attr", ["id", "isSignup", "isAvailable", "firstname", "lastname", "username", "memberId", "isAvailable", "feeStatus", "image"]);
 
-    const attr = reqAttrQry("attr", ["id", "isSignup", "isAvailable", "firstname", "lastname", "username", "memberId", "isAvailable"]);
-    const memberTransactionsAttr = reqAttrQry("member_transactions_attr", ["id", "to", "status"]);
-
-    return getData(`${URL}/null?signin=${payload.user}&${schemas}&${attr}&${memberTransactionsAttr}`, payload);
+    return getData(`${URL}/null?signin=${payload.user}&${attr}`, payload);
 };
 
 export const updateMember = (id, payload) => {
