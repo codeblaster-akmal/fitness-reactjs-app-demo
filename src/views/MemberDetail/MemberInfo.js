@@ -32,7 +32,7 @@ const MemberInfo = ({ member }) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={4} lg={4}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-                    userName={member.username} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
+                    userName={member.username} age={member.age} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>
         </GridContainer>
     )

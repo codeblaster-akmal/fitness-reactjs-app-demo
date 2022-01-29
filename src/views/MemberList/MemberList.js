@@ -8,11 +8,12 @@ import CardBody from "components/Card/CardBody.js";
 import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
-import { listMembers, signedInOptions } from "./MemberList.service";
+import { listMembers, signedInOptions, statusOptions, feesOptions } from "./MemberList.service";
 import { Column, TableContainer, TableHeader, TableRow } from "./MemberList.styles";
 import { getFormattedDate } from "utils/dateNtime";
 import TextFieldInputWrapper from "assets/jss/material-dashboard-react/components/textFieldStyle";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import AutocompleteInput from "components/AutocompleteInput/AutocompleteInput";
 import { Box } from "@material-ui/core";
@@ -133,6 +134,70 @@ export default function TableList(props) {
     history.push(`/admin/member/edit/${id}`);
   }
 
+  const [filter, setFilter] = useState({
+    joinDate: "",
+    idNamePhone: "",
+    isAvailable: "",
+    isSignup: "",
+    feeStatus: ""
+  });
+
+  const filterJoinDate = (filter, item) => {
+    if (filter.joinDate) return new Date(item.joinDate).toDateString() === filter.joinDate.toDateString();
+    else return item;
+  };
+
+  const filterCategory = (filter, item) => {
+    return item.firstname.toLowerCase().includes(filter.idNamePhone) || item.lastname.toLowerCase().includes(filter.idNamePhone) || item.phone.toLowerCase().includes(filter.idNamePhone) || item.memberId.toLowerCase().includes(filter.idNamePhone);
+  };
+
+  const filterStatus = (filter, item) => {
+    if (filter.isAvailable) return item.isAvailable === filter.isAvailable.value;
+    else return item;
+  };
+
+  const filterIsSignup = (filter, item) => {
+    if (filter.isSignup) return item.isSignup === filter.isSignup.value;
+    else return item;
+  };
+
+  const filterFeeStatus = (filter, item) => {
+    if (filter.feeStatus) return item.feeStatus === filter.feeStatus.value;
+    else return item;
+  };
+
+  const filterItems = (filter, item) => {
+    return filterCategory(filter, item) && filterStatus(filter, item) && filterIsSignup(filter, item) && filterFeeStatus(filter, item) && filterJoinDate(filter, item);
+  };
+
+  const filterFunction = (item) => {
+    if (filter.joinDate || filter.idNamePhone || filter.isAvailable || filter.isSignup || filter.feeStatus) {
+      if (filterItems(filter, item)) {
+        return item;
+      }
+    } else {
+      return item;
+    }
+  };
+
+  const handleFilter = (labelName) => (e, val) => {
+    if (e instanceof Date) {
+      setFilter(prevState => {
+        return {
+          ...prevState,
+          [labelName]: e
+        }
+      });
+      return
+    }
+    setFilter(prevState => {
+      return {
+        ...prevState,
+        [labelName]: labelName === "idNamePhone" ? e.target.value : val || "",
+      }
+    });
+  };
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -148,39 +213,63 @@ export default function TableList(props) {
               <GridContainer alignItems='center' justifyContent='space-between'>
                 <GridItem md={3} lg={3}>
                   <TextFieldInputWrapper>
-                    <KeyboardDatePicker
-                      autoOk
-                      variant="inline"
-                      label="Date"
-                      format="dd/MM/yyyy"
-                      InputAdornmentProps={{ position: "end" }}
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        inputVariant="filled"
+                        autoOk
+                        variant="inline"
+                        label="Date"
+                        format="dd/MM/yyyy"
+                        InputAdornmentProps={{ position: "end" }}
+                        value={filter.joinDate}
+                        onChange={handleFilter("joinDate")}
+                      />
+                    </MuiPickersUtilsProvider>
                   </TextFieldInputWrapper>
                 </GridItem>
                 <GridItem md={3} lg={3}>
                   <TextFieldInput
                     label="Id / Name / Phone no."
-                    name="searchByAll"
                     variant="standard"
+                    name="idNamePhone"
+                    value={filter.idNamePhone}
+                    onChange={handleFilter("idNamePhone")}
                   />
                 </GridItem>
                 <GridItem md={3} lg={3}>
                   <AutocompleteInput
                     label="Status"
-                    name="status"
                     variant="standard"
-                    id="status"
+                    id="isAvailable"
                     optionTitle="name"
+                    name="isAvailable"
+                    options={statusOptions}
+                    value={filter.isAvailable}
+                    onChange={handleFilter("isAvailable")}
                   />
                 </GridItem>
                 <GridItem md={3} lg={3}>
                   <AutocompleteInput
                     label="Signed in"
-                    name="signedIn"
+                    name="isSignup"
                     variant="standard"
-                    id="status"
+                    id="isSignup"
                     options={signedInOptions}
                     optionTitle="name"
+                    value={filter.isSignup}
+                    onChange={handleFilter("isSignup")}
+                  />
+                </GridItem>
+                <GridItem md={3} lg={3}>
+                  <AutocompleteInput
+                    label="Fee Status"
+                    name="feeStatus"
+                    variant="standard"
+                    id="feeStatus"
+                    options={feesOptions}
+                    optionTitle="name"
+                    value={filter.feeStatus}
+                    onChange={handleFilter("feeStatus")}
                   />
                 </GridItem>
               </GridContainer>
@@ -197,7 +286,7 @@ export default function TableList(props) {
               ))}
             </TableHeader>
             <TableContainer>
-              {members.map((row, index) => {
+              {members.filter(filterFunction).map((row, index) => {
                 return (
                   <TableRow key={index}>
                     <Column size="10%" alignTo="left">

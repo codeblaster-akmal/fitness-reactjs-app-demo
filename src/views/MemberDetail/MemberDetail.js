@@ -11,6 +11,7 @@ import MemberTransaction from './MemberTransaction';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 import { getFormattedDate } from 'utils/dateNtime';
+import { getAge } from 'utils/dateNtime';
 
 const headerColumns = [
     {
@@ -48,6 +49,7 @@ const MemberDetail = (props) => {
             setMember({
                 ...data,
                 image: data.image && `${baseUrl}/${data.image}`,
+                age: getAge(data.dob),
                 member_transactions: data.member_transactions.reverse().map(transaction => {
                     return {
                         ...transaction,
