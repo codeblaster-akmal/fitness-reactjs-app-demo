@@ -2506,7 +2506,9 @@ h6,
   font-weight: 300;
   line-height: 1.5em;
 }
-
+body::-webkit-scrollbar {
+  display: none;
+}
 .serif-font {
   font-family: "Roboto Slab", "Times New Roman", serif;
 }

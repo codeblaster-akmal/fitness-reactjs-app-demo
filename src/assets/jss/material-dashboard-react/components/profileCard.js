@@ -30,12 +30,13 @@ const ProfileCard = ({ address, memberName, memberId, userName, age, phoneNo, aa
 				<CardBody profile>
 					<Typography gutterBottom fontWeight={600} fontFamily={'Poppins'} variant='subtitle1'>{memberName}</Typography>
 					<Typography gutterBottom fontFamily={'Poppins'} variant='subtitle2'>{memberId} / {userName}</Typography>
-					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Age: {age}</Typography>
+					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Age: {'age'}</Typography>
 					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Phone: {phoneNo}</Typography>
 					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Aadhaar No: {aadhaarNo}</Typography>
 					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Address: {address}</Typography>
 					<div className="switch-container">
 						<CustomSwitch
+							label="Forgot Pin"
 							checked={checked}
 							onChange={onTogglePin}
 						/>

@@ -11,6 +11,9 @@ const TextFieldInputWrapper = styled.div`
     border-color: #777;
     font-size: 0.9rem;
   }
+  .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline{
+    border-color: #777 !important;
+  }
   .MuiOutlinedInput-root.Mui-focused, 
   .MuiFormLabel-root.Mui-focused, 
   .MuiOutlinedInput-notchedOutline,
@@ -33,7 +36,7 @@ const TextFieldInputWrapper = styled.div`
   }
   .MuiInputAdornment-root{
     height: 2em;
-  }
+  }  
 `;
 
 export default TextFieldInputWrapper;

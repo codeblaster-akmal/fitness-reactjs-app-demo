@@ -6,7 +6,7 @@ const cardFooterStyle = {
     paddingTop: "10px",
     margin: "0 15px 10px",
     borderRadius: "0",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
     display: "flex",
     backgroundColor: "transparent",

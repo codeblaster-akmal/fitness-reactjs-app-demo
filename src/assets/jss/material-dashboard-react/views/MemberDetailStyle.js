@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const TransactionCard = styled.label`
             display: block;
@@ -21,18 +21,26 @@ const TransactionCard = styled.label`
                 line-height: 24px;
                 transition-duration: 0.4s;
                 transform: scaleY(0);
-            }        
-        &:checked + &:before {
-            background-color: #ffffff;
+            }      
+            ${({ ischecked }) =>
+        ischecked && css`
+            &:before {
+            background-color: ${({ paystatus }) => paystatus === 'PAID' ? 'rgb(76, 175, 80)' : paystatus === 'PARTIALLY' ? 'rgb(255, 152, 0)' : 'rgb(244, 67, 54)'};
             transform: scaleY(1);
         }
-        &:checked + .cardIndicator {
-            background-color: #000;
+    `}          
+        .cardIndicator {
+            background-color: ${({ theme }) => theme.color.black};
+        }    
+        .delete-icon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            color:${({ theme }) => theme.color.grey};
         }
-        &:not(:checked) + .cardIndicator{
-            background-color: #000;
+        .MuiDivider-root{
+            background-color: ${({ theme }) => theme.color.grey} !important;
         }
-
 `;
 
 export default TransactionCard;

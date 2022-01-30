@@ -213,11 +213,15 @@ function UserProfile(props) {
                               autoOk
                               variant="inline"
                               inputVariant="outlined"
+                              margin="normal"
                               label="DOB"
                               format="dd/MM/yyyy"
                               value={values.dob}
-                              InputAdornmentProps={{ position: "start" }}
-                              onChange={(date) =>setFieldValue("dob", date || new Date())}
+                              InputAdornmentProps={{ position: "end" }}
+                              onChange={(date) => setFieldValue("dob", date || new Date())}
+                              InputLabelProps={{
+                                shrink: values.dob ? true : false,
+                              }}
                             />
                           </TextFieldInputWrapper>
                         </GridItem>
@@ -291,12 +295,12 @@ function UserProfile(props) {
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6}>
                           <CustomFileInput
+                            buttonText={values.fileName}
                             onChange={(e) => {
                               setFieldValue("image", e?.target?.files[0])
                               setFieldValue("fileName", e?.target?.files[0]?.name.length > 15 ? `${e?.target?.files[0]?.name.substring(0, 15)}...` : e?.target?.files[0]?.name)
                             }}
                           />
-                          {values.fileName}
                         </GridItem>
                         <GridItem xs={12} sm={6} md={6} className={classes.radioFieldGroup}>
                           <CustomizedRadios

@@ -77,9 +77,9 @@ const MemberTrack = ({ member }) => {
                 <GridItem md={6} lg={6}>
                     <TextFieldInputWrapper>
                         <KeyboardDatePicker
-                            inputVariant="filled"
                             autoOk
                             variant="inline"
+                            // inputVariant="outlined"
                             label="From"
                             format="dd/MM/yyyy"
                             InputAdornmentProps={{ position: "end" }}
@@ -87,15 +87,20 @@ const MemberTrack = ({ member }) => {
                             id="from"
                             name="from"
                             onChange={handleFilter("from")}
+                            error={false}
+                            helperText={null}
+                            InputLabelProps={{
+                                shrink: filter.from ? true : false,
+                            }}
                         />
                     </TextFieldInputWrapper>
                 </GridItem>
                 <GridItem md={6} lg={6}>
                     <TextFieldInputWrapper>
                         <KeyboardDatePicker
-                            inputVariant="filled"
                             autoOk
                             variant="inline"
+                            // inputVariant="outlined"
                             label="To"
                             format="dd/MM/yyyy"
                             InputAdornmentProps={{ position: "end" }}
@@ -103,6 +108,11 @@ const MemberTrack = ({ member }) => {
                             name="to"
                             value={filter.to}
                             onChange={handleFilter("to")}
+                            error={false}
+                            helperText={null}
+                            InputLabelProps={{
+                                shrink: filter.to ? true : false,
+                            }}
                         />
                     </TextFieldInputWrapper>
                 </GridItem>

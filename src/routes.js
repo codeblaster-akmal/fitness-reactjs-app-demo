@@ -7,6 +7,8 @@ import MemberRegistration from "views/MemberRegistration/MemberRegistration";
 import MemberList from "views/MemberList/MemberList";
 import FeeStructures from "views/FeeStructures/FeeStructures";
 import MemberDetail from "views/MemberDetail/MemberDetail";
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
+import Configurations from "views/Configurations/Configurations";
 
 const dashboardRoutes = [
   {
@@ -57,6 +59,14 @@ const dashboardRoutes = [
     rtlName: "خرائط",
     icon: HiCurrencyRupee,
     component: FeeStructures,
+    layout: "/admin",
+  },
+  {
+    path: "/configurations",
+    name: "Configurations",
+    rtlName: "خرائط",
+    icon: SettingsApplicationsIcon,
+    component: Configurations,
     layout: "/admin",
   }
 ];

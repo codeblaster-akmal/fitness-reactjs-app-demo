@@ -7,13 +7,20 @@ import MemberTrack from './MemberTrack';
 import { updateMember } from "./MemberDetail.service";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import { useToaster } from 'components/Snackbar/AlertToaster';
+import CustomDialogBox from 'assets/jss/material-dashboard-react/components/customDialog';
 
 const MemberInfo = ({ member }) => {
     const toaster = useToaster();
     const [checked, setChecked] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
+    const handleDialogClose = () => {
+        setDialogOpen(false)
+        setChecked(false)
+    }
     const onTogglePin = async () => {
         try {
+            setDialogOpen(true)
             setChecked(true);
             let payload = {};
             payload = { isSignup: false };
@@ -32,8 +39,9 @@ const MemberInfo = ({ member }) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={4} lg={4}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-                    userName={member.username} age={member.age} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
+                    userName={member.username} age={member.dob} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>
+            <CustomDialogBox open={dialogOpen} onclickconfirm={handleDialogClose} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to reset and generate a new pin for this member ?'} />
         </GridContainer>
     )
 }

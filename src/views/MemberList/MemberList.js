@@ -210,19 +210,24 @@ export default function TableList(props) {
           </CardHeader>
           <CardBody>
             <Box my={3}>
-              <GridContainer alignItems='center' justifyContent='space-between'>
+              <GridContainer alignItems='flex-end' justifyContent='space-between'>
                 <GridItem md={3} lg={3}>
                   <TextFieldInputWrapper>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
-                        inputVariant="filled"
-                        autoOk
+                        margin="normal"
                         variant="inline"
+                        autoOk
                         label="Date"
                         format="dd/MM/yyyy"
                         InputAdornmentProps={{ position: "end" }}
                         value={filter.joinDate}
                         onChange={handleFilter("joinDate")}
+                        error={false}
+                        helperText={null}
+                        InputLabelProps={{
+                          shrink: filter.joinDate ? true : false,
+                        }}
                       />
                     </MuiPickersUtilsProvider>
                   </TextFieldInputWrapper>
