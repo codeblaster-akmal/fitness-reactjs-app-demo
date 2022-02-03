@@ -18,19 +18,23 @@ const MemberInfo = ({ member }) => {
         setDialogOpen(false)
         setChecked(false)
     }
-    const onTogglePin = async () => {
+    const onTogglePin =  () => {
+        setChecked(true);
+        setDialogOpen(true)
+    };
+
+    const onResetPin = async() => {
         try {
-            setDialogOpen(true)
-            setChecked(true);
             let payload = {};
             payload = { isSignup: false };
             await updateMember(member.id, payload);
             setChecked(false);
             toaster(MSG_TYPE.SUCCESS, "You can change your PIN");
+            setDialogOpen(false)
         } catch (err) {
             toaster(MSG_TYPE.WARNING, err);
         }
-    };
+    }
 
     return (
         <GridContainer spacing={4}>
@@ -41,7 +45,7 @@ const MemberInfo = ({ member }) => {
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
                     userName={member.username} age={member.dob} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>
-            <CustomDialogBox open={dialogOpen} onclickconfirm={handleDialogClose} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to reset and generate a new pin for this member ?'} />
+            <CustomDialogBox open={dialogOpen} onclickconfirm={onResetPin} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to reset and generate a new pin for this member ?'} />
         </GridContainer>
     )
 }
