@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import CustomSwitch from './customSwitch';
 import CardBody from "components/Card/CardBody";
 import { Typography } from '@material-ui/core';
-import defaultAvatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg"
 
 const CardStyleWrapper = styled.div` 
 padding : 1rem;
@@ -18,13 +17,13 @@ padding : 1rem;
 	}
 `;
 
-const ProfileCard = ({ address, memberName, memberId, userName, age, phoneNo, aadhaarNo, onTogglePin, checked }) => {
+const ProfileCard = ({ address, memberName, memberId, userName, age, phoneNo, aadhaarNo, onTogglePin, checked, profileImage }) => {
 	return (
 		<CardStyleWrapper>
 			<Card profile>
 				<CardAvatar profile>
 					<a href="#user" onClick={(e) => e.preventDefault()}>
-						<img src={defaultAvatar} alt="Profile" />
+						<img src={profileImage} alt="Profile" />
 					</a>
 				</CardAvatar>
 				<CardBody profile>
