@@ -68,7 +68,6 @@ const MemberTrack = ({ member }) => {
                 [labelName]: e
             }
         });
-        return
     };
 
     return (

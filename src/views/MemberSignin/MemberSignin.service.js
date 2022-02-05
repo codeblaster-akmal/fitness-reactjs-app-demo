@@ -19,3 +19,8 @@ export const updateMemberTrack = (id, payload) => {
 
     return putData(`${URL}/${id}?member_track=true`, payload);
 };
+
+export const fetchConfigurations = () => {
+    const attr = reqAttrQry("attr", ["key", "value"]);
+    return getData(`configurations?${attr}`);
+};

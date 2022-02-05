@@ -43,7 +43,7 @@ const MemberInfo = ({ member }) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={4} lg={4}>
                 <ProfileCard profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
-                    userName={member.username} age={member.dob} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
+                    userName={member.username} age={member.age} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>
             <CustomDialogBox open={dialogOpen} onclickconfirm={onResetPin} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to reset and generate a new pin for this member ?'} />
         </GridContainer>

@@ -2,7 +2,7 @@ import GridContainer from "components/Grid/GridContainer";
 import GridItem from "components/Grid/GridItem";
 import RemoveIcon from '@material-ui/icons/Remove';
 // core components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import OtpInput from "react-otp-input";
 import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/MemberSigninStyles";
@@ -14,7 +14,7 @@ import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { fetchMember, updateMember, updateMemberTrack } from "./MemberSignin.service";
+import { fetchConfigurations, fetchMember, updateMember, updateMemberTrack } from "./MemberSignin.service";
 import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
@@ -58,10 +58,28 @@ const Signin = () => {
   });
 
   const [signin, setSignin] = useState(initialSiginState);
+  const [configurations, setConfigurations] = useState();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const toaster = useToaster();
 
   const { vertical, horizontal, open } = snackbar;
+
+  const getConfigurations = async () => {
+    try {
+      const { data } = await fetchConfigurations();
+      const obj = data.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
+      if (+obj.PN_STATUS && obj.PN_NOTE && new Date(obj.PN_FROM).toISOString().split("T")[0] <= new Date().toISOString().split("T")[0] && new Date(obj.PN_TO).toISOString().split("T")[0] >= new Date().toISOString().split("T")[0]) {
+        obj.notes = obj.PN_NOTE;
+      }
+      setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}` });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getConfigurations()
+  }, [])
 
   const handleClick = (data) => {
     setSnackbar({ ...snackbar, open: true, data });
@@ -87,7 +105,7 @@ const Signin = () => {
           return {
             ...prevState,
             disableSearchInput: true,
-            memberInfo: {...data, image: data.image && `${baseUrl}/${data.image}`},
+            memberInfo: { ...data, image: data.image && `${baseUrl}/${data.image}` },
             searchBtnType: "button",
             submitBtnType: "submit",
             validationSchema: memberSigninValidationSchema,
@@ -101,7 +119,7 @@ const Signin = () => {
       toaster(MSG_TYPE.WARNING, err);
     }
   }
-  
+
   const validateMember = async (values, resetForm) => {
     try {
       let payload = {};
@@ -128,43 +146,43 @@ const Signin = () => {
     setSignin(initialSiginState);
     resetForm();
   }
-  console.log(6564699,signin)
+
   return (
-    <Formik
-      initialValues={signin.initialValues}
-      onSubmit={onSubmit}
-      validationSchema={signin.validationSchema}
-      enableReinitialize
-    >
-      {(props) => {
-        const {
-          values,
-          touched,
-          errors,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          setFieldValue,
-          resetForm
-        } = props;
-        return (
-          <form onSubmit={handleSubmit}>
-            <MemberSigninStyleWrapper>
-              <div className="triangle-background">
-                <video
-                  src="https://www.spinat.fr/wp-content/uploads/2020/11/green-color-powder-explosion-on-black-isolated-bac-A5B68UY.webmhd.mp4"
-                  style={{ width: window.innerWidth, height: window.innerHeight }}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay>
-                </video>
-                <GridContainer justifyContent="center" alignItems='center' className="grid-container">
-                  <GridItem xs={10} sm={10} md={4} lg={4}>
-                    <div class="typewriter">
-                      <p>Welcome to <strong>Pro-Fit Gym</strong></p>
-                    </div>
-                    <Card>
+    <MemberSigninStyleWrapper>
+      <div className="triangle-background">
+        <video
+          src="https://www.spinat.fr/wp-content/uploads/2020/11/green-color-powder-explosion-on-black-isolated-bac-A5B68UY.webmhd.mp4"
+          style={{ width: window.innerWidth, height: window.innerHeight }}
+          muted
+          loop
+          playsInline
+          autoPlay>
+        </video>
+        <GridContainer justifyContent="center" alignItems='center' className="grid-container">
+          <GridItem xs={10} sm={10} md={4} lg={4}>
+            <div class="typewriter">
+              <p>Welcome to <strong>Pro-Fit Gym</strong></p>
+            </div>
+            <Card>
+              <Formik
+                initialValues={signin.initialValues}
+                onSubmit={onSubmit}
+                validationSchema={signin.validationSchema}
+                enableReinitialize
+              >
+                {(props) => {
+                  const {
+                    values,
+                    touched,
+                    errors,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    resetForm
+                  } = props;
+                  return (
+                    <form onSubmit={handleSubmit}>
                       <CardBody>
                         <CardAvatar profile>
                           <a href="#pablo" onClick={(e) => e.preventDefault()}>
@@ -225,37 +243,37 @@ const Signin = () => {
                           </div>
                         </Collapse>
                       </CardBody>
-                    </Card>
-                  </GridItem>
-                </GridContainer>
-                <Snackbar
-                  anchorOrigin={{ vertical, horizontal }}
-                  open={open}
-                  onClose={handleClose}
-                  autoHideDuration={3000}
-                  key={vertical + horizontal}
-                  action={
-                    <Card profile>
-                      <CardAvatar profile>
-                        <a href="#user" onClick={(e) => e.preventDefault()}>
-                          <img src={snackbar?.data?.image || avatar} alt="..." />
-                        </a>
-                      </CardAvatar>
-                      <CardBody profile>
-                        <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
-                        <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
-                        <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
-                        <h6>Fee status{snackbar?.data?.feeStatus ? <Success>{"Paid"}</Success> : <Warning>{"Due"}</Warning>}</h6>
-                      </CardBody>
-                    </Card>}
-                />
-                <CustomFixedplugin />
-              </div>
-            </MemberSigninStyleWrapper>
-          </form>
-        );
-      }}
-    </Formik>
+                    </form>
+                  );
+                }}
+              </Formik>
+            </Card>
+          </GridItem>
+        </GridContainer>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={3000}
+          key={vertical + horizontal}
+          action={
+            <Card profile>
+              <CardAvatar profile>
+                <a href="#user" onClick={(e) => e.preventDefault()}>
+                  <img src={snackbar?.data?.image || avatar} alt="..." />
+                </a>
+              </CardAvatar>
+              <CardBody profile>
+                <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
+                <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
+                <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
+                <h6>Fee status{snackbar?.data?.feeStatus ? <Success>{"Paid"}</Success> : <Warning>{"Due"}</Warning>}</h6>
+              </CardBody>
+            </Card>}
+        />
+        <CustomFixedplugin qrCode={configurations?.QR_CODE_FILE_PATH} />
+      </div>
+    </MemberSigninStyleWrapper>
   );
 };
 

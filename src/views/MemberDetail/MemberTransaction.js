@@ -1,7 +1,7 @@
 import { Box, Divider, IconButton, Typography } from '@material-ui/core';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import Button from "components/CustomButtons/Button.js";
 import { TableHeader } from 'views/MemberList/MemberList.styles.js';
 import { Column } from 'views/MemberList/MemberList.styles.js';
@@ -16,7 +16,63 @@ import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/component
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
 
+const statusOptions = [{ name: 'Paid', value: 'PAID' }, { name: 'Un paid', value: 'UNPAID' }, { name: 'Partially', value: 'PARTIALLY' }]
+
 const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumns, id, categoryPeriodAmounts, handleTransactionRadio, getMemberDetail }) => {
+
+    const [filter, setFilter] = useState({
+        from: "",
+        to: "",
+        status: ""
+    });
+
+    const filterFrom = (filter, item) => {
+        if (filter.from) return new Date(item.from).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
+        else return item;
+    };
+
+    const filterTo = (filter, item) => {
+        if (filter.to) return new Date(item.to).toISOString().split("T")[0] <= new Date(filter.to).toISOString().split("T")[0];
+        else return item;
+    };
+
+    const filterFeeStatus = (filter, item) => {
+        if (filter.status) return item.status === filter.status.value;
+        else return item;
+    };
+
+    const filterItems = (filter, item) => {
+        return filterFrom(filter, item) && filterTo(filter, item) && filterFeeStatus(filter, item);
+    };
+
+    const filterFunction = (item) => {
+        if (filter.from || filter.to || filter.status) {
+            if (filterItems(filter, item)) {
+                return item;
+            }
+        } else {
+            return item;
+        }
+    };
+
+    const handleFilter = (labelName) => (e, val) => {
+        if (e instanceof Date) {
+            setFilter(prevState => {
+                return {
+                    ...prevState,
+                    [labelName]: e
+                }
+            });
+            return
+        }
+        setFilter(prevState => {
+            return {
+                ...prevState,
+                [labelName]: val || "",
+            }
+        });
+    };
+
     return (
         <Box>
             <GridContainer spacing={2}>
@@ -31,8 +87,8 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                                 InputAdornmentProps={{ position: "end" }}
                                 id="from"
                                 name="from"
-                                // value={filter.from}
-                                // onChange={handleFilter("from")}
+                                value={filter.from}
+                                onChange={handleFilter("from")}
                                 error={false}
                                 helperText={null}
                             // InputLabelProps={{
@@ -46,13 +102,13 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                             <KeyboardDatePicker
                                 autoOk
                                 variant="inline"
-                                label="From"
+                                label="To"
                                 format="dd/MM/yyyy"
                                 InputAdornmentProps={{ position: "end" }}
-                                id="from"
-                                name="from"
-                                // value={filter.from}
-                                // onChange={handleFilter("from")}
+                                id="to"
+                                name="to"
+                                value={filter.to}
+                                onChange={handleFilter("to")}
                                 error={false}
                                 helperText={null}
                             // InputLabelProps={{
@@ -65,12 +121,12 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                         <AutocompleteInput
                             label="Status"
                             variant="standard"
-                            id="isAvailable"
+                            id="status"
                             optionTitle="name"
-                            name="isAvailable"
-                        // options={statusOptions}
-                        // value={filter.isAvailable}
-                        // onChange={handleFilter("isAvailable")}
+                            name="status"
+                            options={statusOptions}
+                            value={filter.status}
+                            onChange={handleFilter("status")}
                         />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={3} lg={3}>
@@ -79,7 +135,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                 </GridContainer>
                 <GridItem xs={12} sm={12} md={6} lg={6}>
                     <TableContainer staticHeight='30vh'>
-                        {member.member_transactions.map((transaction, index) => (
+                        {member.member_transactions.filter(filterFunction).map((transaction, index) => (
                             <Fragment key={transaction.id}>
                                 <input
                                     type="radio"

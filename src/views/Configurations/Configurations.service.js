@@ -1,10 +1,13 @@
-import { postDataForm } from "../../utils/fetchData";
+import { reqAttrQry } from "utils";
+import { getData, postDataForm } from "../../utils/fetchData";
 
 const URL = "configurations";
 
-export const setConfigure = (payload) => {
-    return postDataForm(`${URL}`, payload);
+export const fetchConfigurations = () => {
+    const attr = reqAttrQry("attr", ["key", "value"]);
+    return getData(`${URL}?${attr}`);
 };
-export const updateConfigure = (id, payload) => {
-    return putDataForm(`${URL}/${id}`, payload);
+
+export const updateConfigurations = (payload) => {
+    return postDataForm(`${URL}`, payload);
 };

@@ -113,10 +113,6 @@ export default function TableList(props) {
   const classes = useStyles();
   const [members, setMembers] = useState([]);
 
-  useEffect(() => {
-    memberListData();
-  }, []);
-
   const memberListData = async () => {
     try {
       const { data } = await listMembers();
@@ -125,6 +121,10 @@ export default function TableList(props) {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    memberListData();
+  }, []);
 
   const handleViewClick = id => () => {
     history.push(`/admin/member/view/${id}`);
@@ -148,7 +148,8 @@ export default function TableList(props) {
   };
 
   const filterCategory = (filter, item) => {
-    return item.firstname.toLowerCase().includes(filter.idNamePhone) || item.lastname.toLowerCase().includes(filter.idNamePhone) || item.phone.toLowerCase().includes(filter.idNamePhone) || item.memberId.toLowerCase().includes(filter.idNamePhone);
+    let idNamePhone = filter.idNamePhone.toLowerCase()
+    return item.firstname.toLowerCase().includes(idNamePhone) || item.lastname.toLowerCase().includes(idNamePhone) || item.phone.toLowerCase().includes(idNamePhone) || item.memberId.toLowerCase().includes(idNamePhone);
   };
 
   const filterStatus = (filter, item) => {

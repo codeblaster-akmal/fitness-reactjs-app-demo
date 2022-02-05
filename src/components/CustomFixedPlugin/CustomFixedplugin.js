@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
-import QRcode from "assets/img/QR-Code.png";
 // import UPIpayment from "assets/img/Online-UPI-Payment.png";
 import Button from "components/CustomButtons/Button.js";
 import { BiScan } from "react-icons/bi"
@@ -24,7 +23,7 @@ const CustomerFixedPluginStyles = styled.div`
   
 `;
 
-const CustomFixedplugin = () => {
+const CustomFixedplugin = ({ qrCode }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
@@ -40,13 +39,13 @@ const CustomFixedplugin = () => {
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
                         <Box width='50%' height='50%' marginLeft='auto'>
-                            <img src={QRcode} alt="UPI" width='100%' height='100%' />
+                            <img src={qrCode} alt="UPI" width='100%' height='100%' />
                         </Box>
                     </Fade>
                 )}
             </Popper>
             <div className="payment-button">
-                <Button startIcon={<BiScan />} size="small" color="primary" onClick={handleClick('left')} round>
+                <Button type ="button" startIcon={<BiScan />} size="small" color="primary" onClick={handleClick('left')} round>
                     Show QR
                 </Button>
             </div>

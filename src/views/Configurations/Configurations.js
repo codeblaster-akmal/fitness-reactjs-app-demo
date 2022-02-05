@@ -10,11 +10,11 @@ import CustomFileInput from 'components/CustomFileInput/CustomFileInput';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from "components/CustomButtons/Button.js";
 import { initialValues } from './Configurations.form';
 import { appendFormData } from 'utils';
-import { setConfigure, updateConfigure } from './Configurations.service';
+import { fetchConfigurations, updateConfigurations } from './Configurations.service';
 import { Formik } from 'formik';
 
 const styles = {
@@ -33,34 +33,53 @@ const useStyles = makeStyles(styles)
 
 const Configuration = () => {
     const classes = useStyles();
-    const [configurationState, setConfigurationState] = useState({
-        initialValues: {
-            ...initialValues,
-            btnTxt: "Configure"
-        },
-    });
+
+    const [configurations, setConfigurations] = useState(initialValues);
+
+    const getConfigurations = async () => {
+        try {
+            const { data } = await fetchConfigurations();
+            console.log(7657576567, data)
+            const obj = data.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
+            obj.PN_STATUS = +obj.PN_STATUS
+            setConfigurations(obj);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getConfigurations()
+    }, [])
 
     const onSubmit = async (values) => {
         try {
-            const formData = appendFormData({
+            const data = {
                 ...values,
                 PN_STATUS: values.PN_STATUS ? "1" : "0",
+            };
+
+            delete data.QR_CODE_FILE_PATH;
+
+            const payload = Object.keys(data).map((key) => ({ [key]: data[key] }));
+
+            const formData = appendFormData({
+                configuration: { configurations: payload }
             });
             formData.append("QR_CODE_FILE_PATH", values.QR_CODE_FILE_PATH);
-            if (values.id) {
-                await updateConfigure(values.id, formData);
-            } else {
-                await setConfigure(formData);
-            }
+            await updateConfigurations(formData);
             toaster(MSG_TYPE.SUCCESS, "Configuration added successfully");
             history.push("/admin/table");
         } catch (err) {
             toaster(MSG_TYPE.WARNING, err);
         }
     };
+
+    console.log(876786876, configurations)
+
     return (
         <Formik
-            initialValues={configurationState.initialValues}
+            initialValues={configurations}
             onSubmit={onSubmit}
             enableReinitialize
         >
@@ -97,6 +116,7 @@ const Configuration = () => {
                                                     />
                                                 </Box>
                                             </GridItem>
+                                            {console.log(7678687678, values)}
                                             <GridItem xs={12} sm={6} md={6}>
                                                 <TextFieldInputWrapper>
                                                     <KeyboardDatePicker
@@ -159,10 +179,10 @@ const Configuration = () => {
                                         <Typography variant='body1'>QR code upload</Typography>
                                         <Box mt={'1rem'}>
                                             <CustomFileInput
-                                                buttonText={values.fileName}
+                                                buttonText={values.QR_CODE_FILE_NAME}
                                                 onChange={(e) => {
                                                     setFieldValue("QR_CODE_FILE_PATH", e?.target?.files[0])
-                                                    setFieldValue("fileName", e?.target?.files[0]?.name.length > 15 ? `${e?.target?.files[0]?.name.substring(0, 15)}...` : e?.target?.files[0]?.name)
+                                                    setFieldValue("QR_CODE_FILE_NAME", e?.target?.files[0]?.name.length > 15 ? `${e?.target?.files[0]?.name.substring(0, 15)}...` : e?.target?.files[0]?.name)
                                                 }}
                                             />
                                         </Box>
@@ -170,7 +190,7 @@ const Configuration = () => {
                                 </GridContainer>
                             </CardBody>
                             <CardFooter>
-                                <Button type="submit" color="primary">{values.btnTxt}</Button>
+                                <Button type="submit" color="primary">Update</Button>
                             </CardFooter>
                         </Card>
                     </form>
