@@ -18,6 +18,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 import { deleteMemberTransaction } from './MemberDetail.service';
+import CustomDialogBox from 'assets/jss/material-dashboard-react/components/customDialog';
 
 const statusOptions = [{ name: 'Paid', value: 'PAID' }, { name: 'Un paid', value: 'UNPAID' }, { name: 'Partially', value: 'PARTIALLY' }]
 
@@ -28,7 +29,13 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
         to: "",
         status: ""
     });
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [trasactionId, setTrasactionId] = useState();
     const toaster = useToaster();
+
+    const handleDialogClose = () => {
+        setDialogOpen(false)
+    }
 
     const filterFrom = (filter, item) => {
         if (filter.from) return new Date(item.from).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
@@ -77,11 +84,17 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
         });
     };
 
-    const onDeleteTransaction = async transaction => {
+    const onDeleteTransaction =  transaction => {
+        setDialogOpen(true)
+        setTrasactionId(transaction.id)
+    }
+
+    const onConfirmDelete = async () => {
         try {
-            await deleteMemberTransaction(transaction.id);
+            await deleteMemberTransaction(trasactionId);
             getMemberDetail();
             toaster(MSG_TYPE.SUCCESS, "Transaction deleted successfully");
+            setDialogOpen(false)
         } catch (err) {
             toaster(MSG_TYPE.ERROR, err);
         }
@@ -218,6 +231,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                         </>
                     }
                 </GridItem>
+                <CustomDialogBox delete={"Delete"} open={dialogOpen} onclickconfirm={onConfirmDelete} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to delete this transaction?'} />
             </GridContainer>
             <NewTransactionForm
                 id={id}

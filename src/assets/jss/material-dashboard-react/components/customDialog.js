@@ -22,7 +22,7 @@ const CustomDialogBox = ({ dialogtitle, dialogcontenttext, onclickconfirm, handl
                         Cancel
                     </Button>
                     <Button onClick={onclickconfirm} color="primary">
-                        Reset
+                        {restProps.delete ? "Delete": "Reset"}
                     </Button>
                 </DialogActions>
             </Dialog>
