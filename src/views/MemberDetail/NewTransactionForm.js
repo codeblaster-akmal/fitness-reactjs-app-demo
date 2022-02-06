@@ -13,6 +13,15 @@ import { createMemberTransaction } from './MemberDetail.service';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
+const compareDateFunc = (value) => {
+    var date = new Date(value);
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+    var yyyy = date.getFullYear();
+    
+    return date = `${yyyy}-${mm}-${dd}`;
+};
+
 function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getMemberDetail }) {
 
     const toaster = useToaster();
@@ -22,7 +31,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
         amount: "",
         paidAmount: "",
         from: new Date(),
-        to: new Date()
+        to: ""
     };
 
     const validationSchema = Yup.object({
@@ -42,10 +51,16 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
             .required(),
         to: Yup
             .date()
-            .when(
-                'from',
-                (from, schema) => (from && schema.min(from, "Expiry time must be greater than from time")),
-            ),
+            .required("Required!")
+            .test(
+                "",
+                "Expiry time must be greater than from time",
+                (val, props) => {
+                  if (!(compareDateFunc(val) < compareDateFunc(props.parent.from))) {
+                    return true;
+                  }
+                }
+              )
     });
 
     const onSubmit = async values => {
@@ -91,6 +106,7 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                         handleSubmit,
                         setFieldValue
                     } = props;
+                    console.log(87786578,errors)
                     return (
                         <form onSubmit={handleSubmit}>
                             <AutocompleteInput
@@ -159,10 +175,12 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                                             format="dd/MM/yyyy"
                                             value={values.to}
                                             InputAdornmentProps={{ position: "start" }}
+                                            onBlur={handleBlur}
                                             onChange={handleDatePicker("to", setFieldValue)}
+                                            helperText={errors.to && touched.to && errors.to}
+                                            error={errors.to && touched.to}
                                         />
                                     </TextFieldInputWrapper>
-                                    <div style={{ color: "red", letterSpacing: "0.5px", font: "600 0.6rem / 0.5rem 'Roboto'", marginTop: "0.3rem" }}>{errors.to}</div>
                                 </GridItem>
                                 <GridItem>
                                     <Button type="submit" color="primary">Save</Button>
