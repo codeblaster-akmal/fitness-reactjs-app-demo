@@ -266,8 +266,8 @@ const Signin = () => {
               <CardBody profile>
                 <h4>{`${snackbar?.data?.firstname} ${snackbar?.data?.lastname}`}</h4>
                 <h6>{`${snackbar?.data?.username} / ${snackbar?.data?.memberId}`}</h6>
-                <h6>Status<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
-                <h6>Fee status{snackbar?.data?.feeStatus ? <Success>{"Paid"}</Success> : <Warning>{"Due"}</Warning>}</h6>
+                <h6>Status&nbsp;&nbsp;&nbsp;<Success>{`${!snackbar?.data?.isAvailable ? "IN" : "OUT"}`}</Success></h6>
+                <h6>Fee status&nbsp;&nbsp;&nbsp;{snackbar?.data?.feeStatus ? <Success>{"Paid"}</Success> : <Warning>{"Due"}</Warning>}</h6>
               </CardBody>
             </Card>}
         />

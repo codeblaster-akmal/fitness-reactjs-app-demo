@@ -89,7 +89,7 @@ const headerColumns = [
   },
   {
     id: 7,
-    label: "Sigined in",
+    label: "Signed in",
     width: "8%",
 
   },
@@ -242,7 +242,7 @@ export default function TableList(props) {
                     onChange={handleFilter("idNamePhone")}
                   />
                 </GridItem>
-                <GridItem md={3} lg={3}>
+                <GridItem md={2} lg={2}>
                   <AutocompleteInput
                     label="Status"
                     variant="standard"
@@ -254,7 +254,7 @@ export default function TableList(props) {
                     onChange={handleFilter("isAvailable")}
                   />
                 </GridItem>
-                <GridItem md={3} lg={3}>
+                <GridItem md={2} lg={2}>
                   <AutocompleteInput
                     label="Signed in"
                     name="isSignup"
@@ -266,7 +266,7 @@ export default function TableList(props) {
                     onChange={handleFilter("isSignup")}
                   />
                 </GridItem>
-                <GridItem md={3} lg={3}>
+                <GridItem md={2} lg={2}>
                   <AutocompleteInput
                     label="Fee Status"
                     name="feeStatus"

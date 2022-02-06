@@ -18,12 +18,12 @@ const MemberInfo = ({ member }) => {
         setDialogOpen(false)
         setChecked(false)
     }
-    const onTogglePin =  () => {
+    const onTogglePin = () => {
         setChecked(true);
         setDialogOpen(true)
     };
 
-    const onResetPin = async() => {
+    const onResetPin = async () => {
         try {
             let payload = {};
             payload = { isSignup: false };
@@ -35,13 +35,12 @@ const MemberInfo = ({ member }) => {
             toaster(MSG_TYPE.WARNING, err);
         }
     }
-    console.log(6785678578,member)
     return (
         <GridContainer spacing={4}>
-            <GridItem xs={12} sm={12} md={6} lg={6}>
+            <GridItem xs={12} sm={6} md={8} lg={8}>
                 <MemberTrack member={member} />
             </GridItem>
-            <GridItem xs={12} sm={12} md={4} lg={4}>
+            <GridItem xs={12} sm={6} md={4} lg={4}>
                 <ProfileCard address={member.address} profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
                     userName={member.username} age={member.age} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>

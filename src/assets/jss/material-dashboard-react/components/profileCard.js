@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components';
 import CustomSwitch from './customSwitch';
 import CardBody from "components/Card/CardBody";
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 
 const CardStyleWrapper = styled.div` 
 padding : 1rem;
@@ -29,10 +29,16 @@ const ProfileCard = ({ address, memberName, memberId, userName, age, phoneNo, aa
 				<CardBody profile>
 					<Typography gutterBottom fontWeight={600} fontFamily={'Poppins'} variant='subtitle1'>{memberName}</Typography>
 					<Typography gutterBottom fontFamily={'Poppins'} variant='subtitle2'>{memberId} / {userName}</Typography>
-					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Age: {age}</Typography>
-					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Phone: {phoneNo}</Typography>
-					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Aadhaar No: {aadhaarNo}</Typography>
-					<Typography gutterBottom fontFamily={'Poppins'} variant='caption' display={'block'} align={'left'} >Address: {address}</Typography>
+					<Box display='grid' gridTemplateColumns='repeat(2, 1fr)' >
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >Age:</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >{age}</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >Phone:</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >{phoneNo}</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >Aadhaar No:</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >{aadhaarNo}</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >Address:</Typography>
+						<Typography gutterBottom fontFamily={'Poppins'} variant='caption' align={'left'} >{address}</Typography>
+					</Box>
 					<div className="switch-container">
 						<CustomSwitch
 							label="Forgot Pin"

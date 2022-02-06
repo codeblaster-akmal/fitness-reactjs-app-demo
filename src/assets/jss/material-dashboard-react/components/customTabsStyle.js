@@ -51,6 +51,7 @@ const customTabsStyle = {
     "& > svg,& > .material-icons": {
       verticalAlign: "middle",
       margin: "-1px 5px 0 0 !important",
+      fontSize: '1.3rem'
     },
   },
 };

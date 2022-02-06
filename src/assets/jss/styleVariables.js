@@ -9,6 +9,24 @@ export default {
     grey: '#777',
     error: "#f44336"
   },
+  scrollbar: `
+    ::-webkit-scrollbar {
+      display: block;
+      width: 0.5rem;
+    }
+    &::-webkit-scrollbar-track {
+      display: none;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+      border-radius: 2rem;
+    } 
+  /* Handle */
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      background-color: #777;
+    }
+    &::-webkit-scrollbar-thumb:window-inactive {
+    background-color: rgba(255,0,0,0.4); 
+    }`,
   fontStyle: ({
     weight = "400",
     size = "1rem",

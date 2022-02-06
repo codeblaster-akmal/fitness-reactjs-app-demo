@@ -52,10 +52,10 @@ const TableRow = styled.li`
   }
 `;
 
-const TableContainer = styled.div(({ staticHeight = "45vh" }) => {
+const TableContainer = styled.div(({ staticHeight = "45vh", theme }) => {
   return {
-    overflowY: "auto",
-    height: `calc(100vh - ${staticHeight})`,
+    overflowY: "scroll",
+    height: `calc(100vh - ${staticHeight}); ${theme.scrollbar}`,
   };
 });
 
