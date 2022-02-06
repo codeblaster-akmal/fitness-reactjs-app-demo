@@ -95,9 +95,7 @@ export const deleteData = async (url, token) => {
         }
     })
 
-    const data = await res.json()
+    if (res.error) throw res.error;
 
-    if (data.error) throw data.error;
-
-    return data;
+    return res;
 }

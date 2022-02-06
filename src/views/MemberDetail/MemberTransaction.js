@@ -15,6 +15,9 @@ import AutocompleteInput from 'components/AutocompleteInput/AutocompleteInput';
 import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
+import { deleteMemberTransaction } from './MemberDetail.service';
 
 const statusOptions = [{ name: 'Paid', value: 'PAID' }, { name: 'Un paid', value: 'UNPAID' }, { name: 'Partially', value: 'PARTIALLY' }]
 
@@ -25,6 +28,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
         to: "",
         status: ""
     });
+    const toaster = useToaster();
 
     const filterFrom = (filter, item) => {
         if (filter.from) return new Date(item.from).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
@@ -72,6 +76,16 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
             }
         });
     };
+
+    const onDeleteTransaction = async transaction => {
+        try {
+            await deleteMemberTransaction(transaction.id);
+            getMemberDetail();
+            toaster(MSG_TYPE.SUCCESS, "Transaction deleted successfully");
+        } catch (err) {
+            toaster(MSG_TYPE.ERROR, err);
+        }
+    }
 
     return (
         <Box>
@@ -147,8 +161,8 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
                                 />
                                 <TransactionCard ischecked={transaction.isSelected} paystatus={transaction.status} htmlFor={`card-${transaction.id}`}>
                                     <Box py={0.5} px={2} mb={'1rem'} borderRadius={10} component="div" className='cardIndicator'>
-                                        {index > 0 &&
-                                            <IconButton size="small" color='text.secondary' className='delete-icon'>
+                                        {transaction?.member_transaction_tracks?.length === 1 &&
+                                            <IconButton size="small" color='text.secondary' className='delete-icon' onClick={() => onDeleteTransaction(transaction)}>
                                                 <DeleteIcon fontSize='small' />
                                             </IconButton>
                                         }

@@ -46,7 +46,6 @@ const MemberDetail = (props) => {
     const getMemberDetail = async () => {
         try {
             const { data } = await fetchMember(id);
-            console.log(7887687678, getAge(data.dob))
             setMember({
                 ...data,
                 image: data.image && `${baseUrl}/${data.image}`,

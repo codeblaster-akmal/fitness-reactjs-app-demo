@@ -16,6 +16,8 @@ import { initialValues } from './Configurations.form';
 import { appendFormData } from 'utils';
 import { fetchConfigurations, updateConfigurations } from './Configurations.service';
 import { Formik } from 'formik';
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 
 const styles = {
     cardTitleWhite: {
@@ -32,16 +34,18 @@ const styles = {
 const useStyles = makeStyles(styles)
 
 const Configuration = () => {
+
     const classes = useStyles();
+    const toaster = useToaster();
 
     const [configurations, setConfigurations] = useState(initialValues);
 
     const getConfigurations = async () => {
         try {
             const { data } = await fetchConfigurations();
-            console.log(7657576567, data)
             const obj = data.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {});
-            obj.PN_STATUS = +obj.PN_STATUS
+            obj.PN_STATUS = +obj.PN_STATUS;
+            obj.existQrCode = obj.QR_CODE_FILE_PATH;
             setConfigurations(obj);
         } catch (err) {
             console.log(err);
@@ -60,22 +64,22 @@ const Configuration = () => {
             };
 
             delete data.QR_CODE_FILE_PATH;
+            delete data.QR_CODE_FILE_NAME;
+            delete data.existQrCode;
 
             const payload = Object.keys(data).map((key) => ({ [key]: data[key] }));
 
             const formData = appendFormData({
-                configuration: { configurations: payload }
+                configurations: payload
             });
-            formData.append("QR_CODE_FILE_PATH", values.QR_CODE_FILE_PATH);
+            formData.append("existQrCode", values.existQrCode);
+            formData.append("QR_CODE", values.QR_CODE_FILE_PATH);
             await updateConfigurations(formData);
-            toaster(MSG_TYPE.SUCCESS, "Configuration added successfully");
-            history.push("/admin/table");
+            toaster(MSG_TYPE.SUCCESS, "Configuration updated successfully");
         } catch (err) {
             toaster(MSG_TYPE.WARNING, err);
         }
     };
-
-    console.log(876786876, configurations)
 
     return (
         <Formik
@@ -116,7 +120,6 @@ const Configuration = () => {
                                                     />
                                                 </Box>
                                             </GridItem>
-                                            {console.log(7678687678, values)}
                                             <GridItem xs={12} sm={6} md={6}>
                                                 <TextFieldInputWrapper>
                                                     <KeyboardDatePicker

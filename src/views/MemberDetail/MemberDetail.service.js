@@ -1,4 +1,4 @@
-import { getData, postData, putData } from "../../utils/fetchData";
+import { getData, postData, putData, deleteData } from "../../utils/fetchData";
 import { reqSchemaQry, reqAttrQry } from "utils";
 
 const URL = "members";
@@ -49,4 +49,8 @@ export const createMemberTransactionTrack = payload => {
 
 export const updateMember = (id, payload) => {
     return putData(`${URL}/${id}`, payload);
+};
+
+export const deleteMemberTransaction = (id) => {
+    return deleteData(`member-transactions/${id}`);
 };
