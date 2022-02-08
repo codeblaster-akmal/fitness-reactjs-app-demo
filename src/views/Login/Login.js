@@ -7,6 +7,11 @@ import logo from 'assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import bgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/BACKGROUND.jpg'
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import { validateUser } from './Login.service';
+import { useToaster } from 'components/Snackbar/AlertToaster';
+import { MSG_TYPE } from "components/Snackbar/AlertToaster";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,53 +43,113 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
     const classes = useStyles();
+
+    const initialValues = {
+        username: "",
+        password: ""
+    };
+
+    const validationSchema = Yup.object({
+        username: Yup.string().required("Required!"),
+        password: Yup.string().required("Required!")
+    });
+
+    const toaster = useToaster();
+
+    const onSubmit = async (values, { resetForm }) => {
+        try {
+            const user = await validateUser(values);
+            console.log("user", user)
+            toaster(MSG_TYPE.SUCCESS, "Login successfully");
+        } catch (err) {
+            console.log("login-error", err)
+            toaster(MSG_TYPE.WARNING, err);
+            resetForm();
+        }
+    }
+
     return (
         <LoginStyleWrapper>
             <div className={classes.paper}>
                 <div className={classes.logoImage}>
                     <img src={logo} alt="logo" className={classes.img} />
                 </div>
-                <form className={classes.form} noValidate>
-                    <TextFieldInput
-                        required
-                        fullWidth
-                        placeholder="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <PersonOutlineOutlinedIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <TextFieldInput
-                        required
-                        fullWidth
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        autoComplete="current-password"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <LockOutlinedIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Login
-                    </Button>
-                </form>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                    validationSchema={validationSchema}
+                    enableReinitialize
+                >
+                    {(props) => {
+                        const {
+                            values,
+                            touched,
+                            errors,
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                        } = props;
+                        return (
+                            <form onSubmit={handleSubmit}>
+                                <TextFieldInput
+                                    fullWidth
+                                    placeholder="Enter username"
+                                    autoComplete="username"
+                                    autoFocus
+                                    name="username"
+                                    value={values.username}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <PersonOutlineOutlinedIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    helperText={
+                                        errors.username &&
+                                        touched.username &&
+                                        errors.username
+                                    }
+                                    error={errors.username && touched.username}
+                                />
+                                <TextFieldInput
+                                    fullWidth
+                                    name="password"
+                                    placeholder="Password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <LockOutlinedIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    helperText={
+                                        errors.password &&
+                                        touched.password &&
+                                        errors.password
+                                    }
+                                    error={errors.password && touched.password}
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Login
+                                </Button>
+                            </form>
+                        );
+                    }}
+                </Formik>
             </div>
         </LoginStyleWrapper>
     )
