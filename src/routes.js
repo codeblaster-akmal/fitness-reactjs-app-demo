@@ -37,7 +37,7 @@ const dashboardRoutes = [
     notInSB: true
   },
   {
-    path: "/table",
+    path: "/member/list",
     name: "Member List",
     rtlName: "قائمة الجدول",
     icon: "content_paste",

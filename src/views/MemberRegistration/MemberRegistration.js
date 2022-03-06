@@ -89,7 +89,7 @@ function UserProfile(props) {
         await createMember(formData);
       }
       toaster(MSG_TYPE.SUCCESS, "Profile updated successfully");
-      history.push("/admin/table");
+      history.push("/admin/member/list");
     } catch (err) {
       toaster(MSG_TYPE.WARNING, err);
     }
