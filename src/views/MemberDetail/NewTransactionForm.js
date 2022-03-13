@@ -106,7 +106,6 @@ function NewTransactionForm({ open, handleClose, categoryPeriodAmounts, id, getM
                         handleSubmit,
                         setFieldValue
                     } = props;
-                    console.log(87786578,errors)
                     return (
                         <form onSubmit={handleSubmit}>
                             <AutocompleteInput

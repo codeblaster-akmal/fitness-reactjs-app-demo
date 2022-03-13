@@ -32,7 +32,6 @@ export default function FixedPlugin(props) {
   //       if (imageIndex === imagesContainer.length) {
   //         clearInterval(intervel);
   //       }
-  //       console.log(`9867865`, imageIndex)
   //     }, 3000);
   //   }
   // }

@@ -20,6 +20,7 @@ import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import CustomFixedplugin from "components/CustomFixedPlugin/CustomFixedplugin";
 import Warning from "components/Typography/Warning.js";
+import SignInVideos from "../../assets/videos/gym-demo.mp4"
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -73,7 +74,7 @@ const Signin = () => {
       }
       setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}` });
     } catch (err) {
-      console.log(err);
+      toaster(MSG_TYPE.WARNING, err);
     }
   }
 
@@ -151,7 +152,7 @@ const Signin = () => {
     <MemberSigninStyleWrapper>
       <div className="triangle-background">
         <video
-          src="https://www.spinat.fr/wp-content/uploads/2020/11/green-color-powder-explosion-on-black-isolated-bac-A5B68UY.webmhd.mp4"
+          src={SignInVideos}
           style={{ width: window.innerWidth, height: window.innerHeight }}
           muted
           loop

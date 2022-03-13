@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
         try {
 
         } catch (err) {
-            console.log(err);
+            toaster(MSG_TYPE.WARNING, err);
         }
     }
 

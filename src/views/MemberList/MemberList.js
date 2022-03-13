@@ -118,7 +118,7 @@ export default function TableList(props) {
       const { data } = await listMembers();
       setMembers(data);
     } catch (err) {
-      console.log(err);
+      toaster(MSG_TYPE.WARNING, err);
     }
   }
 

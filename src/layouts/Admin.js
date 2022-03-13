@@ -18,6 +18,10 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/body-builder-1.jpg";
 import logo from "assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png";
 
+import { useHistory } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
+
+
 let ps;
 
 const switchRoutes = (
@@ -51,6 +55,8 @@ export default function Admin({ ...rest }) {
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const history = useHistory();
+
   const handleImageClick = (image) => {
     setImage(image);
   };
@@ -77,21 +83,30 @@ export default function Admin({ ...rest }) {
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false,
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
+    const jwtToken = sessionStorage.getItem("jwtToken")
+    if (jwtToken) {
+      const { data } = jwt.decode(jwtToken.split(" ")[1])
+      if (data.username !== "admin") {
+        history.push("/404-page");
       }
-      window.removeEventListener("resize", resizeFunction);
-    };
+      if (navigator.platform.indexOf("Win") > -1) {
+        ps = new PerfectScrollbar(mainPanel.current, {
+          suppressScrollX: true,
+          suppressScrollY: false,
+        });
+        document.body.style.overflow = "hidden";
+      }
+      window.addEventListener("resize", resizeFunction);
+      // Specify how to clean up after this effect:
+      return function cleanup() {
+        if (navigator.platform.indexOf("Win") > -1) {
+          ps.destroy();
+        }
+        window.removeEventListener("resize", resizeFunction);
+      };
+    } else {
+      history.push("/404-page");
+    }
   }, [mainPanel]);
   return (
     <div className={classes.wrapper}>

@@ -40,6 +40,7 @@ ReactDOM.render(
             <Route path="/admin" component={Admin} />
             <Route path="/signin" component={Signin} />
             <Route path="/login" component={Login} />
+            <Route path="/404-page" component={Login} />
             <Route path="/rtl" component={RTL} />
             <Redirect from="/" to="/admin/user" />
           </Switch>

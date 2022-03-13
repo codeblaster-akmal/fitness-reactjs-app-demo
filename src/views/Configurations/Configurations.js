@@ -48,7 +48,7 @@ const Configuration = () => {
             obj.existQrCode = obj.QR_CODE_FILE_PATH;
             setConfigurations(obj);
         } catch (err) {
-            console.log(err);
+            toaster(MSG_TYPE.WARNING, err);
         }
     }
 

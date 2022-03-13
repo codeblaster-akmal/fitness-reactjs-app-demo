@@ -61,15 +61,14 @@ const Login = () => {
     const onSubmit = async (values, { resetForm }) => {
         try {
             const user = await validateUser(values);
-            console.log("user", user)
             toaster(MSG_TYPE.SUCCESS, "Login successfully");
             sessionStorage.setItem("jwtToken", `Bearer ${user.token}`);
             if (user.data.username === "master") {
                 history.push("/signin");
+            } else if (user.data) {
+                history.push("/admin/dashboard");
             }
-            console.log("jwtToken", sessionStorage.getItem("jwtToken"))
         } catch (err) {
-            console.log("login-error", err)
             toaster(MSG_TYPE.WARNING, err);
             resetForm();
         }
