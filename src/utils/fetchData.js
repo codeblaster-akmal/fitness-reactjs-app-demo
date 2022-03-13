@@ -1,31 +1,30 @@
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-export const getData = async (url, token = sessionStorage.getItem("jwtToken")) => {
-
+export const getData = async (url) => {
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'GET',
         headers: {
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         }
     })
 
     const data = await res.json()
 
-    if (res.status === 400) {
-        window.location.pathname = "/404-page"
-    }
-    
+    // if (res.status === 400) {
+    //     window.location.pathname = "/404-page"
+    // }
+
     if (data.error) throw data.error;
-    
+
     return data;
 }
 
-export const postData = async (url, post, token = sessionStorage.getItem("jwtToken")) => {
+export const postData = async (url, post) => {
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         },
         body: JSON.stringify(post)
     })
@@ -37,12 +36,12 @@ export const postData = async (url, post, token = sessionStorage.getItem("jwtTok
     return data;
 }
 
-export const postDataForm = async (url, post, token = sessionStorage.getItem("jwtToken")) => {
+export const postDataForm = async (url, post) => {
 
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'POST',
         headers: {
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         },
         body: post
     })
@@ -54,13 +53,13 @@ export const postDataForm = async (url, post, token = sessionStorage.getItem("jw
     return data;
 }
 
-export const putData = async (url, post, token = sessionStorage.getItem("jwtToken")) => {
+export const putData = async (url, post) => {
 
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         },
         body: JSON.stringify(post)
     })
@@ -72,12 +71,12 @@ export const putData = async (url, post, token = sessionStorage.getItem("jwtToke
     return data;
 }
 
-export const putDataForm = async (url, post, token = sessionStorage.getItem("jwtToken")) => {
+export const putDataForm = async (url, post) => {
 
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'PUT',
         headers: {
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         },
         body: post
     })
@@ -89,13 +88,13 @@ export const putDataForm = async (url, post, token = sessionStorage.getItem("jwt
     return data;
 }
 
-export const deleteData = async (url, token = sessionStorage.getItem("jwtToken")) => {
+export const deleteData = async (url) => {
 
     const res = await fetch(`${baseUrl}/${url}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': sessionStorage.getItem("jwtToken")
         }
     })
 
