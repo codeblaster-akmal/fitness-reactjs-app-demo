@@ -30,6 +30,7 @@ import AlertToaster from "components/Snackbar/AlertToaster";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Login from "views/Login/Login";
+import PageNotFound from "views/404 page/PageNotFound";
 
 ReactDOM.render(
   <ThemeProvider theme={StyleVariables}>
@@ -40,9 +41,10 @@ ReactDOM.render(
             <Route path="/admin" component={Admin} />
             <Route path="/signin" component={Signin} />
             <Route path="/login" component={Login} />
-            <Route path="/404-page" component={Login} />
+            <Route path="/404-page" component={PageNotFound} />
             <Route path="/rtl" component={RTL} />
-            <Redirect from="/" to="/admin/user" />
+            <Redirect exact from="/" to="/login" />
+            <Redirect exact from="*" to="/404-page" />
           </Switch>
         </MuiPickersUtilsProvider>
       </BrowserRouter>

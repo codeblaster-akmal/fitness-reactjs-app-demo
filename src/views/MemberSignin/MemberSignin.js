@@ -9,7 +9,7 @@ import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
-import { Snackbar, Slide, Collapse, Box } from "@material-ui/core";
+import { Snackbar, Slide, Collapse, Box, IconButton } from "@material-ui/core";
 import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
@@ -21,10 +21,6 @@ import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import CustomFixedplugin from "components/CustomFixedPlugin/CustomFixedplugin";
 import Warning from "components/Typography/Warning.js";
 import SignInVideos from "../../assets/videos/gym-demo.mp4"
-
-function TransitionRight(props) {
-  return <Slide {...props} direction="right" />;
-}
 
 const Signin = () => {
 
@@ -60,6 +56,10 @@ const Signin = () => {
 
   const [signin, setSignin] = useState(initialSiginState);
   const [configurations, setConfigurations] = useState();
+  const [isSwipeableOpen, setisSwipeableOpen] = React.useState(false);
+  const toggleDrawer = (newOpen) => {
+    setisSwipeableOpen(newOpen);
+  };
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const toaster = useToaster();
 
@@ -124,7 +124,7 @@ const Signin = () => {
   const validateMember = async (values, resetForm) => {
     try {
       let payload = {};
-      if (!signin.memberInfo.isSignup) {
+      if (!signin?.memberInfo?.isSignup) {
         payload = { passcode: values.passcode };
         await updateMember(signin.memberInfo.id, payload);
         toaster(MSG_TYPE.SUCCESS, "Your PIN has been generated successfully!");
@@ -272,7 +272,9 @@ const Signin = () => {
               </CardBody>
             </Card>}
         />
-        <CustomFixedplugin qrCode={configurations?.QR_CODE_FILE_PATH} />
+        <IconButton onClick={() =>toggleDrawer(!isSwipeableOpen)}>
+          <CustomFixedplugin isSwipeableOpen={isSwipeableOpen} toggleDrawer={toggleDrawer} qrCode={configurations?.QR_CODE_FILE_PATH} />
+        </IconButton>
       </div>
     </MemberSigninStyleWrapper>
   );

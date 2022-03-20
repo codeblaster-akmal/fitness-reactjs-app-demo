@@ -10,9 +10,11 @@ export const getData = async (url) => {
 
     const data = await res.json()
 
-    // if (res.status === 400) {
-    //     window.location.pathname = "/404-page"
-    // }
+    if (res.status === 400) {
+        setTimeout(() => {
+            window.location.pathname = "/404-page"
+        }, 3000);
+    }
 
     if (data.error) throw data.error;
 
