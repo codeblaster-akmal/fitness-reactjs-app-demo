@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -38,11 +38,43 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { fetchDashboards } from "./Dashboard.service";
+import { MSG_TYPE } from "components/Snackbar/AlertToaster";
+import { useToaster } from "components/Snackbar/AlertToaster";
 
 const useStyles = makeStyles(styles);
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+
+  const { history } = props;
+
   const classes = useStyles();
+  const toaster = useToaster();
+  const [dashboards, setDashboards] = useState({
+    memberInfo: {},
+    memberTxns: {},
+    memberDetails: {},
+  });
+
+  const getDashboards = async () => {
+    try {
+      const { data } = await fetchDashboards();
+      setDashboards(data);
+    } catch (err) {
+      toaster(MSG_TYPE.WARNING, err);
+    }
+  }
+
+  useEffect(() => {
+    getDashboards();
+  }, []);
+
+  const handleViewClick = id => () => {
+    history.push(`/admin/member/view/${id}`);
+  }
+
+  console.log(767866867, dashboards)
+
   return (
     <div>
       <GridContainer>

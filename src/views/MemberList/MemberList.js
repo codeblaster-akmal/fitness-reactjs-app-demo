@@ -17,6 +17,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
 import AutocompleteInput from "components/AutocompleteInput/AutocompleteInput";
 import { Box } from "@material-ui/core";
+import { useToaster } from "components/Snackbar/AlertToaster";
 
 const styles = {
   cardCategoryWhite: {
@@ -111,6 +112,7 @@ export default function TableList(props) {
   const { history } = props;
 
   const classes = useStyles();
+  const toaster = useToaster();
   const [members, setMembers] = useState([]);
 
   const memberListData = async () => {
