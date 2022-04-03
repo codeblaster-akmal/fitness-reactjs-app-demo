@@ -25,7 +25,7 @@ const MemberSigninStyleWrapper = styled.div`
     overflow:hidden ;
     padding: 1rem .5rem;
     animation: typing 4.5s steps(20) infinite;
-}
+  }
 .typewriter p::after {
     content: "";
     position: absolute;
@@ -54,7 +54,16 @@ const MemberSigninStyleWrapper = styled.div`
         opacity: 1;
     }
 }
+.list-button{
+  background-color: ${({ theme }) => theme.color.pacificBlue};
+  .list-icon{
+    color:#fff;
   }
+}
+.MuiDialog-paper{
+  background-color: ${({ theme }) => theme.color.matteBlack};
+}
+}
   .containerStyle {
     justify-content: center;
   }

@@ -9,7 +9,8 @@ import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
-import { Snackbar, Slide, Collapse, Box, IconButton } from "@material-ui/core";
+import CardHeader from "components/Card/CardHeader.js";
+import { Snackbar, Slide, Collapse, Box, Fab } from "@material-ui/core";
 import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
@@ -20,7 +21,40 @@ import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import CustomFixedplugin from "components/CustomFixedPlugin/CustomFixedplugin";
 import Warning from "components/Typography/Warning.js";
-import SignInVideos from "../../assets/videos/gym-demo.mp4"
+import Alert from '@material-ui/lab/Alert';
+import BgVideo from "../../assets/videos/PFG_BG_Video.mp4"
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { FaClipboardList } from "react-icons/fa";
+import { TableContainer } from "views/MemberList/MemberList.styles";
+import { TableHeader } from "views/MemberList/MemberList.styles";
+import { Column } from "views/MemberList/MemberList.styles";
+import { TableRow } from "views/MemberList/MemberList.styles";
+import Dialog from '@material-ui/core/Dialog';
+
+function TransitionRight(props) {
+  return <Slide {...props} direction="right" />;
+}
+
+const headerColumns = [
+  {
+    id: 1,
+    align: "left",
+    label: "ID",
+    width: "30%",
+  },
+  {
+    id: 2,
+    align: "center",
+    label: "Name",
+    width: "30%",
+  },
+  {
+    id: 3,
+    align: "center",
+    label: "Fee Status",
+    width: "30%",
+  },
+];
 
 const Signin = () => {
 
@@ -56,14 +90,26 @@ const Signin = () => {
 
   const [signin, setSignin] = useState(initialSiginState);
   const [configurations, setConfigurations] = useState();
-  const [isSwipeableOpen, setisSwipeableOpen] = React.useState(false);
-  const toggleDrawer = (newOpen) => {
-    setisSwipeableOpen(newOpen);
+  const [speedDialClick, setSpeedDialClick] = useState({
+    logout: false,
+    isListShow: false
+  });
+  const [listInput, setListInput] = React.useState('');
+  console.log(`listInput`, listInput)
+  const handleListInputChange = (event) => {
+    setListInput(event.target.value);
   };
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const toaster = useToaster();
 
   const { vertical, horizontal, open } = snackbar;
+
+  const handleLogoutClick = () => {
+    setSpeedDialClick((prev) => ({ ...prev, logout: !speedDialClick.logout }))
+  }
+  const handleListButtonClick = () => {
+    setSpeedDialClick((prev) => ({ ...prev, isListShow: !speedDialClick.isListShow }))
+  }
 
   const getConfigurations = async () => {
     try {
@@ -74,7 +120,7 @@ const Signin = () => {
       }
       setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}` });
     } catch (err) {
-      toaster(MSG_TYPE.WARNING, err);
+      console.log(err);
     }
   }
 
@@ -124,7 +170,7 @@ const Signin = () => {
   const validateMember = async (values, resetForm) => {
     try {
       let payload = {};
-      if (!signin?.memberInfo?.isSignup) {
+      if (!signin.memberInfo.isSignup) {
         payload = { passcode: values.passcode };
         await updateMember(signin.memberInfo.id, payload);
         toaster(MSG_TYPE.SUCCESS, "Your PIN has been generated successfully!");
@@ -152,12 +198,12 @@ const Signin = () => {
     <MemberSigninStyleWrapper>
       <div className="triangle-background">
         <video
-          src={SignInVideos}
           style={{ width: window.innerWidth, height: window.innerHeight }}
           muted
           loop
           playsInline
           autoPlay>
+          <source src={BgVideo} type="video/mp4"></source>
         </video>
         <GridContainer justifyContent="center" alignItems='center' className="grid-container">
           <GridItem xs={10} sm={10} md={4} lg={4}>
@@ -251,6 +297,53 @@ const Signin = () => {
             </Card>
           </GridItem>
         </GridContainer>
+        <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" left="1rem" zIndex='2'>
+          <Fab size="small" aria-label={'logout'} className={"logout-button"} color={'secondary'} onClick={handleLogoutClick}>
+            <PowerSettingsNewIcon fontSize="0.5rem" className='power-icon' />
+          </Fab>
+          <TextFieldInput style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' />
+        </Box>
+        <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" right="1rem" zIndex='2'>
+          <TextFieldInput style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
+          <Fab size="small" aria-label={'logout'} className={"list-button"} onClick={handleListButtonClick}>
+            <FaClipboardList className='list-icon' />
+          </Fab>
+        </Box>
+        <Dialog open={listInput === "1234" ? true : false} handleClose={false} fullWidth maxWidth={"sm"} style={{ "& .MuiPaper-root": { backgroundColor: "#2e2f32" } }}>
+          <Card>
+            <CardHeader color="primary">
+              <h4>
+                Member Fee Structure
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <TableHeader>
+                {headerColumns.map(column => (
+                  <Column
+                    key={column.id}
+                    size={column.width}
+                    alignTo={column.align}
+                  >
+                    {column.label}
+                  </Column>
+                ))}
+              </TableHeader>
+              <TableContainer>
+                <TableRow>
+                  <Column size={"30%"} alignTo="left">
+                    PFG0001
+                  </Column>
+                  <Column size={"30%"} alignTo="center">
+                    John Doe
+                  </Column>
+                  <Column size={"30%"} alignTo="center">
+                    <Warning>{"Due"}</Warning>
+                  </Column>
+                </TableRow>
+              </TableContainer>
+            </CardBody>
+          </Card>
+        </Dialog>
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}
@@ -272,9 +365,17 @@ const Signin = () => {
               </CardBody>
             </Card>}
         />
-        <IconButton onClick={() =>toggleDrawer(!isSwipeableOpen)}>
-          <CustomFixedplugin isSwipeableOpen={isSwipeableOpen} toggleDrawer={toggleDrawer} qrCode={configurations?.QR_CODE_FILE_PATH} />
-        </IconButton>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={false}
+          onClose={false}
+          key={vertical + horizontal}
+        >
+          <Alert icon={false} onClose={false} severity='error' variant="filled">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis suscipit, tempore inventore at voluptatibus quidem. Iusto inventore harum numquam quo molestias impedit accusamus quod id, quasi minus! Dolorum, incidunt praesentium!
+          </Alert>
+        </Snackbar>
+        <CustomFixedplugin qrCode={configurations?.QR_CODE_FILE_PATH} />
       </div>
     </MemberSigninStyleWrapper>
   );
