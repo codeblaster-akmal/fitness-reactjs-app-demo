@@ -38,7 +38,7 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { fetchDashboards } from "./Dashboard.service";
+import { fetchDashboards, fetchAllCategoryPeriodAmount } from "./Dashboard.service";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import { useToaster } from "components/Snackbar/AlertToaster";
 
@@ -56,10 +56,74 @@ export default function Dashboard(props) {
     memberDetails: {},
   });
 
+
+  const dateFunc = (value) => {
+    console.log(67867546, value)
+    var date = value;
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+
+    date = yyyy + '-' + mm + '-' + dd;
+    console.log(686785785, date)
+    return date;
+  }
+
+  Date.prototype.GetFirstDayOfWeek = function () {
+    return (new Date(this.setDate(this.getDate() - this.getDay())));
+  }
+
+  Date.prototype.GetLastDayOfWeek = function () {
+    return (new Date(this.setDate(this.getDate() - this.getDay() + 6)));
+  }
+
+  const monthJoinFunc = (data) => {
+    var date = new Date(),
+    y = date.getFullYear(),
+    m = date.getMonth();
+    var firstDay = dateFunc(new Date(y, m, 1));
+    var lastDay = dateFunc(new Date(y, m + 1, 0));
+
+    var resultProductData = data.filter(a => {
+      var dateVal = dateFunc(new Date(a.joinDate));
+        return (dateVal >= firstDay && dateVal <= lastDay);
+    });
+
+    return resultProductData.length;
+  };
+
   const getDashboards = async () => {
     try {
       const { data } = await fetchDashboards();
-      setDashboards(data);
+      const { data:FeeStructureData } = await fetchAllCategoryPeriodAmount();
+
+      const totalMembers = data.length;
+      const todayJoin = data.filter((val) => dateFunc(new Date(val.joinDate)) == dateFunc(new Date())).length;
+      const monthJoin = monthJoinFunc(data);
+      const signinMembers = data.filter((val) => val.isSignup == 1).length;
+      const inMembers = data.filter((val) => val.isAvailable == 1).length;
+      const paidMembers = data.filter((val) => val.feeStatus == 1).length;
+      const inList = data.filter((val) => val.isAvailable == 1);
+      const outList = data.filter((val) => val.isAvailable == 0);
+      const PaidList = data.filter((val) => val.feeStatus == 1);
+      const dueList = data.filter((val) => val.feeStatus == 0);
+      const feeStructure = FeeStructureData;
+      
+      const dashboardObj = {
+        totalMembers,
+        todayJoin,
+        monthJoin,
+        signinMembers,
+        inMembers,
+        paidMembers,
+        inList,
+        outList,
+        PaidList,
+        dueList,
+        feeStructure
+      };
+      
+      setDashboards(dashboardObj);
     } catch (err) {
       toaster(MSG_TYPE.WARNING, err);
     }
@@ -73,7 +137,9 @@ export default function Dashboard(props) {
     history.push(`/admin/member/view/${id}`);
   }
 
-  console.log(767866867, dashboards)
+  console.log(767866867, dailySalesChart)
+  console.log(767866867, emailsSubscriptionChart)
+  console.log(767866867, completedTasksChart)
 
   return (
     <div>
@@ -183,6 +249,28 @@ export default function Dashboard(props) {
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
+            <CardHeader color="danger">
+              <ChartistGraph
+                className="ct-chart"
+                data={completedTasksChart.data}
+                type="Line"
+                options={completedTasksChart.options}
+                listener={completedTasksChart.animation}
+              />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Completed Tasks</h4>
+              <p className={classes.cardCategory}>Last Campaign Performance</p>
+            </CardBody>
+            <CardFooter chart>
+              <div className={classes.stats}>
+                <AccessTime /> campaign sent 2 days ago
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
             <CardHeader color="warning">
               <ChartistGraph
                 className="ct-chart"
@@ -195,28 +283,6 @@ export default function Dashboard(props) {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
               <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
             <CardFooter chart>
@@ -241,6 +307,17 @@ export default function Dashboard(props) {
                     checkedIndexes={[0, 3]}
                     tasksIndexes={[0, 1, 2, 3]}
                     tasks={bugs}
+                  />
+                ),
+              },
+              {
+                tabName: "Website",
+                tabIcon: Code,
+                tabContent: (
+                  <Tasks
+                    checkedIndexes={[0]}
+                    tasksIndexes={[0, 1]}
+                    tasks={website}
                   />
                 ),
               },
