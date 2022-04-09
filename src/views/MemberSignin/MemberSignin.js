@@ -10,7 +10,8 @@ import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
 import CardHeader from "components/Card/CardHeader.js";
-import { Snackbar, Slide, Collapse, Box, Fab } from "@material-ui/core";
+import { Snackbar, Slide, Collapse, Box, Fab, IconButton } from "@material-ui/core";
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
@@ -44,7 +45,7 @@ const headerColumns = [
   },
   {
     id: 2,
-    align: "center",
+    align: "left",
     label: "Name",
     width: "30%",
   },
@@ -92,13 +93,19 @@ const Signin = () => {
   const [configurations, setConfigurations] = useState();
   const [speedDialClick, setSpeedDialClick] = useState({
     logout: false,
-    isListShow: false
+    isListShow: false,
+    isDialogListOpen: false
   });
+
   const [listInput, setListInput] = React.useState('');
-  console.log(`listInput`, listInput)
   const handleListInputChange = (event) => {
     setListInput(event.target.value);
+    setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: event.target.value === "1234" ? true : false }))
   };
+  const handleDialogClose = () => {
+    setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: false }))
+    setListInput("")
+  }
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const toaster = useToaster();
 
@@ -299,22 +306,27 @@ const Signin = () => {
         </GridContainer>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" left="1rem" zIndex='2'>
           <Fab size="small" aria-label={'logout'} className={"logout-button"} color={'secondary'} onClick={handleLogoutClick}>
-            <PowerSettingsNewIcon fontSize="0.5rem" className='power-icon' />
+            <PowerSettingsNewIcon fontSize="small" className='power-icon' />
           </Fab>
-          <TextFieldInput style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' />
+          <TextFieldInput autoFocus={true} style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' />
         </Box>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" right="1rem" zIndex='2'>
-          <TextFieldInput style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
+          <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
           <Fab size="small" aria-label={'logout'} className={"list-button"} onClick={handleListButtonClick}>
             <FaClipboardList className='list-icon' />
           </Fab>
         </Box>
-        <Dialog open={listInput === "1234" ? true : false} handleClose={false} fullWidth maxWidth={"sm"} style={{ "& .MuiPaper-root": { backgroundColor: "#2e2f32" } }}>
-          <Card>
-            <CardHeader color="primary">
-              <h4>
-                Member Fee Structure
-              </h4>
+        <Dialog open={speedDialClick.isDialogListOpen} handleClose={handleDialogClose} fullWidth maxWidth={"sm"} style={{ "& .MuiPaper-root": { backgroundColor: "#2e2f32" } }}>
+          <Card style={{ margin: 0 }}>
+            <CardHeader color="info">
+              <Box display={'flex'} justifyContent={"space-between"} alignItems={'center'}>
+                <h4>
+                  Member Fee Structure
+                </h4>
+                <IconButton onClick={handleDialogClose}>
+                  <HighlightOffRoundedIcon />
+                </IconButton>
+              </Box>
             </CardHeader>
             <CardBody>
               <TableHeader>
@@ -333,7 +345,7 @@ const Signin = () => {
                   <Column size={"30%"} alignTo="left">
                     PFG0001
                   </Column>
-                  <Column size={"30%"} alignTo="center">
+                  <Column size={"30%"} alignTo="left">
                     John Doe
                   </Column>
                   <Column size={"30%"} alignTo="center">
@@ -367,7 +379,7 @@ const Signin = () => {
         />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={false}
+          open={listInput === "1234" ? false : true}
           onClose={false}
           key={vertical + horizontal}
         >

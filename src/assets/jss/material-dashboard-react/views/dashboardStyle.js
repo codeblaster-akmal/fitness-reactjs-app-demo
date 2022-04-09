@@ -43,14 +43,14 @@ const dashboardStyle = {
     marginBottom: "0",
   },
   cardCategoryWhite: {
-    color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
+    color: "rgba(" + hexToRgb(whiteColor) + ",.92)",
     margin: "0",
-    fontSize: "14px",
+    fontSize: "1rem",
     marginTop: "0",
     marginBottom: "0",
   },
   cardTitle: {
-    color: grayColor[2],
+    color: grayColor[0],
     marginTop: "0px",
     minHeight: "auto",
     fontWeight: "300",
@@ -58,7 +58,7 @@ const dashboardStyle = {
     marginBottom: "3px",
     textDecoration: "none",
     "& small": {
-      color: grayColor[1],
+      color: grayColor[0],
       fontWeight: "400",
       lineHeight: "1",
     },

@@ -24,7 +24,7 @@ const MemberSigninStyleWrapper = styled.div`
     position: relative;
     overflow:hidden ;
     padding: 1rem .5rem;
-    animation: typing 4.5s steps(20) infinite;
+    animation: typing 4.5s steps(22) infinite;
   }
 .typewriter p::after {
     content: "";
@@ -60,7 +60,7 @@ const MemberSigninStyleWrapper = styled.div`
     color:#fff;
   }
 }
-.MuiDialog-paper{
+& .MuiDialog-paper{
   background-color: ${({ theme }) => theme.color.matteBlack};
 }
 }

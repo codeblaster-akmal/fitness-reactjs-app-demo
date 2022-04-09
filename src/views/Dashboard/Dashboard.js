@@ -3,44 +3,66 @@ import React, { useEffect, useState } from "react";
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
+import MailIcon from '@material-ui/icons/Mail';
+import { BsFillPersonCheckFill } from 'react-icons/bs'
+import PeopleIcon from '@material-ui/icons/People';
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Tasks from "components/Tasks/Tasks.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Danger from "components/Typography/Danger.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-
+import { HiOutlineLogin } from 'react-icons/hi'
+import { HiOutlineLogout } from 'react-icons/hi'
+import { BsCheckSquare } from 'react-icons/bs'
+import { FiMinusSquare } from 'react-icons/fi'
 import { bugs, website, server } from "variables/general.js";
-
 import {
   dailySalesChart,
   emailsSubscriptionChart,
   completedTasksChart,
 } from "variables/charts.js";
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { fetchDashboards, fetchAllCategoryPeriodAmount } from "./Dashboard.service";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import { useToaster } from "components/Snackbar/AlertToaster";
+import { TableHeader } from "views/MemberList/MemberList.styles";
+import { Column } from "views/MemberList/MemberList.styles";
+import { TableContainer } from "views/MemberList/MemberList.styles";
+import { TableRow } from "views/MemberList/MemberList.styles";
+import InStatusList from "./InStatusList";
+import OutStatusList from "./OutStatusList";
+import PaidStatusList from "./PaidStatusList";
+import DueStatusList from "./DueStatusList";
+
+const feeStructureHeaderColumns = [
+  {
+    id: 1,
+    align: "left",
+    label: "Category",
+    width: "30%",
+  },
+  {
+    id: 2,
+    align: "center",
+    label: "Peroid",
+    width: "30%",
+  },
+  {
+    id: 3,
+    align: "left",
+    label: "Amount",
+    width: "30%",
+  },
+];
 
 const useStyles = makeStyles(styles);
 
@@ -58,14 +80,12 @@ export default function Dashboard(props) {
 
 
   const dateFunc = (value) => {
-    console.log(67867546, value)
     var date = value;
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
 
     date = yyyy + '-' + mm + '-' + dd;
-    console.log(686785785, date)
     return date;
   }
 
@@ -79,14 +99,14 @@ export default function Dashboard(props) {
 
   const monthJoinFunc = (data) => {
     var date = new Date(),
-    y = date.getFullYear(),
-    m = date.getMonth();
+      y = date.getFullYear(),
+      m = date.getMonth();
     var firstDay = dateFunc(new Date(y, m, 1));
     var lastDay = dateFunc(new Date(y, m + 1, 0));
 
     var resultProductData = data.filter(a => {
       var dateVal = dateFunc(new Date(a.joinDate));
-        return (dateVal >= firstDay && dateVal <= lastDay);
+      return (dateVal >= firstDay && dateVal <= lastDay);
     });
 
     return resultProductData.length;
@@ -95,7 +115,7 @@ export default function Dashboard(props) {
   const getDashboards = async () => {
     try {
       const { data } = await fetchDashboards();
-      const { data:FeeStructureData } = await fetchAllCategoryPeriodAmount();
+      const { data: FeeStructureData } = await fetchAllCategoryPeriodAmount();
 
       const totalMembers = data.length;
       const todayJoin = data.filter((val) => dateFunc(new Date(val.joinDate)) == dateFunc(new Date())).length;
@@ -108,7 +128,7 @@ export default function Dashboard(props) {
       const PaidList = data.filter((val) => val.feeStatus == 1);
       const dueList = data.filter((val) => val.feeStatus == 0);
       const feeStructure = FeeStructureData;
-      
+
       const dashboardObj = {
         totalMembers,
         todayJoin,
@@ -122,7 +142,7 @@ export default function Dashboard(props) {
         dueList,
         feeStructure
       };
-      
+
       setDashboards(dashboardObj);
     } catch (err) {
       toaster(MSG_TYPE.WARNING, err);
@@ -137,10 +157,6 @@ export default function Dashboard(props) {
     history.push(`/admin/member/view/${id}`);
   }
 
-  console.log(767866867, dailySalesChart)
-  console.log(767866867, emailsSubscriptionChart)
-  console.log(767866867, completedTasksChart)
-
   return (
     <div>
       <GridContainer>
@@ -148,21 +164,16 @@ export default function Dashboard(props) {
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
-                <Icon>content_copy</Icon>
+                <PeopleIcon />
               </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
-              </h3>
+              <p className={classes.cardCategoryWhite}>Members</p>
+              <small className={classes.cardTitle}>
+                Today Joined: 2
+              </small>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  Get more space
-                </a>
+                Total: 1000
               </div>
             </CardFooter>
           </Card>
@@ -171,15 +182,14 @@ export default function Dashboard(props) {
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
-                <Store />
+                <BsFillPersonCheckFill />
               </CardIcon>
-              <p className={classes.cardCategory}>Revenue</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
+              <p className={classes.cardCategoryWhite}>Signed in</p>
+              <h3 className={classes.cardTitle}>500</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <DateRange />
-                Last 24 Hours
+                Total: 1000
               </div>
             </CardFooter>
           </Card>
@@ -188,15 +198,14 @@ export default function Dashboard(props) {
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-                <Icon>info_outline</Icon>
+                <CheckCircleIcon />
               </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategoryWhite}>In Status</p>
+              <h3 className={classes.cardTitle}>600</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
+                Total: 1000
               </div>
             </CardFooter>
           </Card>
@@ -205,15 +214,14 @@ export default function Dashboard(props) {
           <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
-                <Accessibility />
+                <MailIcon />
               </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
+              <p className={classes.cardCategoryWhite}>Paid Status</p>
+              <h3 className={classes.cardTitle}>600</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <Update />
-                Just Updated
+                Total: 1000
               </div>
             </CardFooter>
           </Card>
@@ -296,51 +304,35 @@ export default function Dashboard(props) {
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
-            title="Tasks:"
+            title="Members:"
             headerColor="primary"
             tabs={[
               {
-                tabName: "Bugs",
-                tabIcon: BugReport,
+                tabName: "IN",
+                tabIcon: HiOutlineLogin,
                 tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
+                  <InStatusList />
                 ),
               },
               {
-                tabName: "Website",
-                tabIcon: Code,
+                tabName: "OUT",
+                tabIcon: HiOutlineLogout,
                 tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
+                  <OutStatusList />
                 ),
               },
               {
-                tabName: "Website",
-                tabIcon: Code,
+                tabName: "PAID",
+                tabIcon: BsCheckSquare,
                 tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
+                  <PaidStatusList />
                 ),
               },
               {
-                tabName: "Server",
-                tabIcon: Cloud,
+                tabName: "DUE",
+                tabIcon: FiMinusSquare,
                 tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
+                  <DueStatusList />
                 ),
               },
             ]}
@@ -349,22 +341,33 @@ export default function Dashboard(props) {
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="info">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-              <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
-              </p>
+              <h4 className={classes.cardTitleWhite}>Fee Structure</h4>
             </CardHeader>
             <CardBody>
-              <Table
-                tableHeaderColor="info"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"],
-                ]}
-              />
+              <TableHeader>
+                {feeStructureHeaderColumns.map(column => (
+                  <Column
+                    key={column.id}
+                    size={column.width}
+                    alignTo={column.align}
+                  >
+                    {column.label}
+                  </Column>
+                ))}
+              </TableHeader>
+              <TableContainer staticHeight={'55vh'}>
+                <TableRow>
+                  <Column size={"30%"} alignTo="left">
+                    Weights
+                  </Column>
+                  <Column size={"30%"} alignTo="center">
+                    1 Day
+                  </Column>
+                  <Column size={"30%"} alignTo="left">
+                    {"80"}
+                  </Column>
+                </TableRow>
+              </TableContainer>
             </CardBody>
           </Card>
         </GridItem>
