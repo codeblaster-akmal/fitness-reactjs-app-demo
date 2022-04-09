@@ -24,3 +24,7 @@ export const fetchConfigurations = () => {
     const attr = reqAttrQry("attr", ["key", "value"]);
     return getData(`configurations?${attr}`);
 };
+
+export const listMembers = () => {
+    return getData(`${URL}`);
+};

@@ -16,7 +16,7 @@ import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { fetchConfigurations, fetchMember, updateMember, updateMemberTrack } from "./MemberSignin.service";
+import { fetchConfigurations, fetchMember, updateMember, updateMemberTrack, listMembers } from "./MemberSignin.service";
 import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
@@ -31,6 +31,7 @@ import { TableHeader } from "views/MemberList/MemberList.styles";
 import { Column } from "views/MemberList/MemberList.styles";
 import { TableRow } from "views/MemberList/MemberList.styles";
 import Dialog from '@material-ui/core/Dialog';
+import { useHistory } from "react-router";
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -83,6 +84,8 @@ const Signin = () => {
     submitBtnType: "button",
   };
 
+  const history = useHistory();
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     vertical: 'top',
@@ -91,16 +94,35 @@ const Signin = () => {
 
   const [signin, setSignin] = useState(initialSiginState);
   const [configurations, setConfigurations] = useState();
+  const [membersList, setMembersList] = useState([]);
   const [speedDialClick, setSpeedDialClick] = useState({
     logout: false,
     isListShow: false,
     isDialogListOpen: false
   });
 
-  const [listInput, setListInput] = React.useState('');
+  const [listInput, setListInput] = useState('');
+  const [logoutInput, setLogoutInput] = useState('');
   const handleListInputChange = (event) => {
     setListInput(event.target.value);
-    setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: event.target.value === "1234" ? true : false }))
+    if(event.target.value == "1234") {
+      setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: true, isListShow: false}))
+    }
+    if(event.target.value.length == 4 && event.target.value != "1234") {
+      setListInput("");
+      setSpeedDialClick((prev) => ({ ...prev, isListShow: false}))
+    }
+  };
+  const handleLogoutInputChange = (event) => {
+    setLogoutInput(event.target.value);
+    if(event.target.value == "1234") {
+      sessionStorage.removeItem('jwtToken');
+      history.push("/login");
+    }
+    if(event.target.value.length == 4 && event.target.value != "1234") {
+      setLogoutInput("");
+      setSpeedDialClick((prev) => ({ ...prev, logout: false }))
+    }
   };
   const handleDialogClose = () => {
     setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: false }))
@@ -113,9 +135,11 @@ const Signin = () => {
 
   const handleLogoutClick = () => {
     setSpeedDialClick((prev) => ({ ...prev, logout: !speedDialClick.logout }))
+    setLogoutInput('')
   }
   const handleListButtonClick = () => {
     setSpeedDialClick((prev) => ({ ...prev, isListShow: !speedDialClick.isListShow }))
+    setListInput('')
   }
 
   const getConfigurations = async () => {
@@ -125,15 +149,38 @@ const Signin = () => {
       if (+obj.PN_STATUS && obj.PN_NOTE && new Date(obj.PN_FROM).toISOString().split("T")[0] <= new Date().toISOString().split("T")[0] && new Date(obj.PN_TO).toISOString().split("T")[0] >= new Date().toISOString().split("T")[0]) {
         obj.notes = obj.PN_NOTE;
       }
-      setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}` });
+      setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}`, NOTES_STATUS: notesValidFunc(data), NOTES: notesValidFunc(data) ? data[3].value : "" });
     } catch (err) {
       console.log(err);
     }
   }
 
+  const dateFunc = (value) => {
+    var date = value;
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+    var yyyy = date.getFullYear();
+
+    date = yyyy + '-' + mm + '-' + dd;
+    return date;
+  }
+
+  const notesValidFunc = (data) => {
+    var firstDay = dateFunc(new Date(data[0].value));
+    var lastDay = dateFunc(new Date(data[1].value));
+
+    var dateVal = dateFunc(new Date());
+
+    return (dateVal >= firstDay && dateVal <= lastDay) && data[2].value == 1;
+  };
+
   useEffect(() => {
     getConfigurations()
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    getMembers()
+  }, [speedDialClick.isDialogListOpen]);
 
   const handleClick = (data) => {
     setSnackbar({ ...snackbar, open: true, data });
@@ -169,6 +216,15 @@ const Signin = () => {
         toaster(MSG_TYPE.WARNING, "Member not found!");
         resetStateNForm(resetForm);
       }
+    } catch (err) {
+      toaster(MSG_TYPE.WARNING, err);
+    }
+  }
+
+  const getMembers = async () => {
+    try {
+      const { data } = await listMembers();
+      setMembersList(data.filter((val) => val.feeStatus == 0));
     } catch (err) {
       toaster(MSG_TYPE.WARNING, err);
     }
@@ -308,10 +364,10 @@ const Signin = () => {
           <Fab size="small" aria-label={'logout'} className={"logout-button"} color={'secondary'} onClick={handleLogoutClick}>
             <PowerSettingsNewIcon fontSize="small" className='power-icon' />
           </Fab>
-          <TextFieldInput autoFocus={true} style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' />
+          <TextFieldInput autoFocus={true} style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={logoutInput} onChange={handleLogoutInputChange} inputProps={{ maxLength: 4 }}  />
         </Box>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" right="1rem" zIndex='2'>
-          <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
+          <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter List Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
           <Fab size="small" aria-label={'logout'} className={"list-button"} onClick={handleListButtonClick}>
             <FaClipboardList className='list-icon' />
           </Fab>
@@ -341,17 +397,19 @@ const Signin = () => {
                 ))}
               </TableHeader>
               <TableContainer>
+              {membersList.map(row => (
                 <TableRow>
                   <Column size={"30%"} alignTo="left">
-                    PFG0001
+                    {row.memberId}
                   </Column>
                   <Column size={"30%"} alignTo="left">
-                    John Doe
+                  {`${row.firstname} ${row.lastname}`}
                   </Column>
                   <Column size={"30%"} alignTo="center">
-                    <Warning>{"Due"}</Warning>
+                    <Warning>{row.feeStatus ? "PAID" : "DUE"}</Warning>
                   </Column>
                 </TableRow>
+                ))}
               </TableContainer>
             </CardBody>
           </Card>
@@ -379,12 +437,12 @@ const Signin = () => {
         />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={listInput === "1234" ? false : true}
+          open={listInput === "1234" || open || !configurations?.NOTES_STATUS ? false : true}
           onClose={false}
           key={vertical + horizontal}
         >
           <Alert icon={false} onClose={false} severity='error' variant="filled">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis suscipit, tempore inventore at voluptatibus quidem. Iusto inventore harum numquam quo molestias impedit accusamus quod id, quasi minus! Dolorum, incidunt praesentium!
+            {configurations?.NOTES}
           </Alert>
         </Snackbar>
         <CustomFixedplugin qrCode={configurations?.QR_CODE_FILE_PATH} />

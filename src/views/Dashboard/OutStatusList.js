@@ -5,7 +5,7 @@ import { Column } from 'views/MemberList/MemberList.styles';
 import { TableHeader } from 'views/MemberList/MemberList.styles';
 import { StatusHeaderColumns } from './InStatusList'
 
-const OutStatusList = () => {
+const OutStatusList = ({ list }) => {
     return (
         <div>
             <TableHeader>
@@ -20,17 +20,19 @@ const OutStatusList = () => {
                 ))}
             </TableHeader>
             <TableContainer staticHeight={'55vh'}>
+            {list?.map(row => (
                 <TableRow>
                     <Column size={"30%"} alignTo="left">
-                        PFG0001
+                    {row?.memberId}
                     </Column>
                     <Column size={"30%"} alignTo="left">
-                        John Doe
+                    {`${row?.firstname} ${row?.lastname}`}
                     </Column>
                     <Column size={"30%"} alignTo="left">
-                        {"8054235662"}
+                    {row?.phone}
                     </Column>
                 </TableRow>
+                ))}
             </TableContainer>
         </div>
     )

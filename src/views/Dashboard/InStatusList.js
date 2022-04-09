@@ -25,7 +25,7 @@ export const StatusHeaderColumns = [
     },
 ];
 
-const InStatusList = () => {
+const InStatusList = ({ list }) => {
     return (
         <div>
             <TableHeader>
@@ -40,17 +40,19 @@ const InStatusList = () => {
                 ))}
             </TableHeader>
             <TableContainer staticHeight={'55vh'}>
+            {list?.map(row => (
                 <TableRow>
                     <Column size={"30%"} alignTo="left">
-                        PFG0001
+                    {row?.memberId}
                     </Column>
                     <Column size={"30%"} alignTo="left">
-                        John Doe
+                    {`${row?.firstname} ${row?.lastname}`}
                     </Column>
                     <Column size={"30%"} alignTo="left">
-                        {"8054235662"}
+                    {row?.phone}
                     </Column>
                 </TableRow>
+                ))}
             </TableContainer>
         </div>
     )

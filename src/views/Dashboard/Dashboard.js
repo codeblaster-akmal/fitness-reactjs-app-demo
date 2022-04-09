@@ -168,12 +168,15 @@ export default function Dashboard(props) {
               </CardIcon>
               <p className={classes.cardCategoryWhite}>Members</p>
               <small className={classes.cardTitle}>
-                Today Joined: 2
+                {`Today Joined: ${dashboards?.todayJoin}`}
               </small>
             </CardHeader>
             <CardFooter stats>
+              <div className={classes.stats} style={{marginRight: "120px"}}>
+                {`Monthly: ${dashboards?.monthJoin}`}
+              </div>
               <div className={classes.stats}>
-                Total: 1000
+                {`Total: ${dashboards?.totalMembers}`}
               </div>
             </CardFooter>
           </Card>
@@ -185,11 +188,11 @@ export default function Dashboard(props) {
                 <BsFillPersonCheckFill />
               </CardIcon>
               <p className={classes.cardCategoryWhite}>Signed in</p>
-              <h3 className={classes.cardTitle}>500</h3>
+              <h3 className={classes.cardTitle}>{dashboards?.signinMembers}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                Total: 1000
+              {`Total: ${dashboards?.totalMembers}`}
               </div>
             </CardFooter>
           </Card>
@@ -201,11 +204,11 @@ export default function Dashboard(props) {
                 <CheckCircleIcon />
               </CardIcon>
               <p className={classes.cardCategoryWhite}>In Status</p>
-              <h3 className={classes.cardTitle}>600</h3>
+              <h3 className={classes.cardTitle}>{dashboards?.inMembers}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                Total: 1000
+              {`Total: ${dashboards?.totalMembers}`}
               </div>
             </CardFooter>
           </Card>
@@ -217,11 +220,11 @@ export default function Dashboard(props) {
                 <MailIcon />
               </CardIcon>
               <p className={classes.cardCategoryWhite}>Paid Status</p>
-              <h3 className={classes.cardTitle}>600</h3>
+              <h3 className={classes.cardTitle}>{dashboards?.paidMembers}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                Total: 1000
+              {`Total: ${dashboards?.totalMembers}`}
               </div>
             </CardFooter>
           </Card>
@@ -311,28 +314,28 @@ export default function Dashboard(props) {
                 tabName: "IN",
                 tabIcon: HiOutlineLogin,
                 tabContent: (
-                  <InStatusList />
+                  <InStatusList list={dashboards.inList}/>
                 ),
               },
               {
                 tabName: "OUT",
                 tabIcon: HiOutlineLogout,
                 tabContent: (
-                  <OutStatusList />
+                  <OutStatusList list={dashboards.outList}/>
                 ),
               },
               {
                 tabName: "PAID",
                 tabIcon: BsCheckSquare,
                 tabContent: (
-                  <PaidStatusList />
+                  <PaidStatusList list={dashboards.PaidList}/>
                 ),
               },
               {
                 tabName: "DUE",
                 tabIcon: FiMinusSquare,
                 tabContent: (
-                  <DueStatusList />
+                  <DueStatusList list={dashboards.dueList}/>
                 ),
               },
             ]}
@@ -356,17 +359,19 @@ export default function Dashboard(props) {
                 ))}
               </TableHeader>
               <TableContainer staticHeight={'55vh'}>
+              {dashboards?.feeStructure?.map(row => (
                 <TableRow>
                   <Column size={"30%"} alignTo="left">
-                    Weights
+                    {row?.category?.name}
                   </Column>
                   <Column size={"30%"} alignTo="center">
-                    1 Day
+                    {row?.period?.name}
                   </Column>
                   <Column size={"30%"} alignTo="left">
-                    {"80"}
+                    {row?.amount}
                   </Column>
                 </TableRow>
+                ))}
               </TableContainer>
             </CardBody>
           </Card>
