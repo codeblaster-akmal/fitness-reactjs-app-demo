@@ -452,7 +452,7 @@ const Signin = () => {
         />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={listInput === "1234" || open || !configurations?.NOTES_STATUS ? false : true}
+          open={speedDialClick.isDialogListOpen || open || !configurations?.NOTES_STATUS ? false : true}
           onClose={false}
           key={vertical + horizontal}
         >

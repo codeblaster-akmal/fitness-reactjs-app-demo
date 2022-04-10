@@ -112,10 +112,40 @@ export default function Dashboard(props) {
     return resultProductData.length;
   };
 
+  const todayAmountFunc = (data) => {
+    const todayAmt = data.filter((val) => dateFunc(new Date(val.setCurrentDateTime)) == dateFunc(new Date()));
+    const todayAmtSum = todayAmt.length ? todayAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0;
+    return todayAmtSum;
+  }
+
+  const thisWeekAmountFunc = (data) => {
+    var curr = new Date; 
+    var first = curr.getDate() - curr.getDay(); 
+    var last = first + 6;
+
+    const sunAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const monAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 1)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const tueAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 2)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const wedAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 3)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const thuAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 4)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const friAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 5)))) == dateFunc(new Date(val.setCurrentDateTime)));
+    const satAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(last)))) == dateFunc(new Date(val.setCurrentDateTime)));
+   
+    return [sunAmt.length ? sunAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, monAmt.length ? monAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, tueAmt.length ? tueAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, wedAmt.length ? wedAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, thuAmt.length ? thuAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, friAmt.length ? friAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, satAmt.length ? satAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0];
+  }
+
   const getDashboards = async () => {
     try {
       const { data } = await fetchDashboards();
       const { data: FeeStructureData } = await fetchAllCategoryPeriodAmount();
+      
+      let memberTransactionData = [];
+      data.forEach((val) => {
+        if(val.member_transactions.length) memberTransactionData.push(...val.member_transactions);
+      })
+
+      const todayAmount = todayAmountFunc(memberTransactionData);
+      const thisWeekAmount = thisWeekAmountFunc(memberTransactionData);
 
       const totalMembers = data.length;
       const todayJoin = data.filter((val) => dateFunc(new Date(val.joinDate)) == dateFunc(new Date())).length;
@@ -152,10 +182,6 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboards();
   }, []);
-
-  const handleViewClick = id => () => {
-    history.push(`/admin/member/view/${id}`);
-  }
 
   return (
     <div>

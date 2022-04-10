@@ -96,7 +96,7 @@ export default function AdminNavbarLinks() {
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
                     >
-                      Admin Name
+                      Balaji RG
                     </MenuItem>
                     <Divider light />
                     <MenuItem
