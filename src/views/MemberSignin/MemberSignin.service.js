@@ -1,5 +1,5 @@
 import { reqAttrQry } from "utils";
-import { getData, putData } from "../../utils/fetchData";
+import { getData, postData, putData } from "../../utils/fetchData";
 
 const URL = "members";
 
@@ -27,4 +27,8 @@ export const fetchConfigurations = () => {
 
 export const listMembers = () => {
     return getData(`${URL}`);
+};
+
+export const validateLogout = (payload) => {
+    return postData(`admin-logout`, payload);
 };

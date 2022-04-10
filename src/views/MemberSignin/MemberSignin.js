@@ -16,7 +16,7 @@ import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
-import { fetchConfigurations, fetchMember, updateMember, updateMemberTrack, listMembers } from "./MemberSignin.service";
+import { fetchConfigurations, fetchMember, updateMember, updateMemberTrack, listMembers, validateLogout } from "./MemberSignin.service";
 import * as Yup from "yup";
 import { useToaster } from "components/Snackbar/AlertToaster";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
@@ -32,6 +32,7 @@ import { Column } from "views/MemberList/MemberList.styles";
 import { TableRow } from "views/MemberList/MemberList.styles";
 import Dialog from '@material-ui/core/Dialog';
 import { useHistory } from "react-router";
+import jwt from 'jsonwebtoken';
 
 function TransitionRight(props) {
   return <Slide {...props} direction="right" />;
@@ -105,24 +106,9 @@ const Signin = () => {
   const [logoutInput, setLogoutInput] = useState('');
   const handleListInputChange = (event) => {
     setListInput(event.target.value);
-    if(event.target.value == "1234") {
-      setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: true, isListShow: false}))
-    }
-    if(event.target.value.length == 4 && event.target.value != "1234") {
-      setListInput("");
-      setSpeedDialClick((prev) => ({ ...prev, isListShow: false}))
-    }
   };
   const handleLogoutInputChange = (event) => {
     setLogoutInput(event.target.value);
-    if(event.target.value == "1234") {
-      sessionStorage.removeItem('jwtToken');
-      history.push("/login");
-    }
-    if(event.target.value.length == 4 && event.target.value != "1234") {
-      setLogoutInput("");
-      setSpeedDialClick((prev) => ({ ...prev, logout: false }))
-    }
   };
   const handleDialogClose = () => {
     setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: false }))
@@ -133,13 +119,42 @@ const Signin = () => {
 
   const { vertical, horizontal, open } = snackbar;
 
-  const handleLogoutClick = () => {
-    setSpeedDialClick((prev) => ({ ...prev, logout: !speedDialClick.logout }))
-    setLogoutInput('')
+  const handleLogoutClick = async () => {
+    try {
+      if (logoutInput) {
+        const jwtToken = sessionStorage.getItem('jwtToken');
+        const { data: { username } } = jwt.decode(jwtToken.split(" ")[1])
+        const res = await validateLogout({ username, password: logoutInput });
+        toaster(MSG_TYPE.SUCCESS, "Logout sucessfully!");
+        if (res) {
+          sessionStorage.removeItem('jwtToken');
+          history.push("/login");
+        }
+      }
+    } catch (err) {
+      toaster(MSG_TYPE.WARNING, err);
+    } finally {
+      setSpeedDialClick((prev) => ({ ...prev, logout: !speedDialClick.logout }))
+      setLogoutInput('')
+    }
   }
-  const handleListButtonClick = () => {
-    setSpeedDialClick((prev) => ({ ...prev, isListShow: !speedDialClick.isListShow }))
-    setListInput('')
+
+  const handleListButtonClick = async () => {
+    try {
+      if (listInput) {
+        const jwtToken = sessionStorage.getItem('jwtToken');
+        const { data: { username } } = jwt.decode(jwtToken.split(" ")[1])
+        const res = await validateLogout({ username, password: listInput });
+        if (res) {
+          setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: true, isListShow: false }))
+        }
+      }
+    } catch (err) {
+      toaster(MSG_TYPE.WARNING, err);
+    } finally {
+      setSpeedDialClick((prev) => ({ ...prev, isListShow: !speedDialClick.isListShow }))
+      setListInput('')
+    }
   }
 
   const getConfigurations = async () => {
@@ -158,7 +173,7 @@ const Signin = () => {
   const dateFunc = (value) => {
     var date = value;
     var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+    var mm = String(date.getMonth() + 1).padStart(2, '0');
     var yyyy = date.getFullYear();
 
     date = yyyy + '-' + mm + '-' + dd;
@@ -361,13 +376,13 @@ const Signin = () => {
           </GridItem>
         </GridContainer>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" left="1rem" zIndex='2'>
-          <Fab size="small" aria-label={'logout'} className={"logout-button"} color={'secondary'} onClick={handleLogoutClick}>
+          <Fab size="small" aria-label={'logout'} className={"logout-button"} color={'secondary'} onClick={handleLogoutClick} >
             <PowerSettingsNewIcon fontSize="small" className='power-icon' />
           </Fab>
-          <TextFieldInput autoFocus={true} style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter Logout Pin" variant='standard' value={logoutInput} onChange={handleLogoutInputChange} inputProps={{ maxLength: 4 }}  />
+          <TextFieldInput autoFocus={true} style={{ width: speedDialClick.logout ? "100%" : 0, transition: "width 0.2s ease-in" }} placeholder="Enter password" variant='standard' value={logoutInput} onChange={handleLogoutInputChange} type="password" />
         </Box>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" right="1rem" zIndex='2'>
-          <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter List Pin" variant='standard' value={listInput} onChange={handleListInputChange} inputProps={{ maxLength: 4 }} />
+          <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter List Pin" variant='standard' value={listInput} onChange={handleListInputChange} type="password" />
           <Fab size="small" aria-label={'logout'} className={"list-button"} onClick={handleListButtonClick}>
             <FaClipboardList className='list-icon' />
           </Fab>
@@ -397,18 +412,18 @@ const Signin = () => {
                 ))}
               </TableHeader>
               <TableContainer>
-              {membersList.map(row => (
-                <TableRow>
-                  <Column size={"30%"} alignTo="left">
-                    {row.memberId}
-                  </Column>
-                  <Column size={"30%"} alignTo="left">
-                  {`${row.firstname} ${row.lastname}`}
-                  </Column>
-                  <Column size={"30%"} alignTo="center">
-                    <Warning>{row.feeStatus ? "PAID" : "DUE"}</Warning>
-                  </Column>
-                </TableRow>
+                {membersList.map(row => (
+                  <TableRow>
+                    <Column size={"30%"} alignTo="left">
+                      {row.memberId}
+                    </Column>
+                    <Column size={"30%"} alignTo="left">
+                      {`${row.firstname} ${row.lastname}`}
+                    </Column>
+                    <Column size={"30%"} alignTo="center">
+                      <Warning>{row.feeStatus ? "PAID" : "DUE"}</Warning>
+                    </Column>
+                  </TableRow>
                 ))}
               </TableContainer>
             </CardBody>
