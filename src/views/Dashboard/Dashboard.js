@@ -97,6 +97,44 @@ export default function Dashboard(props) {
     return (new Date(this.setDate(this.getDate() - this.getDay() + 6)));
   }
 
+  const weeksFunc = (data) => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const weeks = getWeeksInMonth(year, month)
+  
+    return weeks.map(week => {
+      return data.filter(a => {
+        var dateVal = dateFunc(new Date(a.setCurrentDateTime));
+        return (dateVal >= dateFunc(new Date(week.start)) && dateVal <= dateFunc(new Date(week.end)));
+      }).reduce((partialSum, a) => partialSum + a.paidAmount, 0);
+    })
+  };
+
+  function getWeeksInMonth(year, month) {
+    const weeks = [],
+      firstDate = new Date(year, month, 1),
+      lastDate = new Date(year, month + 1, 0),
+      numDays = lastDate.getDate();
+  
+    let dayOfWeekCounter = firstDate.getDay();
+  
+    for (let date = 1; date <= numDays; date++) {
+      if (dayOfWeekCounter === 0 || weeks.length === 0) {
+        weeks.push([]);
+      }
+      weeks[weeks.length - 1].push(date);
+      dayOfWeekCounter = (dayOfWeekCounter + 1) % 7;
+    }
+  
+    const d = new Date();
+  
+    return weeks.filter((w) => !!w.length).map((w) => ({
+      start: new Date(d.setDate(w[0])),
+      end: new Date(d.setDate(w[w.length - 1])),
+    }));
+  }
+
   const monthJoinFunc = (data) => {
     var date = new Date(),
       y = date.getFullYear(),
@@ -114,7 +152,7 @@ export default function Dashboard(props) {
 
   const todayAmountFunc = (data) => {
     const todayAmt = data.filter((val) => dateFunc(new Date(val.setCurrentDateTime)) == dateFunc(new Date()));
-    const todayAmtSum = todayAmt.length ? todayAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0;
+    const todayAmtSum = todayAmt.length ? todayAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0;
     return todayAmtSum;
   }
 
@@ -131,7 +169,61 @@ export default function Dashboard(props) {
     const friAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(first + 5)))) == dateFunc(new Date(val.setCurrentDateTime)));
     const satAmt = data.filter((val) => dateFunc(new Date(new Date(curr.setDate(last)))) == dateFunc(new Date(val.setCurrentDateTime)));
    
-    return [sunAmt.length ? sunAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, monAmt.length ? monAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, tueAmt.length ? tueAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, wedAmt.length ? wedAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, thuAmt.length ? thuAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, friAmt.length ? friAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0, satAmt.length ? satAmt.reduce((accumulator, current) => accumulator + current.amount, 0) : 0];
+    return [sunAmt.length ? sunAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, monAmt.length ? monAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, tueAmt.length ? tueAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, wedAmt.length ? wedAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, thuAmt.length ? thuAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, friAmt.length ? friAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0, satAmt.length ? satAmt.reduce((accumulator, current) => accumulator + current.paidAmount, 0) : 0];
+  }
+
+  function endFirstWeek(firstDate, firstDay) {
+    if (!firstDay) {
+      return 7 - firstDate.getDay();
+    }
+    if (firstDate.getDay() < firstDay) {
+      return firstDay - firstDate.getDay();
+    } else {
+      return 7 - firstDate.getDay() + firstDay;
+    }
+  }
+
+  function getWeeksStartAndEndInMonth(month, year) {
+    let weeks = [],
+      firstDate = new Date(year, month, 1),
+      lastDate = new Date(year, month + 1, 0),
+      numDays = lastDate.getDate(),
+      date = new Date();
+  
+    let start = 1;
+    let end = endFirstWeek(firstDate, 2);
+    while (start <= numDays) {
+      let newStart = new Date(new Date(date.setMonth(month)).setDate(start))
+      let newEnd = new Date(new Date(date.setMonth(month)).setDate(end))
+      weeks.push({ start: newStart, end: newEnd });
+      start = end + 1;
+      end = end + 7;
+      end = start === 1 && end === 8 ? 1 : end;
+      if (end > numDays) {
+        end = numDays;
+      }
+    }
+    return weeks;
+  }
+
+  const getMonthInYearFunc = (data) => {
+
+    const res = [];
+  
+    const d = new Date();
+    const year = d.getFullYear();
+  
+    for (let i = 0; i < 12; i++) {
+      let result = getWeeksStartAndEndInMonth(i, year)
+      res.push({ start: result[0].start, end: result[result.length - 1].end })
+    }
+  
+    return res.map(week => {
+      return data.filter(a => {
+        var dateVal = dateFunc(new Date(a.setCurrentDateTime));
+        return (dateVal >= dateFunc(new Date(week.start)) && dateVal <= dateFunc(new Date(week.end)));
+      }).reduce((partialSum, a) => partialSum + a.amount, 0);
+    })
   }
 
   const getDashboards = async () => {
@@ -143,10 +235,53 @@ export default function Dashboard(props) {
       data.forEach((val) => {
         if(val.member_transactions.length) memberTransactionData.push(...val.member_transactions);
       })
-
       const todayAmount = todayAmountFunc(memberTransactionData);
       const thisWeekAmount = thisWeekAmountFunc(memberTransactionData);
+      const thisMonthAmount = weeksFunc(memberTransactionData);
+      const thisYearAmount = getMonthInYearFunc(memberTransactionData);
+      
+      const weekChartData = {
+        labels: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+        series: [ thisWeekAmount ]
+      };
+      const weekChartOptions = {
+        high: Math.max(...thisWeekAmount),
+        low: 0,
+        axisX: {
+          labelInterpolationFnc: function(value, index) {
+            return index % 2 === 0 ? value : null;
+          }
+        }
+      };
 
+      const monthChartData = {
+        labels: [...thisMonthAmount.map((da, i) => i + 1)],
+        series: [ thisMonthAmount ]
+      };
+      const monthChartOptions = {
+        high: Math.max(...thisMonthAmount),
+        low: 0,
+        axisX: {
+          labelInterpolationFnc: function(value, index) {
+            return index % 2 === 0 ? value : null;
+          }
+        }
+      };
+
+      const yearChartData = {
+        labels: [...thisYearAmount.map((da, i) => i + 1)],
+        series: [ thisYearAmount ]
+      };
+      const yearChartOptions = {
+        high: Math.max(...thisYearAmount),
+        low: 0,
+        axisX: {
+          labelInterpolationFnc: function(value, index) {
+            return index % 2 === 0 ? value : null;
+          }
+        }
+      };
+      
       const totalMembers = data.length;
       const todayJoin = data.filter((val) => dateFunc(new Date(val.joinDate)) == dateFunc(new Date())).length;
       const monthJoin = monthJoinFunc(data);
@@ -170,7 +305,17 @@ export default function Dashboard(props) {
         outList,
         PaidList,
         dueList,
-        feeStructure
+        feeStructure,
+        weekChartData,
+        weekChartOptions,
+        todayAmount,
+        weekTotal: thisWeekAmount.reduce((partialSum, a) => partialSum + a, 0),
+        monthChartData,
+        monthChartOptions,
+        monthTotal: thisMonthAmount.reduce((partialSum, a) => partialSum + a, 0),
+        yearChartData,
+        yearChartOptions,
+        yearTotal: thisYearAmount.reduce((partialSum, a) => partialSum + a, 0),
       };
 
       setDashboards(dashboardObj);
@@ -182,7 +327,7 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboards();
   }, []);
-
+  
   return (
     <div>
       <GridContainer>
@@ -262,26 +407,20 @@ export default function Dashboard(props) {
             <CardHeader color="success">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={dashboards.weekChartData}
                 type="Line"
-                options={dailySalesChart.options}
+                options={dashboards.weekChartOptions}
                 listener={dailySalesChart.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>{`Week total: ₹ ${dashboards.weekTotal}`}</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
+                  {`Today total: ₹ ${dashboards.todayAmount}`}
                 </span>{" "}
-                increase in today sales.
               </p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
@@ -289,21 +428,15 @@ export default function Dashboard(props) {
             <CardHeader color="danger">
               <ChartistGraph
                 className="ct-chart"
-                data={completedTasksChart.data}
+                data={dashboards.monthChartData}
                 type="Line"
-                options={completedTasksChart.options}
+                options={dashboards.monthChartOptions}
                 listener={completedTasksChart.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>{`Month total: ₹ ${dashboards.monthTotal}`}</h4>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
@@ -311,22 +444,16 @@ export default function Dashboard(props) {
             <CardHeader color="warning">
               <ChartistGraph
                 className="ct-chart"
-                data={emailsSubscriptionChart.data}
+                data={dashboards.yearChartData}
                 type="Bar"
-                options={emailsSubscriptionChart.options}
+                options={dashboards.yearChartOptions}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
                 listener={emailsSubscriptionChart.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>{`Year total: ₹ ${dashboards.yearTotal}`}</h4>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>

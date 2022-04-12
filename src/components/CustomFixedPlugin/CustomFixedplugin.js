@@ -31,52 +31,55 @@ const Global = createGlobalStyle`
 const CustomFixedplugin = (props) => {
     const { qrCode } = props
     const [isSwipeableOpen, setIsSwipeableOpen] = React.useState(false);
-    console.log(`isSwipeableOpen`, isSwipeableOpen)
+
     const toggleDrawer = (newOpen) => () => {
         setIsSwipeableOpen(newOpen);
     };
-    console.log(`isSwipeableOpen`, isSwipeableOpen)
+
     const container = window !== undefined ? () => window.document.body : undefined;
     return (
         <Root>
             <Global drawerBleeding={drawerBleeding} />
-            <SwipeableDrawer
-                container={container}
-                anchor="bottom"
-                open={isSwipeableOpen}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-                swipeAreaWidth={drawerBleeding}
-                disableSwipeToOpen={false}
-                ModalProps={{
-                    keepMounted: true,
-                }}
+            <div
+                onClick={toggleDrawer(!isSwipeableOpen)}
             >
-                <Box
-                    style={{
-                        width: "40%",
-                        margin: "0 auto",
-                        backgroundColor: "#fff",
-                        position: 'absolute',
-                        top: -drawerBleeding,
-                        borderTopLeftRadius: 8,
-                        borderTopRightRadius: 8,
-                        visibility: 'visible',
-                        right: 0,
-                        left: 0,
-                        bottom: 0,
-                        textAlign: 'center',
-                        cursor: "pointer"
+                <SwipeableDrawer
+                    container={container}
+                    anchor="bottom"
+                    open={isSwipeableOpen}
+                    onClose={toggleDrawer(false)}
+                    onOpen={toggleDrawer(true)}
+                    swipeAreaWidth={drawerBleeding}
+                    disableSwipeToOpen={false}
+                    ModalProps={{
+                        keepMounted: true,
                     }}
-                    onClick={toggleDrawer(true)}
                 >
-                    <Puller />
-                    <Box width='90%' height='90%' margin='0 auto'>
-                        <Typography style={{ p: 2, color: 'text.secondary', marginTop: "1rem" }}>Scan QR code</Typography>
-                        <img src={qrCode} alt="UPI" width='100%' height='100%' style={{ objectFit: "contain" }} />
+                    <Box
+                        style={{
+                            width: "40%",
+                            margin: "0 auto",
+                            backgroundColor: "#fff",
+                            position: 'absolute',
+                            top: -drawerBleeding,
+                            borderTopLeftRadius: 8,
+                            borderTopRightRadius: 8,
+                            visibility: 'visible',
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            textAlign: 'center',
+                            cursor: "pointer"
+                        }}
+                    >
+                        <Puller />
+                        <Box width='90%' height='90%' margin='0 auto'>
+                            <Typography style={{ p: 2, color: 'text.secondary', marginTop: "1rem" }}>Scan QR code</Typography>
+                            <img src={qrCode} alt="UPI" width='100%' height='100%' style={{ objectFit: "contain" }} />
+                        </Box>
                     </Box>
-                </Box>
-            </SwipeableDrawer>
+                </SwipeableDrawer>
+            </div>
         </Root >
     )
 }

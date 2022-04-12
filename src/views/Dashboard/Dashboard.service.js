@@ -11,7 +11,7 @@ export const fetchDashboards = () => {
     ]);
 
     const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "dob", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate", "feeStatus"]);
-    const memberTransactionsAttr = reqAttrQry("member_transactions_attr", ["id", "amount", "from", "to", "setCurrentDateTime", "status"]);
+    const memberTransactionsAttr = reqAttrQry("member_transactions_attr", ["id", "amount", "from", "to", "setCurrentDateTime", "status", "paidAmount"]);
 
     return getData(`${URL}?${schemas}&${attr}&${memberTransactionsAttr}`);
 };
