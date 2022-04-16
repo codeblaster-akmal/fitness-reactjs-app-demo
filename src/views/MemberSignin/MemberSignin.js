@@ -166,7 +166,7 @@ const Signin = () => {
       }
       setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}`, NOTES_STATUS: notesValidFunc(data), NOTES: notesValidFunc(data) ? data[3].value : "" });
     } catch (err) {
-      console.log(err);
+      toaster(MSG_TYPE.ERROR, err);
     }
   }
 

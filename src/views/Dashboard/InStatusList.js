@@ -3,6 +3,7 @@ import { TableRow } from 'views/MemberList/MemberList.styles';
 import { TableContainer } from 'views/MemberList/MemberList.styles';
 import { Column } from 'views/MemberList/MemberList.styles';
 import { TableHeader } from 'views/MemberList/MemberList.styles';
+import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 
 export const StatusHeaderColumns = [
     {
@@ -25,7 +26,7 @@ export const StatusHeaderColumns = [
     },
 ];
 
-const InStatusList = ({ list }) => {
+const InStatusList = ({ list, handleViewClick }) => {
     return (
         <div>
             <TableHeader>
@@ -50,6 +51,9 @@ const InStatusList = ({ list }) => {
                     </Column>
                     <Column size={"30%"} alignTo="left">
                     {row?.phone}
+                    </Column>
+                    <Column size="5%">
+                      <ActionButtonsGroup viewIcon  OnViewClick={handleViewClick(row.id)}/>
                     </Column>
                 </TableRow>
                 ))}

@@ -328,6 +328,10 @@ export default function Dashboard(props) {
     getDashboards();
   }, []);
   
+  const handleViewClick = id => () => {
+    history.push(`/admin/member/view/${id}`);
+  }
+
   return (
     <div>
       <GridContainer>
@@ -467,28 +471,28 @@ export default function Dashboard(props) {
                 tabName: "IN",
                 tabIcon: HiOutlineLogin,
                 tabContent: (
-                  <InStatusList list={dashboards.inList}/>
+                  <InStatusList list={dashboards.inList} handleViewClick={handleViewClick}/>
                 ),
               },
               {
                 tabName: "OUT",
                 tabIcon: HiOutlineLogout,
                 tabContent: (
-                  <OutStatusList list={dashboards.outList}/>
+                  <OutStatusList list={dashboards.outList} handleViewClick={handleViewClick}/>
                 ),
               },
               {
                 tabName: "PAID",
                 tabIcon: BsCheckSquare,
                 tabContent: (
-                  <PaidStatusList list={dashboards.PaidList}/>
+                  <PaidStatusList list={dashboards.PaidList} handleViewClick={handleViewClick}/>
                 ),
               },
               {
                 tabName: "DUE",
                 tabIcon: FiMinusSquare,
                 tabContent: (
-                  <DueStatusList list={dashboards.dueList}/>
+                  <DueStatusList list={dashboards.dueList} handleViewClick={handleViewClick}/>
                 ),
               },
             ]}

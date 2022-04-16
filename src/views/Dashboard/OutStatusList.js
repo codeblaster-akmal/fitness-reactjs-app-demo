@@ -4,8 +4,9 @@ import { TableContainer } from 'views/MemberList/MemberList.styles';
 import { Column } from 'views/MemberList/MemberList.styles';
 import { TableHeader } from 'views/MemberList/MemberList.styles';
 import { StatusHeaderColumns } from './InStatusList'
+import ActionButtonsGroup from "components/ActionButtonsGroup/ActionButtonsGroup";
 
-const OutStatusList = ({ list }) => {
+const OutStatusList = ({ list, handleViewClick }) => {
     return (
         <div>
             <TableHeader>
@@ -30,6 +31,9 @@ const OutStatusList = ({ list }) => {
                     </Column>
                     <Column size={"30%"} alignTo="left">
                     {row?.phone}
+                    </Column>
+                    <Column size="5%">
+                      <ActionButtonsGroup viewIcon  OnViewClick={handleViewClick(row.id)}/>
                     </Column>
                 </TableRow>
                 ))}
