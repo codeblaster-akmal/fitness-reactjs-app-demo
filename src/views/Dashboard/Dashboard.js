@@ -222,7 +222,7 @@ export default function Dashboard(props) {
       return data.filter(a => {
         var dateVal = dateFunc(new Date(a.setCurrentDateTime));
         return (dateVal >= dateFunc(new Date(week.start)) && dateVal <= dateFunc(new Date(week.end)));
-      }).reduce((partialSum, a) => partialSum + a.amount, 0);
+      }).reduce((partialSum, a) => partialSum + a.paidAmount, 0);
     })
   }
 
@@ -239,7 +239,7 @@ export default function Dashboard(props) {
       const thisWeekAmount = thisWeekAmountFunc(memberTransactionData);
       const thisMonthAmount = weeksFunc(memberTransactionData);
       const thisYearAmount = getMonthInYearFunc(memberTransactionData);
-      
+      console.log(6878578,thisYearAmount)
       const weekChartData = {
         labels: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
         series: [ thisWeekAmount ]
