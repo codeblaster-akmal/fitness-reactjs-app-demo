@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ProfileCard from 'assets/jss/material-dashboard-react/components/profileCard'
-import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
+import avatar from "../../assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import MemberTrack from './MemberTrack';

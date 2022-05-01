@@ -3,9 +3,9 @@ import { InputAdornment, makeStyles } from '@material-ui/core';
 import LoginStyleWrapper from 'assets/jss/material-dashboard-react/views/login.style'
 import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
 import Button from "components/CustomButtons/Button.js";
-import logo from 'assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png';
+import logo from '../../assets/img/Pro-Fit Gym Logo and Mockups/PFG Logo [White].png';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import bgImage from 'assets/img/Pro-Fit Gym Logo and Mockups/BACKGROUND.jpg'
+import bgImage from '../../assets/img/Pro-Fit Gym Logo and Mockups/BACKGROUND.jpg'
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import { validateUser } from './Login.service';
 import { useToaster } from 'components/Snackbar/AlertToaster';

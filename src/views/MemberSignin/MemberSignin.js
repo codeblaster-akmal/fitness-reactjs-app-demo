@@ -12,7 +12,7 @@ import Card from "components/Card/Card";
 import CardHeader from "components/Card/CardHeader.js";
 import { Snackbar, Slide, Collapse, Box, Fab, IconButton } from "@material-ui/core";
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-import avatar from "assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
+import avatar from "../../assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
 import Success from "components/Typography/Success.js";
 import { Formik } from "formik";
