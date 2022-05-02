@@ -4,10 +4,10 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classnames from "classnames";
-import imagine1 from "assets/img/body-builder-1.jpg";
-import imagine2 from "assets/img/body-builder-2.jpg";
-import imagine3 from "assets/img/body-builder-3.jpg";
-import imagine4 from "assets/img/body-builder-4.jpg";
+import imagine1 from "../../assets/img/body-builder-1.jpg";
+import imagine2 from "../../assets/img/body-builder-2.jpg";
+import imagine3 from "../../assets/img/body-builder-3.jpg";
+import imagine4 from "../../assets/img/body-builder-4.jpg";
 
 const imagesContainer = [
   { id: 1, currentSlide: imagine1 },

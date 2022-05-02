@@ -24,7 +24,7 @@ import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
 import { ThemeProvider } from "styled-components";
 import { default as StyleVariables } from "./assets/jss/styleVariables";
-import "assets/css/material-dashboard-react.css?v=1.10.0";
+import "./assets/css/material-dashboard-react.css?v=1.10.0";
 import Signin from "views/MemberSignin/MemberSignin";
 import AlertToaster from "components/Snackbar/AlertToaster";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";

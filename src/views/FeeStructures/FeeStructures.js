@@ -1,4 +1,4 @@
-import FeeStructureStyleWrapper from 'assets/jss/material-dashboard-react/views/FeeStructureStyles'
+import FeeStructureStyleWrapper from '../../assets/jss/material-dashboard-react/views/FeeStructureStyles'
 import React, { useEffect, useState } from 'react'
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";

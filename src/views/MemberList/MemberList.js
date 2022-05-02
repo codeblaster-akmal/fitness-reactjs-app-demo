@@ -11,7 +11,7 @@ import Warning from "components/Typography/Warning.js";
 import { listMembers, signedInOptions, statusOptions, feesOptions } from "./MemberList.service";
 import { Column, TableContainer, TableHeader, TableRow } from "./MemberList.styles";
 import { getFormattedDate } from "utils/dateNtime";
-import TextFieldInputWrapper from "assets/jss/material-dashboard-react/components/textFieldStyle";
+import TextFieldInputWrapper from "../../assets/jss/material-dashboard-react/components/textFieldStyle";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";

@@ -39,9 +39,9 @@ import {
   completedTasksChart,
 } from "variables/charts.js";
 
-import styles from "assets/jss/material-dashboard-react/views/rtlStyle.js";
+import styles from "../../assets/jss/material-dashboard-react/views/rtlStyle.js";
 
-import avatar from "assets/img/faces/marc.jpg";
+import avatar from "../../assets/img/faces/marc.jpg";
 
 let bugs = [
   "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن؟",

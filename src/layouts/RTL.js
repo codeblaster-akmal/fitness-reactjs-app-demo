@@ -13,10 +13,10 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import styles from "assets/jss/material-dashboard-react/layouts/rtlStyle.js";
+import styles from "../assets/jss/material-dashboard-react/layouts/rtlStyle.js";
 
-import bgImage from "assets/img/body-builder-1.jpg";
-import logo from "assets/img/reactlogo.png";
+import bgImage from "../assets/img/body-builder-1.jpg";
+import logo from "../assets/img/reactlogo.png";
 
 let ps;
 

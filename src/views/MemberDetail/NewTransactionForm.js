@@ -1,9 +1,9 @@
 import React from 'react';
-import CustomModal from 'assets/jss/material-dashboard-react/components/customModal';
+import CustomModal from '../../assets/jss/material-dashboard-react/components/customModal';
 import AutocompleteInput from 'components/AutocompleteInput/AutocompleteInput';
 import TextFieldInput from 'components/TextFieldInput/TextFieldInput';
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
+import TextFieldInputWrapper from '../../assets/jss/material-dashboard-react/components/textFieldStyle';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Button from "components/CustomButtons/Button.js";
