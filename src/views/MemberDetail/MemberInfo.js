@@ -41,7 +41,7 @@ const MemberInfo = ({ member }) => {
                 <MemberTrack member={member} />
             </GridItem>
             <GridItem xs={12} sm={6} md={4} lg={4}>
-                <ProfileCard address={member.address} profileImage={member.image || avatar} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
+                <ProfileCard address={member.address} profileImage={member.image || "https://profit-gym-be.herokuapp.com/public/images/configimages/AVATAR.jpg"} memberName={`${member.firstname} ${member.lastname}`} memberId={member.memberId}
                     userName={member.username} age={member.age} phoneNo={member.phone} aadhaarNo={member.aadhaarNo || '-'} onTogglePin={onTogglePin} checked={checked} />
             </GridItem>
             <CustomDialogBox open={dialogOpen} onclickconfirm={onResetPin} handleClose={handleDialogClose} dialogtitle={'Please Confirm !'} dialogcontenttext={'Do you want to reset and generate a new pin for this member ?'} />
