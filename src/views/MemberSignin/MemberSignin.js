@@ -99,6 +99,7 @@ const Signin = () => {
   });
 
   const [signin, setSignin] = useState(initialSiginState);
+  const [toastMsg, setToastMsg] = useState(false);
   const [configurations, setConfigurations] = useState();
   const [membersList, setMembersList] = useState([]);
   const [speedDialClick, setSpeedDialClick] = useState({
@@ -219,7 +220,11 @@ const Signin = () => {
           }
         });
       } else {
+        setToastMsg(true)
         toaster(MSG_TYPE.WARNING, "Member not found!");
+        setTimeout(() => {
+          setToastMsg(false)
+        }, 3000);
         resetStateNForm(resetForm);
       }
     } catch (err) {
@@ -242,7 +247,11 @@ const Signin = () => {
       if (!signin.memberInfo.isSignup) {
         payload = { passcode: values.passcode };
         await updateMember(signin.memberInfo.id, payload);
+        setToastMsg(true)
         toaster(MSG_TYPE.SUCCESS, "Your PIN has been generated successfully!");
+        setTimeout(() => {
+          setToastMsg(false)
+        }, 3000);
       } else {
         payload = {
           memberId: signin.memberInfo.id,
@@ -290,7 +299,7 @@ const Signin = () => {
       }
     });
   };
-  
+
   return (
     <MemberSigninStyleWrapper>
       <div className="triangle-background">
@@ -483,7 +492,7 @@ const Signin = () => {
         />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={speedDialClick.isDialogListOpen || open || !configurations?.NOTES_STATUS ? false : true}
+          open={speedDialClick.isDialogListOpen || open || !configurations?.NOTES_STATUS || toastMsg ? false : true}
           onClose={false}
           key={vertical + horizontal}
         >
