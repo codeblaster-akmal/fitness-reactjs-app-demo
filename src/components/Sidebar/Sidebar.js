@@ -145,7 +145,7 @@ export default function Sidebar(props) {
           {image !== undefined ? (
             <div
               className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
+              style={{ backgroundImage: "url(" + "https://profit-gym-be.herokuapp.com/public/images/configimages/BG_IMG.jpg" + ")" }}
             />
           ) : null}
         </Drawer>
