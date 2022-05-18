@@ -4,13 +4,14 @@ import RemoveIcon from '@material-ui/icons/Remove';
 // core components
 import React, { useEffect, useState } from "react";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput";
+import SearchIcon from '@material-ui/icons/Search';
 import OtpInput from "react-otp-input";
 import MemberSigninStyleWrapper from "assets/jss/material-dashboard-react/views/MemberSigninStyles";
 import Button from "components/CustomButtons/Button.js";
 import CardBody from "components/Card/CardBody";
 import Card from "components/Card/Card";
 import CardHeader from "components/Card/CardHeader.js";
-import { Snackbar, Slide, Collapse, Box, Fab, IconButton } from "@material-ui/core";
+import { Snackbar, Slide, Collapse, Box, Fab, IconButton, InputAdornment } from "@material-ui/core";
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import avatar from "../../assets/img/Pro-Fit Gym Logo and Mockups/Avatars-02.jpg";
 import CardAvatar from "components/Card/CardAvatar.js";
@@ -87,6 +88,10 @@ const Signin = () => {
 
   const history = useHistory();
 
+  const [filter, setFilter] = useState({
+    idName: ""
+  });
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     vertical: 'top',
@@ -140,21 +145,7 @@ const Signin = () => {
   }
 
   const handleListButtonClick = async () => {
-    try {
-      if (listInput) {
-        const jwtToken = sessionStorage.getItem('jwtToken');
-        const { data: { username } } = jwt.decode(jwtToken.split(" ")[1])
-        const res = await validateLogout({ username, password: listInput });
-        if (res) {
-          setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: true, isListShow: false }))
-        }
-      }
-    } catch (err) {
-      toaster(MSG_TYPE.WARNING, err);
-    } finally {
-      setSpeedDialClick((prev) => ({ ...prev, isListShow: !speedDialClick.isListShow }))
-      setListInput('')
-    }
+    setSpeedDialClick((prev) => ({ ...prev, isDialogListOpen: true, isListShow: false }));
   }
 
   const getConfigurations = async () => {
@@ -272,6 +263,34 @@ const Signin = () => {
     resetForm();
   }
 
+  const filterCategory = (filter, item) => {
+    let idName = filter.idName.toLowerCase()
+    return item.firstname.toLowerCase().includes(idName) || item.lastname.toLowerCase().includes(idName) || item.memberId.toLowerCase().includes(idName);
+  };
+
+  const filterItems = (filter, item) => {
+    return filterCategory(filter, item);
+  };
+
+  const filterFunction = (item) => {
+    if (filter.idName) {
+      if (filterItems(filter, item)) {
+        return item;
+      }
+    } else {
+      return item;
+    }
+  };
+
+  const handleFilter = (labelName) => (e, val) => {
+    setFilter(prevState => {
+      return {
+        ...prevState,
+        [labelName]: labelName === "idName" ? e.target.value : val || "",
+      }
+    });
+  };
+  
   return (
     <MemberSigninStyleWrapper>
       <div className="triangle-background">
@@ -383,9 +402,9 @@ const Signin = () => {
         </Box>
         <Box display='flex' gridColumnGap="0.2rem" alignItems='flex-end' position='absolute' top="1rem" right="1rem" zIndex='2'>
           <TextFieldInput autoFocus={true} style={{ transform: speedDialClick.isListShow ? "scaleX(1)" : "scaleX(0)", transformOrigin: "center right", transition: "transform 0.2s ease-in" }} placeholder="Enter List Pin" variant='standard' value={listInput} onChange={handleListInputChange} type="password" />
-          <Fab size="small" aria-label={'logout'} className={"list-button"} onClick={handleListButtonClick}>
-            <FaClipboardList className='list-icon' />
-          </Fab>
+          <Button startIcon={<FaClipboardList fontSize={"small"} />} className={"list-button"} size="small" aria-label={'list-view'} color={"primary"} onClick={handleListButtonClick}>
+            Due list
+          </Button>
         </Box>
         <Dialog open={speedDialClick.isDialogListOpen} handleClose={handleDialogClose} fullWidth maxWidth={"sm"} style={{ "& .MuiPaper-root": { backgroundColor: "#2e2f32" } }}>
           <Card style={{ margin: 0 }}>
@@ -395,11 +414,23 @@ const Signin = () => {
                   Member Fee Structure
                 </h4>
                 <IconButton onClick={handleDialogClose}>
-                  <HighlightOffRoundedIcon />
+                  <HighlightOffRoundedIcon color={"inherit"} />
                 </IconButton>
               </Box>
             </CardHeader>
             <CardBody>
+              <Box my={1} >
+                <TextFieldInput
+                  label="Id / Name"
+                  variant="standard"
+                  name="idName"
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end"><SearchIcon /></InputAdornment>,
+                  }}
+                  value={filter.idName}
+                  onChange={handleFilter("idName")}
+                />
+              </Box>
               <TableHeader>
                 {headerColumns.map(column => (
                   <Column
@@ -412,7 +443,7 @@ const Signin = () => {
                 ))}
               </TableHeader>
               <TableContainer>
-                {membersList.map(row => (
+                {membersList.filter(filterFunction).map(row => (
                   <TableRow>
                     <Column size={"30%"} alignTo="left">
                       {row.memberId}
