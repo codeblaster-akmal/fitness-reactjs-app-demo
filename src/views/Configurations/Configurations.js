@@ -1,7 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import CustomSwitch from 'assets/jss/material-dashboard-react/components/customSwitch';
-import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
+import CustomSwitch from '../../assets/jss/material-dashboard-react/components/customSwitch';
+import TextFieldInputWrapper from '../../assets/jss/material-dashboard-react/components/textFieldStyle';
 import Card from 'components/Card/Card'
 import CardBody from 'components/Card/CardBody'
 import CardFooter from 'components/Card/CardFooter';

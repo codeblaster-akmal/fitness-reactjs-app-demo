@@ -16,7 +16,7 @@ import AdminNavbarLinks from "./AdminNavbarLinks.js";
 //hooks
 // import { useRouteName } from "hooks";
 
-import styles from "assets/jss/material-dashboard-react/components/headerStyle.js";
+import styles from "../../assets/jss/material-dashboard-react/components/headerStyle.js";
 
 const useStyles = makeStyles(styles);
 

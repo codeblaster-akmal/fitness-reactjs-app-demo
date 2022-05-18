@@ -18,7 +18,7 @@ import Search from "@material-ui/icons/Search";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import { useHistory } from "react-router";
-import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import styles from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 

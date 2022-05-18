@@ -21,10 +21,9 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
 import { ThemeProvider } from "styled-components";
 import { default as StyleVariables } from "./assets/jss/styleVariables";
-import "assets/css/material-dashboard-react.css?v=1.10.0";
+import "./assets/css/material-dashboard-react.css?v=1.10.0";
 import Signin from "views/MemberSignin/MemberSignin";
 import AlertToaster from "components/Snackbar/AlertToaster";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -42,7 +41,6 @@ ReactDOM.render(
             <Route path="/signin" component={Signin} />
             <Route path="/login" component={Login} />
             <Route path="/404-page" component={PageNotFound} />
-            <Route path="/rtl" component={RTL} />
             <Redirect exact from="/" to="/login" />
             <Redirect exact from="*" to="/404-page" />
           </Switch>

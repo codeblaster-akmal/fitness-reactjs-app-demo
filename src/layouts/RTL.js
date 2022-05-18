@@ -9,43 +9,38 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-// import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import styles from "../assets/jss/material-dashboard-react/layouts/adminStyle.js";
+import styles from "../assets/jss/material-dashboard-react/layouts/rtlStyle.js";
 
 import bgImage from "../assets/img/body-builder-1.jpg";
-import logo from "../assets/img/Pro-Fit/PFG-Logo-[White].png";
-
-import { useHistory } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
-
+import logo from "../assets/img/reactlogo.png";
 
 let ps;
 
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/rtl") {
         return (
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}
-            exact
           />
         );
       }
       return null;
     })}
-    <Redirect from="/admin" to="/admin/dashboard" />
+    <Redirect from="/rtl" to="/rtl/rtl-page" />
   </Switch>
 );
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+export default function RTL({ ...rest }) {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -53,10 +48,8 @@ export default function Admin({ ...rest }) {
   // states and functions
   const [image, setImage] = React.useState(bgImage);
   const [color, setColor] = React.useState("blue");
-  const [fixedClasses, setFixedClasses] = React.useState("dropdown");
+  const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const history = useHistory();
-
   const handleImageClick = (image) => {
     setImage(image);
   };
@@ -83,47 +76,40 @@ export default function Admin({ ...rest }) {
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    const jwtToken = sessionStorage.getItem("jwtToken")
-    if (jwtToken) {
-      const { data } = jwt.decode(jwtToken.split(" ")[1])
-      if (data.username !== "admin") {
-        history.push("/404-page");
-      }
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps = new PerfectScrollbar(mainPanel.current, {
-          suppressScrollX: true,
-          suppressScrollY: false,
-        });
-        document.body.style.overflow = "hidden";
-      }
-      window.addEventListener("resize", resizeFunction);
-      // Specify how to clean up after this effect:
-      return function cleanup() {
-        if (navigator.platform.indexOf("Win") > -1) {
-          ps.destroy();
-        }
-        window.removeEventListener("resize", resizeFunction);
-      };
-    } else {
-      history.push("/404-page");
+    if (navigator.platform.indexOf("Win") > -1) {
+      ps = new PerfectScrollbar(mainPanel.current, {
+        suppressScrollX: true,
+        suppressScrollY: false,
+      });
+      document.body.style.overflow = "hidden";
     }
+    window.addEventListener("resize", resizeFunction);
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      if (navigator.platform.indexOf("Win") > -1) {
+        ps.destroy();
+      }
+      window.removeEventListener("resize", resizeFunction);
+    };
   }, [mainPanel]);
   return (
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Pro-fit Gym"}
+        logoText={"الإبداعية تيم"}
         logo={logo}
         image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}
+        rtlActive
         {...rest}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
+          rtlActive
           {...rest}
         />
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
@@ -135,14 +121,15 @@ export default function Admin({ ...rest }) {
           <div className={classes.map}>{switchRoutes}</div>
         )}
         {getRoute() ? <Footer /> : null}
-        {/* <FixedPlugin
+        <FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
           bgColor={color}
           bgImage={image}
           handleFixedClick={handleFixedClick}
           fixedClasses={fixedClasses}
-        /> */}
+          rtlActive
+        />
       </div>
     </div>
   );

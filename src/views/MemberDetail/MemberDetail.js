@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import MemberDetailStyleWrapper from 'assets/jss/material-dashboard-react/views/MemberDetailStyle'
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import { fetchCategoryPeriodAmounts, fetchMember } from './MemberDetail.service';

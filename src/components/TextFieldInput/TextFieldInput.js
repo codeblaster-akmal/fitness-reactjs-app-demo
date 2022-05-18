@@ -1,5 +1,5 @@
 import { TextField } from "@material-ui/core";
-import TextFieldInputWrapper from "assets/jss/material-dashboard-react/components/textFieldStyle";
+import TextFieldInputWrapper from "../../assets/jss/material-dashboard-react/components/textFieldStyle";
 import React from "react";
 
 const TextFieldInput = ({ variant = "outlined", autoComplete = 'off', ...textFieldProps }) => {

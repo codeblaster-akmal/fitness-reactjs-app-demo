@@ -9,16 +9,16 @@ import { TableContainer } from 'views/MemberList/MemberList.styles.js';
 import { TableRow } from 'views/MemberList/MemberList.styles.js';
 import NewTransactionForm from './NewTransactionForm';
 import TransactionTrackForm from './TransactionTrackForm';
-import TransactionCard from 'assets/jss/material-dashboard-react/views/MemberDetailStyle';
+import TransactionCard from '../../assets/jss/material-dashboard-react/views/MemberDetailStyle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AutocompleteInput from 'components/AutocompleteInput/AutocompleteInput';
-import TextFieldInputWrapper from 'assets/jss/material-dashboard-react/components/textFieldStyle';
+import TextFieldInputWrapper from '../../assets/jss/material-dashboard-react/components/textFieldStyle';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
 import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 import { deleteMemberTransaction } from './MemberDetail.service';
-import CustomDialogBox from 'assets/jss/material-dashboard-react/components/customDialog';
+import CustomDialogBox from '../../assets/jss/material-dashboard-react/components/customDialog';
 
 const statusOptions = [{ name: 'Paid', value: 'PAID' }, { name: 'Un paid', value: 'UNPAID' }, { name: 'Partially', value: 'PARTIALLY' }]
 

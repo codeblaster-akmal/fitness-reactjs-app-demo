@@ -30,7 +30,7 @@ import {
   emailsSubscriptionChart,
   completedTasksChart,
 } from "variables/charts.js";
-import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { fetchDashboards, fetchAllCategoryPeriodAmount } from "./Dashboard.service";
 import { MSG_TYPE } from "components/Snackbar/AlertToaster";
 import { useToaster } from "components/Snackbar/AlertToaster";

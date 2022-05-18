@@ -55,10 +55,7 @@ const MemberSigninStyleWrapper = styled.div`
     }
 }
 .list-button{
-  background-color: ${({ theme }) => theme.color.pacificBlue};
-  .list-icon{
-    color:#fff;
-  }
+  align-items: flex-end;
 }
 & .MuiDialog-paper{
   background-color: ${({ theme }) => theme.color.matteBlack};

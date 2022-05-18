@@ -1,7 +1,7 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextFieldInput from "components/TextFieldInput/TextFieldInput.js";
-import AutocompleteInputStyleWrapper from "assets/jss/material-dashboard-react/components/autocompleteStyle";
+import AutocompleteInputStyleWrapper from "../../assets/jss/material-dashboard-react/components/autocompleteStyle";
 import PropTypes from "prop-types";
 
 const AutocompleteInput = ({ optionTitle, options, label, variant, ...rest }) => {
