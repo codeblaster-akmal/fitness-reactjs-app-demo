@@ -138,7 +138,11 @@ const Signin = () => {
         }
       }
     } catch (err) {
+      setToastMsg(true)
       toaster(MSG_TYPE.WARNING, err);
+      setTimeout(() => {
+        setToastMsg(false)
+      }, 3000);
     } finally {
       setSpeedDialClick((prev) => ({ ...prev, logout: !speedDialClick.logout }))
       setLogoutInput('')
@@ -158,7 +162,11 @@ const Signin = () => {
       }
       setConfigurations({ ...obj, QR_CODE_FILE_PATH: `${baseUrl}/${obj.QR_CODE_FILE_PATH}`, NOTES_STATUS: notesValidFunc(data), NOTES: notesValidFunc(data) ? data[3].value : "" });
     } catch (err) {
+      setToastMsg(true)
       toaster(MSG_TYPE.ERROR, err);
+      setTimeout(() => {
+        setToastMsg(false)
+      }, 3000);
     }
   }
 
@@ -228,7 +236,11 @@ const Signin = () => {
         resetStateNForm(resetForm);
       }
     } catch (err) {
+      setToastMsg(true)
       toaster(MSG_TYPE.WARNING, err);
+      setTimeout(() => {
+        setToastMsg(false)
+      }, 3000);
     }
   }
 
@@ -237,7 +249,11 @@ const Signin = () => {
       const { data } = await listMembers();
       setMembersList(data.filter((val) => val.feeStatus == 0));
     } catch (err) {
+      setToastMsg(true)
       toaster(MSG_TYPE.WARNING, err);
+      setTimeout(() => {
+        setToastMsg(false)
+      }, 3000);
     }
   }
 
@@ -263,7 +279,11 @@ const Signin = () => {
       }
       resetStateNForm(resetForm);
     } catch (err) {
+      setToastMsg(true)
       toaster(MSG_TYPE.WARNING, err);
+      setTimeout(() => {
+        setToastMsg(false)
+      }, 3000);
     }
   }
 
