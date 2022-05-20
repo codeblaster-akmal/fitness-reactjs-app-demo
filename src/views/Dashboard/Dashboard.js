@@ -347,7 +347,7 @@ export default function Dashboard(props) {
               </small>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats} style={{marginRight: "120px"}}>
+              <div className={classes.stats} style={{marginRight: "117px"}}>
                 {`Monthly: ${dashboards?.monthJoin}`}
               </div>
               <div className={classes.stats}>
