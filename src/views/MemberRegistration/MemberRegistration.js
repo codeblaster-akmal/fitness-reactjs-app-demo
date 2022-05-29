@@ -81,7 +81,7 @@ function UserProfile(props) {
         vaccinated: +values.vaccinated ? true : false,
       });
       formData.set("dob", values.dob);
-      formData.append("MEMBER_PIC", values.image);
+      // formData.append("MEMBER_PIC", values.image);
 
       if (values.id) {
         await updateMember(values.id, formData);
@@ -105,7 +105,7 @@ function UserProfile(props) {
             ...prevState,
             ...data,
             vaccinated: data.vaccinated ? "1" : "0",
-            existProfilePic: data.image,
+            // existProfilePic: data.image,
             btnTxt: "Update Profile"
           }
         }
@@ -293,7 +293,7 @@ function UserProfile(props) {
                             onBlur={handleBlur}
                           />
                         </GridItem>
-                        <GridItem xs={12} sm={6} md={6}>
+                        {/* <GridItem xs={12} sm={6} md={6}>
                           <CustomFileInput
                             buttonText={values.fileName}
                             onChange={(e) => {
@@ -301,8 +301,8 @@ function UserProfile(props) {
                               setFieldValue("fileName", e?.target?.files[0]?.name.length > 15 ? `${e?.target?.files[0]?.name.substring(0, 15)}...` : e?.target?.files[0]?.name)
                             }}
                           />
-                        </GridItem>
-                        <GridItem xs={12} sm={6} md={6} className={classes.radioFieldGroup}>
+                        </GridItem> */}
+                        <GridItem xs={8} sm={5} md={5} className={classes.radioFieldGroup}>
                           <CustomizedRadios
                             FormTitle="Vacinated"
                             name="vaccinated"

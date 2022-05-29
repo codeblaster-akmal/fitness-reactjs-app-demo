@@ -7,14 +7,14 @@ export const initialValues = {
   phone: "",
   address: "",
   landmark: "",
-  image: "",
+  // image: "",
   weight: "",
   dob: new Date(),
   gender: "MALE",
   notes: "",
   vaccinated: "0",
   aadhaarNo: "",
-  fileName: "",
+  // fileName: "",
 };
 
 export const validationSchema = Yup.object({

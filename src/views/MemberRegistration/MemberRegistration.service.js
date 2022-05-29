@@ -13,7 +13,7 @@ export const updateMember = (id, payload) => {
 
 export const fetchMember = id => {
 
-    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "dob", "gender", "vaccinated", "address", "landmark", "image", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate", "fileName"]);
+    const attr = reqAttrQry("attr", ["id", "memberId", "firstname", "lastname", "username", "phone", "weight", "dob", "gender", "vaccinated", "address", "landmark", "aadhaarNo", "notes", "isAvailable", "isSignup", "joinDate"]);
 
     return getData(`${URL}/${id}?${attr}`);
 }
