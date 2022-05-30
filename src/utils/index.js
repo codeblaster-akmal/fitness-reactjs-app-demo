@@ -28,4 +28,12 @@ export const reqSchemaQry = (schemaArr) => {
     let str = "";
     schemaArr.forEach((schema) => (str += `${schema}=1&`));
     return `${str.substring(0, str.length - 1)}`;
-  };
+};
+
+/* date function */
+export const addTime5h_30m = dateTime => {
+    let minutesToAdd = 330;
+    let currentDate = new Date(dateTime);
+    let futureDate = new Date(currentDate.getTime() + minutesToAdd * 60000);
+    return futureDate
+};

@@ -10,6 +10,7 @@ import { TableRow } from 'views/MemberList/MemberList.styles';
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
 import { useState } from 'react';
+import { addTime5h_30m } from 'utils';
 
 const headerColumns = [
     {
@@ -38,12 +39,12 @@ const MemberTrack = ({ member }) => {
     });
 
     const filterFrom = (filter, item) => {
-        if (filter.from) return new Date(item.setCurrentDateTime).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
+        if (filter.from) return new Date(addTime5h_30m(item.setCurrentDateTime)).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
         else return item;
     };
 
     const filterTo = (filter, item) => {
-        if (filter.to) return new Date(item.setCurrentDateTime).toISOString().split("T")[0] <= new Date(filter.to).toISOString().split("T")[0];
+        if (filter.to) return new Date(addTime5h_30m(item.setCurrentDateTime)).toISOString().split("T")[0] <= new Date(filter.to).toISOString().split("T")[0];
         else return item;
     };
 

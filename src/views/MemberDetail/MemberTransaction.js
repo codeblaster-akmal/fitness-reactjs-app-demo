@@ -19,6 +19,7 @@ import { useToaster } from 'components/Snackbar/AlertToaster';
 import { MSG_TYPE } from 'components/Snackbar/AlertToaster';
 import { deleteMemberTransaction } from './MemberDetail.service';
 import CustomDialogBox from '../../assets/jss/material-dashboard-react/components/customDialog';
+import { addTime5h_30m } from 'utils';
 
 const statusOptions = [{ name: 'Paid', value: 'PAID' }, { name: 'Un paid', value: 'UNPAID' }, { name: 'Partially', value: 'PARTIALLY' }]
 
@@ -38,12 +39,12 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
     }
 
     const filterFrom = (filter, item) => {
-        if (filter.from) return new Date(item.from).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
+        if (filter.from) return new Date(addTime5h_30m(item.from)).toISOString().split("T")[0] >= new Date(filter.from).toISOString().split("T")[0];
         else return item;
     };
 
     const filterTo = (filter, item) => {
-        if (filter.to) return new Date(item.to).toISOString().split("T")[0] <= new Date(filter.to).toISOString().split("T")[0];
+        if (filter.to) return new Date(addTime5h_30m(item.to)).toISOString().split("T")[0] <= new Date(filter.to).toISOString().split("T")[0];
         else return item;
     };
 
@@ -84,7 +85,7 @@ const MemberTransaction = ({ member, open, handleClose, handleOpen, headerColumn
         });
     };
 
-    const onDeleteTransaction =  transaction => {
+    const onDeleteTransaction = transaction => {
         setDialogOpen(true)
         setTrasactionId(transaction.id)
     }
